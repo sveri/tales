@@ -1,6 +1,6 @@
 {:title "First Post"
  :layout :post
- :tags  ["cryogen new blog"]}
+ :tags  ["cryogen" "new blog"]}
 
 ### First Post in my new blog
 

@@ -15,8 +15,42 @@ http://tales.sveri.de/
 Everything about everything
 </description>
 <lastBuildDate>
-Sun, 31 May 2015 10:34:11 +0200
+Sun, 31 May 2015 11:34:05 +0200
 </lastBuildDate>
+<item>
+<guid>
+http://tales.sveri.de/posts/2015-05-31-tetris-2.html
+</guid>
+<link>
+http://tales.sveri.de/posts/2015-05-31-tetris-2.html
+</link>
+<title>
+Tetris Part 2
+</title>
+<description>
+&lt;h1&gt;&lt;a name=&quot;tetris&amp;#95;part&amp;#95;2&quot;&gt;&lt;/a&gt;Tetris Part 2&lt;/h1&gt;&lt;p&gt;In the last few weeks I took some time to code tetris with clojurescript and re-frame following this guide:  &lt;a href='http://www.drewbuck.com/tetris-in-html5-for-noobs/'&gt;Tetris in HTML5 for noob&lt;/a&gt;.&lt;br /&gt; I will write a small series following the same pattern showing how it is done in cljs. What I will not do is explain basic things like the original author did, but instead focus more on the differences between javascript and  clojurescript.&lt;/p&gt;
+</description>
+<pubDate>
+Sun, 31 May 2015 00:00:00 +0200
+</pubDate>
+</item>
+<item>
+<guid>
+http://tales.sveri.de/posts/2015-05-31-tetris-1.html
+</guid>
+<link>
+http://tales.sveri.de/posts/2015-05-31-tetris-1.html
+</link>
+<title>
+Tetris Part 1
+</title>
+<description>
+&lt;h1&gt;&lt;a name=&quot;tetris&amp;#95;part&amp;#95;1&quot;&gt;&lt;/a&gt;Tetris Part 1&lt;/h1&gt;&lt;p&gt;In the last few weeks I took some time to code tetris with clojurescript and re-frame following this guide:  &lt;a href='http://www.drewbuck.com/tetris-in-html5-for-noobs/'&gt;Tetris in HTML5 for noob&lt;/a&gt;.&lt;br /&gt; I will write a small series following the same pattern showing how it is done in cljs. What I will not do is explain basic things like the original author did, but instead focus more on the differences between javascript and  clojurescript.&lt;/p&gt;
+</description>
+<pubDate>
+Sun, 31 May 2015 00:00:00 +0200
+</pubDate>
+</item>
 <item>
 <guid>
 http://tales.sveri.de/posts/2015-05-31-first-post.html

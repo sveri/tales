@@ -60,7 +60,21 @@
 </div>
 <div>
     
-     <h2><a name="app&#95;state"></a>App State</h2><p>There is a big conceptual difference between javasrcipt and clojurescript (especially in re-frame). Whereas in  javascript you can have as much global state as you want it is discouraged to do so in the cljs-sphere. It is generally advised to have one to a few atoms containing your global application state.<br /> In re-frame it is even more better, you don't declare an atom or global state at all, it is managed by re-frame  completely.</p><p>In re-frame there is data flowing in events, this is the general idea, for a very complete documentation, please look here: <a href='https://github.com/Day8/re-frame'>re-frame</a></p><p>First we will initialize the app state. As you saw in part 2 there is already a call to the dispatch function doing that: <strong>(rf/dispatch [:initialise-db])</strong>.</p><p>Now we will add a new file <strong>handlers.cljs</strong> with the following content:</p><h2><a name="basic&#95;drawing"></a>Basic Drawing</h2><p>Next we will write the function to do some drawing</p><h2><a name="sourcecode"></a>Sourcecode</h2>
+     <h2><a name="app&#95;state"></a>App State</h2><p>There is a big conceptual difference between javasrcipt and clojurescript (especially in re-frame). Whereas in  javascript you can have as much global state as you want it is discouraged to do so in the cljs-sphere. It is generally advised to have one to a few atoms containing your global application state.<br /> In re-frame it is even more better, you don't declare an atom or global state at all, it is managed by re-frame  completely.</p><p>In re-frame there is data flowing in events, this is the general idea, for a very complete documentation, please look here: <a href='https://github.com/Day8/re-frame'>re-frame</a></p><p>First we will initialize the app state. As you saw in part 2 there is already a call to the dispatch function doing that: <strong>(rf/dispatch [:initialise-db])</strong>.</p><p>Now we will add a new file <strong>handlers.cljs</strong> with the following content:</p><pre><code>&#40;defn get-clean-db-state &#91;&#93;
+  {:ctx            &#40;.getContext &#40;h/get-elem &quot;tetris-canv&quot;&#41; &quot;2d&quot;&#41;
+   :grid-state     &#91;&#91;&#93; &#91;&#93;&#93;
+   :initialized?   true
+   :started?       false
+   :grid-h         20
+   :grid-w         10
+   :start-timestep 1000
+   :timestep-dim   0.1}&#41;
+
+&#40;register-handler
+  :initialise-db
+  &#40;fn &#91;&#95; &#95;&#93;
+    &#40;get-clean-db-state&#41;&#41;&#41;
+</code></pre>The first function returns a map which is the app state of the application after the initialization. This is where westore our <i>global</i> and <i>local</i> data. Also you can see that we finally initialize the canvas and also store thatin the app state.<br />The second function <strong>register-handler</strong> registers a handler for the <strong>:initialize-db</strong> event. This will be calledwhenever we call <strong>(re-frame/dispatch [:initialise-db])</strong> and for now it returns the app state from <strong>get-clean-db-state</strong>.<p>A <strong>register-handler</strong> function will always have to return the app state, no matter if it was manipulated or not.</p>
 </div>
 
 <div id="post-tags">
@@ -109,11 +123,11 @@
                     <h3>Recent Posts</h3>
                     <ul>
                         
+                        <li><a href="/posts/2015-05-31-tetris-5.html">Tetris in clojurescript and re-frame Part 5</a></li>
+                        
                         <li><a href="/posts/2015-05-31-tetris-4.html">Tetris in clojurescript and re-frame Part 4</a></li>
                         
                         <li><a href="/posts/2015-05-31-tetris-3.html">Tetris in clojurescript and re-frame Part 3</a></li>
-                        
-                        <li><a href="/posts/2015-05-31-tetris-2.html">Tetris in clojurescript and re-frame Part 2 - Basic Layout</a></li>
                         
                     </ul>
                 </div>
@@ -124,6 +138,8 @@
                     <ul>
                         
                         <li><a href="/tags/html5.html">html5</a></li>
+                        
+                        <li><a href="/tags/part 5.html">part 5</a></li>
                         
                         <li><a href="/tags/new blog.html">new blog</a></li>
                         

@@ -56,11 +56,38 @@
         <div class="col-lg-6">May 31, 2015</div>
         
     </div>
-    <h2>Tetris in clojurescript and re-frame Part 4</h2>
+    <h2>Tetris in clojurescript and re-frame Part 5</h2>
 </div>
 <div>
     
-    <h2><a name="sourcecode"></a>Sourcecode</h2>
+     <h2><a name="drawing&#95;functions"></a>Drawing functions</h2><p>There are several drawing functions:</p><pre><code>&#40;defn draw-block-x &#91;ctx &amp; &#91;line-to-fns&#93;&#93;
+  &#40;.beginPath ctx&#41;
+  &#40;doseq &#91;f line-to-fns&#93; &#40;f&#41;&#41;
+  &#40;.fill ctx&#41;&#41;
+</code></pre>The first one is a helper function taking the canvas and a vector of functions that will be executed.  <br /><pre><code>&#40;defn draw-block-top &#91;x y ctx&#93;
+  &#40;draw-block-x ctx &#91;#&#40;.moveTo ctx x y&#41;
+                         #&#40;.lineTo ctx &#40;+ 20 x&#41; y&#41;
+                         #&#40;.lineTo ctx &#40;+ 18 x&#41; &#40;+ 2 y&#41;&#41;
+                         #&#40;.lineTo ctx &#40;+ 2 x&#41; &#40;+ 2 y&#41;&#41;&#93;&#41;&#41;
+
+&#40;defn draw-block-left &#91;x y ctx&#93;
+  &#40;draw-block-x ctx &#91;#&#40;.moveTo ctx x y&#41;
+                     #&#40;.lineTo ctx x &#40;+ 20 y&#41;&#41;
+                     #&#40;.lineTo ctx &#40;+ 2 x&#41; &#40;+ 18 y&#41;&#41;
+                     #&#40;.lineTo ctx &#40;+ 2 x&#41; &#40;+ 2 y&#41;&#41;&#93;&#41;&#41;
+
+&#40;defn draw-block-right &#91;x y ctx&#93;
+  &#40;draw-block-x ctx &#91;#&#40;.moveTo ctx &#40;+ 20 x&#41; y&#41;
+                     #&#40;.lineTo ctx &#40;+ 20 x&#41; &#40;+ 20 y&#41;&#41;
+                     #&#40;.lineTo ctx &#40;+ 18 x&#41; &#40;+ 18 y&#41;&#41;
+                     #&#40;.lineTo ctx &#40;+ 18 x&#41; &#40;+ 2 y&#41;&#41;&#93;&#41;&#41;
+
+&#40;defn draw-block-bottom &#91;x y ctx&#93;
+  &#40;draw-block-x ctx &#91;#&#40;.moveTo ctx x &#40;+ 20 y&#41;&#41;
+                     #&#40;.lineTo ctx &#40;+ 20 x&#41; &#40;+ 20 y&#41;&#41;
+                     #&#40;.lineTo ctx &#40;+ 18 x&#41; &#40;+ 18 y&#41;&#41;
+                     #&#40;.lineTo ctx &#40;+ 2 x&#41; &#40;+ 18 y&#41;&#41;&#93;&#41;&#41;
+</code></pre>These four functions will draw the for single blocks that each tetrimino contains.<h2><a name="sourcecode"></a>Sourcecode</h2>
 </div>
 
 <div id="post-tags">
@@ -68,13 +95,13 @@
     
     <a href="/tags/html5.html">html5</a>
     
+    <a href="/tags/part 5.html">part 5</a>
+    
     <a href="/tags/re-frame.html">re-frame</a>
     
     <a href="/tags/tetris.html">tetris</a>
     
     <a href="/tags/clojuresrcipt.html">clojuresrcipt</a>
-    
-    <a href="/tags/part 4.html">part 4</a>
     
 </div>
 
@@ -84,7 +111,7 @@
     <div id="prev-next">
         
         
-        <a class="right" href="/posts/2015-05-31-tetris-3.html">Tetris in clojurescript and re-frame Part 3 &raquo;</a>
+        <a class="right" href="/posts/2015-05-31-tetris-4.html">Tetris in clojurescript and re-frame Part 4 &raquo;</a>
         
     </div>
 </div>
@@ -105,11 +132,11 @@
                     <h3>Recent Posts</h3>
                     <ul>
                         
+                        <li><a href="/posts/2015-05-31-tetris-5.html">Tetris in clojurescript and re-frame Part 5</a></li>
+                        
                         <li><a href="/posts/2015-05-31-tetris-4.html">Tetris in clojurescript and re-frame Part 4</a></li>
                         
                         <li><a href="/posts/2015-05-31-tetris-3.html">Tetris in clojurescript and re-frame Part 3</a></li>
-                        
-                        <li><a href="/posts/2015-05-31-tetris-2.html">Tetris in clojurescript and re-frame Part 2 - Basic Layout</a></li>
                         
                     </ul>
                 </div>
@@ -120,6 +147,8 @@
                     <ul>
                         
                         <li><a href="/tags/html5.html">html5</a></li>
+                        
+                        <li><a href="/tags/part 5.html">part 5</a></li>
                         
                         <li><a href="/tags/new blog.html">new blog</a></li>
                         

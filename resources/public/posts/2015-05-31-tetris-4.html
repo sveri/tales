@@ -60,7 +60,90 @@
 </div>
 <div>
     
-    <h2><a name="sourcecode"></a>Sourcecode</h2>
+    <h2><a name="drawing&#95;functions"></a>Drawing functions</h2><p>There are several drawing functions:</p><pre><code>&#40;defn draw-block-x &#91;ctx &amp; &#91;line-to-fns&#93;&#93;
+  &#40;.beginPath ctx&#41;
+  &#40;doseq &#91;f line-to-fns&#93; &#40;f&#41;&#41;
+  &#40;.fill ctx&#41;&#41;
+  
+</code></pre>The first one is a helper function taking the canvas and a vector of functions that will be executed.  <br /><pre><code>&#40;defn draw-block-top &#91;x y ctx&#93;
+  &#40;draw-block-x ctx &#91;#&#40;.moveTo ctx x y&#41;
+                         #&#40;.lineTo ctx &#40;+ 20 x&#41; y&#41;
+                         #&#40;.lineTo ctx &#40;+ 18 x&#41; &#40;+ 2 y&#41;&#41;
+                         #&#40;.lineTo ctx &#40;+ 2 x&#41; &#40;+ 2 y&#41;&#41;&#93;&#41;&#41;
+
+&#40;defn draw-block-left &#91;x y ctx&#93;
+  &#40;draw-block-x ctx &#91;#&#40;.moveTo ctx x y&#41;
+                     #&#40;.lineTo ctx x &#40;+ 20 y&#41;&#41;
+                     #&#40;.lineTo ctx &#40;+ 2 x&#41; &#40;+ 18 y&#41;&#41;
+                     #&#40;.lineTo ctx &#40;+ 2 x&#41; &#40;+ 2 y&#41;&#41;&#93;&#41;&#41;
+
+&#40;defn draw-block-right &#91;x y ctx&#93;
+  &#40;draw-block-x ctx &#91;#&#40;.moveTo ctx &#40;+ 20 x&#41; y&#41;
+                     #&#40;.lineTo ctx &#40;+ 20 x&#41; &#40;+ 20 y&#41;&#41;
+                     #&#40;.lineTo ctx &#40;+ 18 x&#41; &#40;+ 18 y&#41;&#41;
+                     #&#40;.lineTo ctx &#40;+ 18 x&#41; &#40;+ 2 y&#41;&#41;&#93;&#41;&#41;
+
+&#40;defn draw-block-bottom &#91;x y ctx&#93;
+  &#40;draw-block-x ctx &#91;#&#40;.moveTo ctx x &#40;+ 20 y&#41;&#41;
+                     #&#40;.lineTo ctx &#40;+ 20 x&#41; &#40;+ 20 y&#41;&#41;
+                     #&#40;.lineTo ctx &#40;+ 18 x&#41; &#40;+ 18 y&#41;&#41;
+                     #&#40;.lineTo ctx &#40;+ 2 x&#41; &#40;+ 18 y&#41;&#41;&#93;&#41;&#41;
+                     
+</code></pre>These four functions will draw the for single blocks that each tetrimino contains.<pre><code>&#40;defn draw-block &#91;x y h ctx&#93;
+  &#40;let &#91;x' &#40;&#42; x 20&#41;
+        y' &#40;&#42; y 20&#41;&#93;                                        ; &#40;&#42; 20 &#40;- 19 y&#41;&#41;
+    &#40;aset ctx &quot;fillStyle&quot; &#40;str &quot;hsl&#40;&quot; h &quot;,100%,50%&#41;&quot;&#41;&#41;
+    &#40;.fillRect ctx &#40;+ 2 x'&#41; &#40;+ 2 y'&#41; 16 16&#41;
+
+    &#40;aset ctx &quot;fillStyle&quot; &#40;str &quot;hsl&#40;&quot; h &quot;,100%,70%&#41;&quot;&#41;&#41;
+    &#40;draw-block-top x' y' ctx&#41;
+
+    &#40;aset ctx &quot;fillStyle&quot; &#40;str &quot;hsl&#40;&quot; h &quot;,100%,40%&#41;&quot;&#41;&#41;
+    &#40;draw-block-left x' y' ctx&#41;
+
+    &#40;draw-block-right x' y' ctx&#41;
+
+    &#40;aset ctx &quot;fillStyle&quot; &#40;str &quot;hsl&#40;&quot; h &quot;,100%,30%&#41;&quot;&#41;&#41;
+    &#40;draw-block-bottom x' y' ctx&#41;&#41;&#41;
+    
+</code></pre>And finally the function to draw a complete tetriminio which will call all four functions to draw the single blocks.<pre><code>&#40;defn draw-grid &#91;grid ctx&#93;
+  &#40;.clearRect ctx 0 0 200 400&#41;
+  &#40;doseq &#91;x &#40;range 10&#41;
+          y &#40;range 20&#41;&#93;
+    &#40;let &#91;t &#40;get-in grid &#91;x y&#93;&#41;&#93;
+      &#40;when-not &#40;= 0 t&#41;
+        &#40;draw-block x y &#40;get color-map t&#41; ctx&#41;&#41;&#41;&#41;&#41;
+</code></pre><p>The <strong>draw-grid</strong> function draws the complete tetris grid which has a width of 200px and a height of 400pxs.<br />  it takes a <strong>grid</strong> as a param which is a 2 dimensional vector whereas each x-y entry contains the element at that  place of the the grid. <br /></p><h2><a name="tetriminio&#95;types"></a>Tetriminio Types</h2><p>There are seven tetriminio types each one defined by a number from 1 to 7. <ul><li>1 I</li><li>2 L</li><li>3 J</li><li>4 O</li><li>5 S</li><li>6 T</li><li>7 S</li></ul>So when the grid contains the number 1 it will draw the <strong>I</strong> type at that place.</p><h2><a name="tetriminio&#95;drawing&#95;definitions"></a>Tetriminio Drawing Definitions</h2><pre><code>&#40;def tet-recipe
+      {1 {0 &#91;{:x #&#40;- % 1&#41;} {} {:x #&#40;+ % 1&#41;} {:x #&#40;+ % 2&#41;}&#93;
+          1 &#91;{:x #&#40;+ % 1&#41; :y #&#40;+ % 1&#41;} {:x #&#40;+ % 1&#41;} {:x #&#40;+ % 1&#41; :y #&#40;- % 1&#41;} {:x #&#40;+ % 1&#41; :y #&#40;- % 2&#41;}&#93;
+          2 &#91;{:x #&#40;- % 1&#41; :y #&#40;- % 1&#41;} {:y #&#40;- % 1&#41;} {:x #&#40;+ % 1&#41; :y #&#40;- % 1&#41;} {:x #&#40;+ % 2&#41; :y #&#40;- % 1&#41;}&#93;
+          3 &#91;{:y #&#40;+ % 1&#41;} {} {:y #&#40;- % 1&#41;} {:y #&#40;- % 2&#41;}&#93;}
+       2 {0 &#91;{:x #&#40;- % 1&#41; :y #&#40;+ % 1&#41;} {:x #&#40;- % 1&#41;} {} {:x #&#40;+ % 1&#41;}&#93;
+          1 &#91;{:x #&#40;+ % 1&#41; :y #&#40;+ % 1&#41;} {:y #&#40;+ % 1&#41;} {} {:y #&#40;- % 1&#41;}&#93;
+          2 &#91;{:x #&#40;- % 1&#41;} {} {:x #&#40;+ % 1&#41;} {:x #&#40;+ % 1&#41; :y #&#40;- % 1&#41;}&#93;
+          3 &#91;{:y #&#40;+ % 1&#41;} {} {:y #&#40;- % 1&#41;} {:x #&#40;- % 1&#41; :y #&#40;- % 1&#41;}&#93;}
+       3 {0 &#91;{:x #&#40;- % 1&#41;} {} {:x #&#40;+ % 1&#41;} {:x #&#40;+ % 1&#41; :y #&#40;+ % 1&#41;}&#93;
+          1 &#91;{:y #&#40;+ % 1&#41;} {} {:y #&#40;- % 1&#41;} {:x #&#40;+ % 1&#41; :y #&#40;- % 1&#41;}&#93;
+          2 &#91;{:x #&#40;- % 1&#41; :y #&#40;- % 1&#41;} {:x #&#40;- % 1&#41;} {} {:x #&#40;+ % 1&#41;}&#93;
+          3 &#91;{:x #&#40;- % 1&#41; :y #&#40;+ % 1&#41;} {:y #&#40;+ % 1&#41;} {} {:y #&#40;- % 1&#41;}&#93;}
+       4 {0 &#91;{} {:x #&#40;+ % 1&#41;} {:y #&#40;- % 1&#41;} {:x #&#40;+ % 1&#41; :y #&#40;- % 1&#41;}&#93;
+          1 &#91;{} {:x #&#40;+ % 1&#41;} {:y #&#40;- % 1&#41;} {:x #&#40;+ % 1&#41; :y #&#40;- % 1&#41;}&#93;
+          2 &#91;{} {:x #&#40;+ % 1&#41;} {:y #&#40;- % 1&#41;} {:x #&#40;+ % 1&#41; :y #&#40;- % 1&#41;}&#93;
+          3 &#91;{} {:x #&#40;+ % 1&#41;} {:y #&#40;- % 1&#41;} {:x #&#40;+ % 1&#41; :y #&#40;- % 1&#41;}&#93;}
+       5 {0 &#91;{:x #&#40;- % 1&#41;} {} {:y #&#40;+ % 1&#41;} {:x #&#40;+ % 1&#41; :y #&#40;+ % 1&#41;}&#93;
+          1 &#91;{:y #&#40;+ % 1&#41;} {} {:x #&#40;+ % 1&#41;} {:x #&#40;+ % 1&#41; :y #&#40;- % 1&#41;}&#93;
+          2 &#91;{:x #&#40;- % 1&#41; :y #&#40;- % 1&#41;} {:y #&#40;- % 1&#41;} {} {:x #&#40;+ % 1&#41;}&#93;
+          3 &#91;{:x #&#40;- % 1&#41; :y #&#40;+ % 1&#41;} {:x #&#40;- % 1&#41;} {} {:y #&#40;- % 1&#41;}&#93;}
+       6 {0 &#91;{:x #&#40;- % 1&#41;} {} {:x #&#40;+ % 1&#41;} {:y #&#40;+ % 1&#41;}&#93;
+          1 &#91;{:y #&#40;+ % 1&#41;} {} {:y #&#40;- % 1&#41;} {:x #&#40;+ % 1&#41;}&#93;
+          2 &#91;{:x #&#40;- % 1&#41;} {} {:x #&#40;+ % 1&#41;} {} {:y #&#40;- % 1&#41;}&#93;
+          3 &#91;{:y #&#40;+ % 1&#41;} {} {:y #&#40;- % 1&#41;} {:x #&#40;- % 1&#41;}&#93;}
+       7 {0 &#91;{:x #&#40;- % 1&#41; :y #&#40;+ % 1&#41;} {:y #&#40;+ % 1&#41;} {} {:x #&#40;+ % 1&#41;}&#93;
+          1 &#91;{:x #&#40;+ % 1&#41; :y #&#40;+ % 1&#41;} {:x #&#40;+ % 1&#41;} {} {:y #&#40;- % 1&#41;}&#93;
+          2 &#91;{:x #&#40;- % 1&#41;} {} {:y #&#40;- % 1&#41;} {:x #&#40;+ % 1&#41; :y #&#40;- % 1&#41;}&#93;
+          3 &#91;{:y #&#40;+ % 1&#41;} {} {:x #&#40;- % 1&#41;} {:x #&#40;- % 1&#41; :y #&#40;- % 1&#41;}&#93;}}&#41;
+          
+</code></pre>This is a map of a map of vecs containing anonymous functions for the type and orientation that will then be appliedin the function call drawing a specific tetriminio.<h2><a name="sourcecode"></a>Sourcecode</h2>
 </div>
 
 <div id="post-tags">
@@ -80,6 +163,8 @@
 
 
     <div id="prev-next">
+        
+        <a href="/posts/2015-05-31-tetris-5.html">&laquo; Tetris in clojurescript and re-frame Part 5</a>
         
         
         <a class="right" href="/posts/2015-05-31-tetris-3.html">Tetris in clojurescript and re-frame Part 3 &raquo;</a>
@@ -107,11 +192,11 @@
                     <h3>Recent Posts</h3>
                     <ul>
                         
+                        <li><a href="/posts/2015-05-31-tetris-5.html">Tetris in clojurescript and re-frame Part 5</a></li>
+                        
                         <li><a href="/posts/2015-05-31-tetris-4.html">Tetris in clojurescript and re-frame Part 4</a></li>
                         
                         <li><a href="/posts/2015-05-31-tetris-3.html">Tetris in clojurescript and re-frame Part 3</a></li>
-                        
-                        <li><a href="/posts/2015-05-31-tetris-2.html">Tetris in clojurescript and re-frame Part 2 - Basic Layout</a></li>
                         
                     </ul>
                 </div>
@@ -122,6 +207,8 @@
                     <ul>
                         
                         <li><a href="/tags/html5.html">html5</a></li>
+                        
+                        <li><a href="/tags/part 5.html">part 5</a></li>
                         
                         <li><a href="/tags/new blog.html">new blog</a></li>
                         

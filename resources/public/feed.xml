@@ -15,8 +15,52 @@ http://tales.sveri.de/
 Everything about everything
 </description>
 <lastBuildDate>
-Sun, 31 May 2015 12:58:44 +0200
+Sun, 31 May 2015 18:39:47 +0200
 </lastBuildDate>
+<item>
+<guid>
+http://tales.sveri.de/posts/2015-05-31-tetris-5.html
+</guid>
+<link>
+http://tales.sveri.de/posts/2015-05-31-tetris-5.html
+</link>
+<title>
+Tetris in clojurescript and re-frame Part 5
+</title>
+<description>
+ &lt;h2&gt;&lt;a name=&quot;drawing&amp;#95;functions&quot;&gt;&lt;/a&gt;Drawing functions&lt;/h2&gt;&lt;p&gt;There are several drawing functions:&lt;/p&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;defn draw-block-x &amp;#91;ctx &amp;amp; &amp;#91;line-to-fns&amp;#93;&amp;#93;
+  &amp;#40;.beginPath ctx&amp;#41;
+  &amp;#40;doseq &amp;#91;f line-to-fns&amp;#93; &amp;#40;f&amp;#41;&amp;#41;
+  &amp;#40;.fill ctx&amp;#41;&amp;#41;
+&lt;/code&gt;&lt;/pre&gt;The first one is a helper function taking the canvas and a vector of functions that will be executed.  &lt;br /&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;defn draw-block-top &amp;#91;x y ctx&amp;#93;
+  &amp;#40;draw-block-x ctx &amp;#91;#&amp;#40;.moveTo ctx x y&amp;#41;
+                         #&amp;#40;.lineTo ctx &amp;#40;+ 20 x&amp;#41; y&amp;#41;
+                         #&amp;#40;.lineTo ctx &amp;#40;+ 18 x&amp;#41; &amp;#40;+ 2 y&amp;#41;&amp;#41;
+                         #&amp;#40;.lineTo ctx &amp;#40;+ 2 x&amp;#41; &amp;#40;+ 2 y&amp;#41;&amp;#41;&amp;#93;&amp;#41;&amp;#41;
+
+&amp;#40;defn draw-block-left &amp;#91;x y ctx&amp;#93;
+  &amp;#40;draw-block-x ctx &amp;#91;#&amp;#40;.moveTo ctx x y&amp;#41;
+                     #&amp;#40;.lineTo ctx x &amp;#40;+ 20 y&amp;#41;&amp;#41;
+                     #&amp;#40;.lineTo ctx &amp;#40;+ 2 x&amp;#41; &amp;#40;+ 18 y&amp;#41;&amp;#41;
+                     #&amp;#40;.lineTo ctx &amp;#40;+ 2 x&amp;#41; &amp;#40;+ 2 y&amp;#41;&amp;#41;&amp;#93;&amp;#41;&amp;#41;
+
+&amp;#40;defn draw-block-right &amp;#91;x y ctx&amp;#93;
+  &amp;#40;draw-block-x ctx &amp;#91;#&amp;#40;.moveTo ctx &amp;#40;+ 20 x&amp;#41; y&amp;#41;
+                     #&amp;#40;.lineTo ctx &amp;#40;+ 20 x&amp;#41; &amp;#40;+ 20 y&amp;#41;&amp;#41;
+                     #&amp;#40;.lineTo ctx &amp;#40;+ 18 x&amp;#41; &amp;#40;+ 18 y&amp;#41;&amp;#41;
+                     #&amp;#40;.lineTo ctx &amp;#40;+ 18 x&amp;#41; &amp;#40;+ 2 y&amp;#41;&amp;#41;&amp;#93;&amp;#41;&amp;#41;
+
+&amp;#40;defn draw-block-bottom &amp;#91;x y ctx&amp;#93;
+  &amp;#40;draw-block-x ctx &amp;#91;#&amp;#40;.moveTo ctx x &amp;#40;+ 20 y&amp;#41;&amp;#41;
+                     #&amp;#40;.lineTo ctx &amp;#40;+ 20 x&amp;#41; &amp;#40;+ 20 y&amp;#41;&amp;#41;
+                     #&amp;#40;.lineTo ctx &amp;#40;+ 18 x&amp;#41; &amp;#40;+ 18 y&amp;#41;&amp;#41;
+                     #&amp;#40;.lineTo ctx &amp;#40;+ 2 x&amp;#41; &amp;#40;+ 18 y&amp;#41;&amp;#41;&amp;#93;&amp;#41;&amp;#41;
+&lt;/code&gt;&lt;/pre&gt;These four functions will draw the for single blocks that each tetrimino contains.&lt;h2&gt;&lt;a name=&quot;sourcecode&quot;&gt;&lt;/a&gt;Sourcecode&lt;/h2&gt;
+</description>
+<pubDate>
+Sun, 31 May 2015 00:00:00 +0200
+</pubDate>
+</item>
 <item>
 <guid>
 http://tales.sveri.de/posts/2015-05-31-tetris-4.html
@@ -28,7 +72,90 @@ http://tales.sveri.de/posts/2015-05-31-tetris-4.html
 Tetris in clojurescript and re-frame Part 4
 </title>
 <description>
-&lt;h2&gt;&lt;a name=&quot;sourcecode&quot;&gt;&lt;/a&gt;Sourcecode&lt;/h2&gt;
+&lt;h2&gt;&lt;a name=&quot;drawing&amp;#95;functions&quot;&gt;&lt;/a&gt;Drawing functions&lt;/h2&gt;&lt;p&gt;There are several drawing functions:&lt;/p&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;defn draw-block-x &amp;#91;ctx &amp;amp; &amp;#91;line-to-fns&amp;#93;&amp;#93;
+  &amp;#40;.beginPath ctx&amp;#41;
+  &amp;#40;doseq &amp;#91;f line-to-fns&amp;#93; &amp;#40;f&amp;#41;&amp;#41;
+  &amp;#40;.fill ctx&amp;#41;&amp;#41;
+  
+&lt;/code&gt;&lt;/pre&gt;The first one is a helper function taking the canvas and a vector of functions that will be executed.  &lt;br /&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;defn draw-block-top &amp;#91;x y ctx&amp;#93;
+  &amp;#40;draw-block-x ctx &amp;#91;#&amp;#40;.moveTo ctx x y&amp;#41;
+                         #&amp;#40;.lineTo ctx &amp;#40;+ 20 x&amp;#41; y&amp;#41;
+                         #&amp;#40;.lineTo ctx &amp;#40;+ 18 x&amp;#41; &amp;#40;+ 2 y&amp;#41;&amp;#41;
+                         #&amp;#40;.lineTo ctx &amp;#40;+ 2 x&amp;#41; &amp;#40;+ 2 y&amp;#41;&amp;#41;&amp;#93;&amp;#41;&amp;#41;
+
+&amp;#40;defn draw-block-left &amp;#91;x y ctx&amp;#93;
+  &amp;#40;draw-block-x ctx &amp;#91;#&amp;#40;.moveTo ctx x y&amp;#41;
+                     #&amp;#40;.lineTo ctx x &amp;#40;+ 20 y&amp;#41;&amp;#41;
+                     #&amp;#40;.lineTo ctx &amp;#40;+ 2 x&amp;#41; &amp;#40;+ 18 y&amp;#41;&amp;#41;
+                     #&amp;#40;.lineTo ctx &amp;#40;+ 2 x&amp;#41; &amp;#40;+ 2 y&amp;#41;&amp;#41;&amp;#93;&amp;#41;&amp;#41;
+
+&amp;#40;defn draw-block-right &amp;#91;x y ctx&amp;#93;
+  &amp;#40;draw-block-x ctx &amp;#91;#&amp;#40;.moveTo ctx &amp;#40;+ 20 x&amp;#41; y&amp;#41;
+                     #&amp;#40;.lineTo ctx &amp;#40;+ 20 x&amp;#41; &amp;#40;+ 20 y&amp;#41;&amp;#41;
+                     #&amp;#40;.lineTo ctx &amp;#40;+ 18 x&amp;#41; &amp;#40;+ 18 y&amp;#41;&amp;#41;
+                     #&amp;#40;.lineTo ctx &amp;#40;+ 18 x&amp;#41; &amp;#40;+ 2 y&amp;#41;&amp;#41;&amp;#93;&amp;#41;&amp;#41;
+
+&amp;#40;defn draw-block-bottom &amp;#91;x y ctx&amp;#93;
+  &amp;#40;draw-block-x ctx &amp;#91;#&amp;#40;.moveTo ctx x &amp;#40;+ 20 y&amp;#41;&amp;#41;
+                     #&amp;#40;.lineTo ctx &amp;#40;+ 20 x&amp;#41; &amp;#40;+ 20 y&amp;#41;&amp;#41;
+                     #&amp;#40;.lineTo ctx &amp;#40;+ 18 x&amp;#41; &amp;#40;+ 18 y&amp;#41;&amp;#41;
+                     #&amp;#40;.lineTo ctx &amp;#40;+ 2 x&amp;#41; &amp;#40;+ 18 y&amp;#41;&amp;#41;&amp;#93;&amp;#41;&amp;#41;
+                     
+&lt;/code&gt;&lt;/pre&gt;These four functions will draw the for single blocks that each tetrimino contains.&lt;pre&gt;&lt;code&gt;&amp;#40;defn draw-block &amp;#91;x y h ctx&amp;#93;
+  &amp;#40;let &amp;#91;x' &amp;#40;&amp;#42; x 20&amp;#41;
+        y' &amp;#40;&amp;#42; y 20&amp;#41;&amp;#93;                                        ; &amp;#40;&amp;#42; 20 &amp;#40;- 19 y&amp;#41;&amp;#41;
+    &amp;#40;aset ctx &amp;quot;fillStyle&amp;quot; &amp;#40;str &amp;quot;hsl&amp;#40;&amp;quot; h &amp;quot;,100%,50%&amp;#41;&amp;quot;&amp;#41;&amp;#41;
+    &amp;#40;.fillRect ctx &amp;#40;+ 2 x'&amp;#41; &amp;#40;+ 2 y'&amp;#41; 16 16&amp;#41;
+
+    &amp;#40;aset ctx &amp;quot;fillStyle&amp;quot; &amp;#40;str &amp;quot;hsl&amp;#40;&amp;quot; h &amp;quot;,100%,70%&amp;#41;&amp;quot;&amp;#41;&amp;#41;
+    &amp;#40;draw-block-top x' y' ctx&amp;#41;
+
+    &amp;#40;aset ctx &amp;quot;fillStyle&amp;quot; &amp;#40;str &amp;quot;hsl&amp;#40;&amp;quot; h &amp;quot;,100%,40%&amp;#41;&amp;quot;&amp;#41;&amp;#41;
+    &amp;#40;draw-block-left x' y' ctx&amp;#41;
+
+    &amp;#40;draw-block-right x' y' ctx&amp;#41;
+
+    &amp;#40;aset ctx &amp;quot;fillStyle&amp;quot; &amp;#40;str &amp;quot;hsl&amp;#40;&amp;quot; h &amp;quot;,100%,30%&amp;#41;&amp;quot;&amp;#41;&amp;#41;
+    &amp;#40;draw-block-bottom x' y' ctx&amp;#41;&amp;#41;&amp;#41;
+    
+&lt;/code&gt;&lt;/pre&gt;And finally the function to draw a complete tetriminio which will call all four functions to draw the single blocks.&lt;pre&gt;&lt;code&gt;&amp;#40;defn draw-grid &amp;#91;grid ctx&amp;#93;
+  &amp;#40;.clearRect ctx 0 0 200 400&amp;#41;
+  &amp;#40;doseq &amp;#91;x &amp;#40;range 10&amp;#41;
+          y &amp;#40;range 20&amp;#41;&amp;#93;
+    &amp;#40;let &amp;#91;t &amp;#40;get-in grid &amp;#91;x y&amp;#93;&amp;#41;&amp;#93;
+      &amp;#40;when-not &amp;#40;= 0 t&amp;#41;
+        &amp;#40;draw-block x y &amp;#40;get color-map t&amp;#41; ctx&amp;#41;&amp;#41;&amp;#41;&amp;#41;&amp;#41;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The &lt;strong&gt;draw-grid&lt;/strong&gt; function draws the complete tetris grid which has a width of 200px and a height of 400pxs.&lt;br /&gt;  it takes a &lt;strong&gt;grid&lt;/strong&gt; as a param which is a 2 dimensional vector whereas each x-y entry contains the element at that  place of the the grid. &lt;br /&gt;&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;tetriminio&amp;#95;types&quot;&gt;&lt;/a&gt;Tetriminio Types&lt;/h2&gt;&lt;p&gt;There are seven tetriminio types each one defined by a number from 1 to 7. &lt;ul&gt;&lt;li&gt;1 I&lt;/li&gt;&lt;li&gt;2 L&lt;/li&gt;&lt;li&gt;3 J&lt;/li&gt;&lt;li&gt;4 O&lt;/li&gt;&lt;li&gt;5 S&lt;/li&gt;&lt;li&gt;6 T&lt;/li&gt;&lt;li&gt;7 S&lt;/li&gt;&lt;/ul&gt;So when the grid contains the number 1 it will draw the &lt;strong&gt;I&lt;/strong&gt; type at that place.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;tetriminio&amp;#95;drawing&amp;#95;definitions&quot;&gt;&lt;/a&gt;Tetriminio Drawing Definitions&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;def tet-recipe
+      {1 {0 &amp;#91;{:x #&amp;#40;- % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;+ % 2&amp;#41;}&amp;#93;
+          1 &amp;#91;{:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 2&amp;#41;}&amp;#93;
+          2 &amp;#91;{:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 2&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;
+          3 &amp;#91;{:y #&amp;#40;+ % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;} {:y #&amp;#40;- % 2&amp;#41;}&amp;#93;}
+       2 {0 &amp;#91;{:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;- % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;}&amp;#93;
+          1 &amp;#91;{:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;} {:y #&amp;#40;+ % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;}&amp;#93;
+          2 &amp;#91;{:x #&amp;#40;- % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;
+          3 &amp;#91;{:y #&amp;#40;+ % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;}
+       3 {0 &amp;#91;{:x #&amp;#40;- % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;}&amp;#93;
+          1 &amp;#91;{:y #&amp;#40;+ % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;
+          2 &amp;#91;{:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;- % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;}&amp;#93;
+          3 &amp;#91;{:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;} {:y #&amp;#40;+ % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;}&amp;#93;}
+       4 {0 &amp;#91;{} {:x #&amp;#40;+ % 1&amp;#41;} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;
+          1 &amp;#91;{} {:x #&amp;#40;+ % 1&amp;#41;} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;
+          2 &amp;#91;{} {:x #&amp;#40;+ % 1&amp;#41;} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;
+          3 &amp;#91;{} {:x #&amp;#40;+ % 1&amp;#41;} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;}
+       5 {0 &amp;#91;{:x #&amp;#40;- % 1&amp;#41;} {} {:y #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;}&amp;#93;
+          1 &amp;#91;{:y #&amp;#40;+ % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;
+          2 &amp;#91;{:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;} {:y #&amp;#40;- % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;}&amp;#93;
+          3 &amp;#91;{:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;- % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;}&amp;#93;}
+       6 {0 &amp;#91;{:x #&amp;#40;- % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;} {:y #&amp;#40;+ % 1&amp;#41;}&amp;#93;
+          1 &amp;#91;{:y #&amp;#40;+ % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41;}&amp;#93;
+          2 &amp;#91;{:x #&amp;#40;- % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;}&amp;#93;
+          3 &amp;#91;{:y #&amp;#40;+ % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;- % 1&amp;#41;}&amp;#93;}
+       7 {0 &amp;#91;{:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;} {:y #&amp;#40;+ % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;}&amp;#93;
+          1 &amp;#91;{:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;}&amp;#93;
+          2 &amp;#91;{:x #&amp;#40;- % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;
+          3 &amp;#91;{:y #&amp;#40;+ % 1&amp;#41;} {} {:x #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;}}&amp;#41;
+          
+&lt;/code&gt;&lt;/pre&gt;This is a map of a map of vecs containing anonymous functions for the type and orientation that will then be appliedin the function call drawing a specific tetriminio.&lt;h2&gt;&lt;a name=&quot;sourcecode&quot;&gt;&lt;/a&gt;Sourcecode&lt;/h2&gt;
 </description>
 <pubDate>
 Sun, 31 May 2015 00:00:00 +0200
@@ -45,7 +172,21 @@ http://tales.sveri.de/posts/2015-05-31-tetris-3.html
 Tetris in clojurescript and re-frame Part 3
 </title>
 <description>
- &lt;h2&gt;&lt;a name=&quot;app&amp;#95;state&quot;&gt;&lt;/a&gt;App State&lt;/h2&gt;&lt;p&gt;There is a big conceptual difference between javasrcipt and clojurescript (especially in re-frame). Whereas in  javascript you can have as much global state as you want it is discouraged to do so in the cljs-sphere. It is generally advised to have one to a few atoms containing your global application state.&lt;br /&gt; In re-frame it is even more better, you don't declare an atom or global state at all, it is managed by re-frame  completely.&lt;/p&gt;&lt;p&gt;In re-frame there is data flowing in events, this is the general idea, for a very complete documentation, please look here: &lt;a href='https://github.com/Day8/re-frame'&gt;re-frame&lt;/a&gt;&lt;/p&gt;&lt;p&gt;First we will initialize the app state. As you saw in part 2 there is already a call to the dispatch function doing that: &lt;strong&gt;(rf/dispatch [:initialise-db])&lt;/strong&gt;.&lt;/p&gt;&lt;p&gt;Now we will add a new file &lt;strong&gt;handlers.cljs&lt;/strong&gt; with the following content:&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;basic&amp;#95;drawing&quot;&gt;&lt;/a&gt;Basic Drawing&lt;/h2&gt;&lt;p&gt;Next we will write the function to do some drawing&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;sourcecode&quot;&gt;&lt;/a&gt;Sourcecode&lt;/h2&gt;
+ &lt;h2&gt;&lt;a name=&quot;app&amp;#95;state&quot;&gt;&lt;/a&gt;App State&lt;/h2&gt;&lt;p&gt;There is a big conceptual difference between javasrcipt and clojurescript (especially in re-frame). Whereas in  javascript you can have as much global state as you want it is discouraged to do so in the cljs-sphere. It is generally advised to have one to a few atoms containing your global application state.&lt;br /&gt; In re-frame it is even more better, you don't declare an atom or global state at all, it is managed by re-frame  completely.&lt;/p&gt;&lt;p&gt;In re-frame there is data flowing in events, this is the general idea, for a very complete documentation, please look here: &lt;a href='https://github.com/Day8/re-frame'&gt;re-frame&lt;/a&gt;&lt;/p&gt;&lt;p&gt;First we will initialize the app state. As you saw in part 2 there is already a call to the dispatch function doing that: &lt;strong&gt;(rf/dispatch [:initialise-db])&lt;/strong&gt;.&lt;/p&gt;&lt;p&gt;Now we will add a new file &lt;strong&gt;handlers.cljs&lt;/strong&gt; with the following content:&lt;/p&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;defn get-clean-db-state &amp;#91;&amp;#93;
+  {:ctx            &amp;#40;.getContext &amp;#40;h/get-elem &amp;quot;tetris-canv&amp;quot;&amp;#41; &amp;quot;2d&amp;quot;&amp;#41;
+   :grid-state     &amp;#91;&amp;#91;&amp;#93; &amp;#91;&amp;#93;&amp;#93;
+   :initialized?   true
+   :started?       false
+   :grid-h         20
+   :grid-w         10
+   :start-timestep 1000
+   :timestep-dim   0.1}&amp;#41;
+
+&amp;#40;register-handler
+  :initialise-db
+  &amp;#40;fn &amp;#91;&amp;#95; &amp;#95;&amp;#93;
+    &amp;#40;get-clean-db-state&amp;#41;&amp;#41;&amp;#41;
+&lt;/code&gt;&lt;/pre&gt;The first function returns a map which is the app state of the application after the initialization. This is where westore our &lt;i&gt;global&lt;/i&gt; and &lt;i&gt;local&lt;/i&gt; data. Also you can see that we finally initialize the canvas and also store thatin the app state.&lt;br /&gt;The second function &lt;strong&gt;register-handler&lt;/strong&gt; registers a handler for the &lt;strong&gt;:initialize-db&lt;/strong&gt; event. This will be calledwhenever we call &lt;strong&gt;(re-frame/dispatch [:initialise-db])&lt;/strong&gt; and for now it returns the app state from &lt;strong&gt;get-clean-db-state&lt;/strong&gt;.&lt;p&gt;A &lt;strong&gt;register-handler&lt;/strong&gt; function will always have to return the app state, no matter if it was manipulated or not.&lt;/p&gt;
 </description>
 <pubDate>
 Sun, 31 May 2015 00:00:00 +0200

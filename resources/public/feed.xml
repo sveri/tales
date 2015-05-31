@@ -15,7 +15,7 @@ http://tales.sveri.de/
 Everything about everything
 </description>
 <lastBuildDate>
-Sun, 31 May 2015 12:50:04 +0200
+Sun, 31 May 2015 12:58:44 +0200
 </lastBuildDate>
 <item>
 <guid>
@@ -25,10 +25,10 @@ http://tales.sveri.de/posts/2015-05-31-tetris-4.html
 http://tales.sveri.de/posts/2015-05-31-tetris-4.html
 </link>
 <title>
-Tetris in clojurescript and re-frame Part 3
+Tetris in clojurescript and re-frame Part 4
 </title>
 <description>
- &lt;h2&gt;&lt;a name=&quot;basic&amp;#95;drawing&quot;&gt;&lt;/a&gt;Basic Drawing&lt;/h2&gt;&lt;h2&gt;&lt;a name=&quot;sourcecode&quot;&gt;&lt;/a&gt;Sourcecode&lt;/h2&gt;
+&lt;h2&gt;&lt;a name=&quot;sourcecode&quot;&gt;&lt;/a&gt;Sourcecode&lt;/h2&gt;
 </description>
 <pubDate>
 Sun, 31 May 2015 00:00:00 +0200
@@ -45,7 +45,7 @@ http://tales.sveri.de/posts/2015-05-31-tetris-3.html
 Tetris in clojurescript and re-frame Part 3
 </title>
 <description>
- &lt;h2&gt;&lt;a name=&quot;basic&amp;#95;drawing&quot;&gt;&lt;/a&gt;Basic Drawing&lt;/h2&gt;&lt;h2&gt;&lt;a name=&quot;sourcecode&quot;&gt;&lt;/a&gt;Sourcecode&lt;/h2&gt;
+ &lt;h2&gt;&lt;a name=&quot;app&amp;#95;state&quot;&gt;&lt;/a&gt;App State&lt;/h2&gt;&lt;p&gt;There is a big conceptual difference between javasrcipt and clojurescript (especially in re-frame). Whereas in  javascript you can have as much global state as you want it is discouraged to do so in the cljs-sphere. It is generally advised to have one to a few atoms containing your global application state.&lt;br /&gt; In re-frame it is even more better, you don't declare an atom or global state at all, it is managed by re-frame  completely.&lt;/p&gt;&lt;p&gt;In re-frame there is data flowing in events, this is the general idea, for a very complete documentation, please look here: &lt;a href='https://github.com/Day8/re-frame'&gt;re-frame&lt;/a&gt;&lt;/p&gt;&lt;p&gt;First we will initialize the app state. As you saw in part 2 there is already a call to the dispatch function doing that: &lt;strong&gt;(rf/dispatch [:initialise-db])&lt;/strong&gt;.&lt;/p&gt;&lt;p&gt;Now we will add a new file &lt;strong&gt;handlers.cljs&lt;/strong&gt; with the following content:&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;basic&amp;#95;drawing&quot;&gt;&lt;/a&gt;Basic Drawing&lt;/h2&gt;&lt;p&gt;Next we will write the function to do some drawing&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;sourcecode&quot;&gt;&lt;/a&gt;Sourcecode&lt;/h2&gt;
 </description>
 <pubDate>
 Sun, 31 May 2015 00:00:00 +0200

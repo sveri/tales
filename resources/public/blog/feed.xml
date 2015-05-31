@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<rss version='2.0' xmlns:atom='http://www.w3.org/2005/Atom'>
+<channel>
+<atom:link href='http://tales.sveri.de/' rel='self' type='application/rss+xml'/>
+<generator>
+clj-rss
+</generator>
+<title>
+Sveris Tales
+</title>
+<link>
+http://tales.sveri.de/
+</link>
+<description>
+Everything about everything
+</description>
+<lastBuildDate>
+Sun, 31 May 2015 09:27:10 +0200
+</lastBuildDate>
+<item>
+<guid>
+http://tales.sveri.de/blog/posts/2015-05-31-first-post.html
+</guid>
+<link>
+http://tales.sveri.de/blog/posts/2015-05-31-first-post.html
+</link>
+<title>
+First Post
+</title>
+<description>
+&lt;h3&gt;&lt;a name=&quot;first&amp;#95;post&amp;#95;in&amp;#95;my&amp;#95;new&amp;#95;blog&quot;&gt;&lt;/a&gt;First Post in my new blog&lt;/h3&gt;&lt;p&gt;I got tired of wordpress and so decided to play around with &lt;a href='https://github.com/cryogen-project/cryogen'&gt;cryogen&lt;/a&gt;  for static site generation. My old blog of course will be available as usual under &lt;a href=&quot;http://blog.sveri.de&quot;&gt;http://blog.sveri.de&lt;/a&gt;.&lt;/p&gt;
+</description>
+<pubDate>
+Sun, 31 May 2015 00:00:00 +0200
+</pubDate>
+</item>
+</channel>
+</rss>

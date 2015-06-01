@@ -15,7 +15,7 @@ http://tales.sveri.de/
 Everything about everything
 </description>
 <lastBuildDate>
-Mon, 01 Jun 2015 23:14:02 +0200
+Mon, 01 Jun 2015 23:30:39 +0200
 </lastBuildDate>
 <item>
 <guid>
@@ -28,7 +28,7 @@ http://tales.sveri.de/posts/2015-06-01-tetris-10.html
 Tetris in clojurescript and re-frame Part 10 - Game Logic
 </title>
 <description>
- &lt;p&gt;Now that defined the basic building blocks we will put it all together. &lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;core.cljs&quot;&gt;&lt;/a&gt;core.cljs&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/sveri/omtet/blob/single&lt;i&gt;player&lt;/i&gt;0.1/resources/templates/tetris/index.html&quot;&gt;https://github.com/sveri/omtet/blob/single&lt;i&gt;player&lt;/i&gt;0.1/resources/templates/tetris/index.html&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Here we have the UI defined. It just draws the canvas and the score div. It is also responsible for drawing any updates to the UI.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;handlers.cljs&quot;&gt;&lt;/a&gt;handlers.cljs&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/sveri/omtet/blob/single&lt;i&gt;player&lt;/i&gt;0.1/src/cljs/de/sveri/omtet/tetris/handlers.cljs&quot;&gt;https://github.com/sveri/omtet/blob/single&lt;i&gt;player&lt;/i&gt;0.1/src/cljs/de/sveri/omtet/tetris/handlers.cljs&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Here we defined all the handlers that act whenever an event occurs. There are still some t&lt;/p&gt;
+ &lt;p&gt;Now that defined the basic building blocks we will put it all together. &lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;core.cljs&quot;&gt;&lt;/a&gt;core.cljs&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/sveri/omtet/blob/single&amp;#95;player&amp;#95;0.1/resources/templates/tetris/index.html&quot;&gt;https://github.com/sveri/omtet/blob/single&amp;#95;player&amp;#95;0.1/resources/templates/tetris/index.html&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Here we have the UI defined. It just draws the canvas and the score div. It is also responsible for drawing any updates to the UI.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;handlers.cljs&quot;&gt;&lt;/a&gt;handlers.cljs&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/sveri/omtet/blob/single&amp;#95;player&amp;#95;0.1/src/cljs/de/sveri/omtet/tetris/handlers.cljs&quot;&gt;https://github.com/sveri/omtet/blob/single&amp;#95;player&amp;#95;0.1/src/cljs/de/sveri/omtet/tetris/handlers.cljs&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Here we defined all the handlers that act whenever an event occurs. There are still some t&lt;/p&gt;
 </description>
 <pubDate>
 Mon, 01 Jun 2015 00:00:00 +0200

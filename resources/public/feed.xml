@@ -15,8 +15,162 @@ http://tales.sveri.de/
 Everything about everything
 </description>
 <lastBuildDate>
-Mon, 01 Jun 2015 15:27:56 +0200
+Mon, 01 Jun 2015 18:26:14 +0200
 </lastBuildDate>
+<item>
+<guid>
+http://tales.sveri.de/posts/2015-06-01-tetris-9.html
+</guid>
+<link>
+http://tales.sveri.de/posts/2015-06-01-tetris-9.html
+</link>
+<title>
+Tetris in clojurescript and re-frame Part 9 - Game Logic
+</title>
+<description>
+ &lt;p&gt;Now that defined the basic building blocks we will put it all together. &lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;core.cljs&quot;&gt;&lt;/a&gt;core.cljs&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/sveri/omtet/blob/single&lt;i&gt;player&lt;/i&gt;0.1/resources/templates/tetris/index.html&quot;&gt;https://github.com/sveri/omtet/blob/single&lt;i&gt;player&lt;/i&gt;0.1/resources/templates/tetris/index.html&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Here we have the UI defined. It just draws the canvas and the score div. It is also responsible for drawing any updates to the UI.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;handlers.cljs&quot;&gt;&lt;/a&gt;handlers.cljs&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/sveri/omtet/blob/single&lt;i&gt;player&lt;/i&gt;0.1/src/cljs/de/sveri/omtet/tetris/handlers.cljs&quot;&gt;https://github.com/sveri/omtet/blob/single&lt;i&gt;player&lt;/i&gt;0.1/src/cljs/de/sveri/omtet/tetris/handlers.cljs&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Here we defined all the handlers whenever an event occurs. There are still some t&lt;/p&gt;
+</description>
+<pubDate>
+Mon, 01 Jun 2015 00:00:00 +0200
+</pubDate>
+</item>
+<item>
+<guid>
+http://tales.sveri.de/posts/2015-06-01-tetris-8.html
+</guid>
+<link>
+http://tales.sveri.de/posts/2015-06-01-tetris-8.html
+</link>
+<title>
+Tetris in clojurescript and re-frame Part 8 - Subscriptions
+</title>
+<description>
+ &lt;h2&gt;&lt;a name=&quot;register-sub&quot;&gt;&lt;/a&gt;register-sub&lt;/h2&gt;&lt;p&gt;The last building block in re-frame are the subscriptions. This is to notify the UI if something in the app state changes. These are all we need for now.   &lt;/p&gt;&lt;p&gt;The first checks if the application is initialized or not.&lt;/p&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;register-sub :initalized? &amp;#40;fn &amp;#91;db &amp;#95;&amp;#93; &amp;#40;reaction &amp;#40;:initalized? @db&amp;#41;&amp;#41;&amp;#41;&amp;#41;
+
+&lt;/code&gt;&lt;/pre&gt;The second checks if the game was started or not.&lt;pre&gt;&lt;code&gt;&amp;#40;register-sub :started? &amp;#40;fn &amp;#91;db &amp;#95;&amp;#93; &amp;#40;reaction &amp;#40;:started? @db&amp;#41;&amp;#41;&amp;#41;&amp;#41;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The third checks if the game is paused or not.&lt;/p&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;register-sub :paused? &amp;#40;fn &amp;#91;db &amp;#95;&amp;#93; &amp;#40;reaction &amp;#40;:paused? @db&amp;#41;&amp;#41;&amp;#41;&amp;#41;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;And the last one is triggered whenever the score of the game changed.&lt;/p&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;register-sub :score &amp;#40;fn &amp;#91;db &amp;#95;&amp;#93; &amp;#40;reaction &amp;#40;:score @db&amp;#41;&amp;#41;&amp;#41;&amp;#41;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Now we redefine our layout function from part 2:&lt;br /&gt;&lt;/p&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;defn core &amp;#91;&amp;#93;
+  &amp;#40;let &amp;#91;tet-width &amp;quot;200px&amp;quot;
+        initalized? &amp;#40;rf/subscribe &amp;#91;:initalized?&amp;#93;&amp;#41;
+        score &amp;#40;rf/subscribe &amp;#91;:score&amp;#93;&amp;#41;&amp;#93;
+    &amp;#40;if initalized?
+      &amp;#91;:div.row
+       &amp;#91;:div.col-md-3
+        &amp;#91;:canvas#tetris-canv {:height &amp;quot;400px&amp;quot; :width tet-width :style {:background-color &amp;quot;#444444&amp;quot;}}&amp;#93;
+        &amp;#91;:div#score {:style {:background-color &amp;quot;#CCCCCC&amp;quot; :width tet-width}} &amp;#40;str &amp;quot;Score: &amp;quot; @score&amp;#41;&amp;#93;&amp;#93;
+       &amp;#91;:div.col-md-3
+        &amp;#40;let &amp;#91;started? @&amp;#40;rf/subscribe &amp;#91;:started?&amp;#93;&amp;#41;
+              paused? @&amp;#40;rf/subscribe &amp;#91;:paused?&amp;#93;&amp;#41;&amp;#93;
+          &amp;#91;:div
+           &amp;#91;:button.btn.btn-primary
+            {:on-click &amp;#40;cond &amp;#40;not started?&amp;#41; #&amp;#40;rf/dispatch &amp;#91;:start-game&amp;#93;&amp;#41;
+                             paused? #&amp;#40;rf/dispatch &amp;#91;:unpause-game&amp;#93;&amp;#41;
+                             &amp;#40;not paused?&amp;#41; #&amp;#40;rf/dispatch &amp;#91;:pause-game&amp;#93;&amp;#41;&amp;#41;}
+            &amp;#40;cond &amp;#40;not started?&amp;#41; &amp;quot;Start&amp;quot; paused? &amp;quot;Continue&amp;quot; &amp;#40;not paused?&amp;#41; &amp;quot;Pause&amp;quot;&amp;#41;&amp;#93;
+           &amp;#91;:br&amp;#93;
+           &amp;#91;:button.btn.btn-primary {:on-click #&amp;#40;rf/dispatch &amp;#91;:restart-game&amp;#93;&amp;#41;} &amp;quot;Restart&amp;quot;&amp;#93;&amp;#93;&amp;#41;&amp;#93;&amp;#93;
+      &amp;#91;:h4 &amp;quot;Loading...&amp;quot;&amp;#93;&amp;#41;&amp;#41;&amp;#41;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;You can see the added &lt;i&gt;(rf/subscribe [:...])&lt;/i&gt; functions which refer to the &lt;i&gt;(register-sub ...)&lt;/i&gt; definitions made before. Now whenever the app state changes the UI will be actualized. This is the part that reagent is  responsible for (which wraps react.js).&lt;/p&gt;
+</description>
+<pubDate>
+Mon, 01 Jun 2015 00:00:00 +0200
+</pubDate>
+</item>
+<item>
+<guid>
+http://tales.sveri.de/posts/2015-06-01-tetris-7.html
+</guid>
+<link>
+http://tales.sveri.de/posts/2015-06-01-tetris-7.html
+</link>
+<title>
+Tetris in clojurescript and re-frame Part 7 - Collision Detection
+</title>
+<description>
+ &lt;h2&gt;&lt;a name=&quot;is&amp;#95;move&amp;#95;allowed?&quot;&gt;&lt;/a&gt;Is Move Allowed?&lt;/h2&gt; &lt;p&gt; In the last chapter we already used the &lt;i&gt;is-move-allowed?&lt;/i&gt; function. There are four functions at all taking care  of it.&lt;br /&gt;  &lt;/p&gt;&lt;p&gt; The first one just checks the boundaries and if none tetriminio is defined at that position:  &lt;/p&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;defn is-moving-part-allowed? &amp;#91;x y grid&amp;#93;
+  &amp;#40;and &amp;#40;&amp;lt;= 0 x&amp;#41; &amp;#40;&amp;lt; x 10&amp;#41; &amp;#40;&amp;lt;= 0 y&amp;#41; &amp;#40;&amp;lt; y 20&amp;#41; &amp;#40;= 0 &amp;#40;get-in grid &amp;#91;x y&amp;#93;&amp;#41;&amp;#41;&amp;#41;&amp;#41;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The second one makes use of the function definitions. If a x or y key exists in the map if will apply the function to the old x or y value. If not, it just returns the old one. This is how we update the four blocks:&lt;br /&gt;&lt;/p&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;defn move-x-y &amp;#91;x y rec&amp;#93;
+  &amp;#40;let &amp;#91;x' &amp;#40;if &amp;#40;get rec :x&amp;#41; &amp;#40;&amp;#40;get rec :x&amp;#41; x&amp;#41; x&amp;#41;
+        y' &amp;#40;if &amp;#40;get rec :y&amp;#41; &amp;#40;&amp;#40;get rec :y&amp;#41; y&amp;#41; y&amp;#41;&amp;#93;
+    {:x x' :y y'}&amp;#41;&amp;#41;
+    
+&amp;#40;defn realize-move &amp;#91;x y t grid&amp;#93; &amp;#40;assoc-in grid &amp;#91;x y&amp;#93; t&amp;#41;&amp;#41;
+
+&lt;/code&gt;&lt;/pre&gt;This draws one tetriminio in the grid according to the tetriminio definition:&lt;br /&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;defn draw-tet &amp;#91;{:keys &amp;#91;x y t o&amp;#93; :as cur-tet} tet-recipe d grid&amp;#93;
+  &amp;#40;let &amp;#91;new-position &amp;#40;map #&amp;#40;move-x-y x y %&amp;#41; &amp;#40;get-in tet-recipe &amp;#91;t o&amp;#93;&amp;#41;&amp;#41;&amp;#93;
+      &amp;#40;reduce &amp;#40;fn &amp;#91;a b&amp;#93; &amp;#40;realize-move &amp;#40;:x b&amp;#41; &amp;#40;:y b&amp;#41; &amp;#40;&amp;#42; t d&amp;#41; a&amp;#41;&amp;#41; grid new-position&amp;#41;&amp;#41;&amp;#41;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;i&gt;is-move-allowed?&lt;/i&gt; basically only calls the functions defined above for every single block and returns true orfalse:&lt;br /&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;defn is-move-allowed? &amp;#91;{:keys &amp;#91;x y t o&amp;#93;} cur-active grid tet-recipe&amp;#93;
+  &amp;#40;let &amp;#91;new-position &amp;#40;map #&amp;#40;move-x-y x y %&amp;#41; &amp;#40;get-in tet-recipe &amp;#91;t o&amp;#93;&amp;#41;&amp;#41;
+        removed-grid &amp;#40;draw-tet cur-active tet-recipe 0 grid&amp;#41;&amp;#93;
+    &amp;#40;h/not-in? &amp;#40;map #&amp;#40;is-moving-part-allowed? &amp;#40;:x %&amp;#41; &amp;#40;:y %&amp;#41; removed-grid&amp;#41; new-position&amp;#41; false&amp;#41;&amp;#41;&amp;#41;
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+<pubDate>
+Mon, 01 Jun 2015 00:00:00 +0200
+</pubDate>
+</item>
+<item>
+<guid>
+http://tales.sveri.de/posts/2015-06-01-tetris-6.html
+</guid>
+<link>
+http://tales.sveri.de/posts/2015-06-01-tetris-6.html
+</link>
+<title>
+Tetris in clojurescript and re-frame Part 6 - User Interaction
+</title>
+<description>
+ &lt;h2&gt;&lt;a name=&quot;event&amp;#95;handler&quot;&gt;&lt;/a&gt;Event Handler&lt;/h2&gt;&lt;p&gt;In the &lt;strong&gt;:initialise-db&lt;/strong&gt; register handler we also define the following code:&lt;/p&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;set! &amp;#40;.-onkeydown js/document&amp;#41; keydown&amp;#41;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This will call the &lt;i&gt;keydown&lt;/i&gt; function whenever a key is pressed and the window has the focus. It looks like this:&lt;/p&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;register-handler
+  :keypressed
+  &amp;#40;rf/after grid-changed-mw&amp;#41;
+  &amp;#40;fn &amp;#91;app-state &amp;#91;&amp;#95; e&amp;#93;&amp;#93;
+    &amp;#40;condp = &amp;#40;.-keyCode e&amp;#41;
+      37 &amp;#40;move-on-keypress app-state #&amp;#40;update-in &amp;#40;:cur-active app-state&amp;#41; &amp;#91;:x&amp;#93; - 1&amp;#41;&amp;#41;
+      38 &amp;#40;move-on-keypress app-state #&amp;#40;update-in &amp;#40;:cur-active app-state&amp;#41; &amp;#91;:o&amp;#93; &amp;#40;fn &amp;#91;old&amp;#93; &amp;#40;mod &amp;#40;+ 1 old&amp;#41; 4&amp;#41;&amp;#41;&amp;#41;&amp;#41;
+      39 &amp;#40;move-on-keypress app-state #&amp;#40;update-in &amp;#40;:cur-active app-state&amp;#41; &amp;#91;:x&amp;#93; + 1&amp;#41;&amp;#41;
+      40 &amp;#40;move-on-keypress app-state #&amp;#40;update-in &amp;#40;:cur-active app-state&amp;#41; &amp;#91;:y&amp;#93; + 1&amp;#41;&amp;#41;
+      32 &amp;#40;do &amp;#40;dispatch &amp;#91;:move-one-down&amp;#93;&amp;#41; app-state&amp;#41;
+      80 &amp;#40;do &amp;#40;if &amp;#40;:paused? app-state&amp;#41; &amp;#40;dispatch &amp;#91;:unpause-game&amp;#93;&amp;#41; &amp;#40;dispatch &amp;#91;:pause-game&amp;#93;&amp;#41;&amp;#41; app-state&amp;#41;
+      app-state&amp;#41;&amp;#41;&amp;#41;
+
+&amp;#40;defn keydown &amp;#91;e&amp;#93;
+  &amp;#40;when &amp;#40;h/in? &amp;#91;32 37 38 39 40&amp;#93; &amp;#40;.-keyCode e&amp;#41;&amp;#41; &amp;#40;.preventDefault e&amp;#41;&amp;#41;
+  &amp;#40;dispatch &amp;#91;:keypressed e&amp;#93;&amp;#41;&amp;#41;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;We will only prevent the default action if the up, down, left, right, p or space key was pressed,  then we call dispatch again and call the &lt;i&gt;:keypressed&lt;/i&gt; handler.&lt;br /&gt; This calls the &lt;i&gt;move-on-keypress&lt;/i&gt; function which looks like this:&lt;/p&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;defn move-on-keypress &amp;#91;app-state move-fn&amp;#93;
+  &amp;#40;let &amp;#91;cur-active &amp;#40;:cur-active app-state&amp;#41;
+        cur-grid &amp;#40;:grid-state app-state&amp;#41;
+        remove-cur-grid &amp;#40;minios/draw-tet cur-active minios/tet-recipe 0 cur-grid&amp;#41;&amp;#93;
+    &amp;#40;if &amp;#40;minios/is-move-allowed? &amp;#40;move-fn&amp;#41; cur-active cur-grid minios/tet-recipe&amp;#41;
+      &amp;#40;assoc app-state :cur-active &amp;#40;move-fn&amp;#41; :grid-state &amp;#40;minios/draw-tet &amp;#40;move-fn&amp;#41; minios/tet-recipe 1 remove-cur-grid&amp;#41;&amp;#41;
+      app-state&amp;#41;&amp;#41;&amp;#41;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;It checks whether the move is allowed and if so, updates the app state:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;:cur-active update the active tetriminio position&lt;/li&gt;&lt;li&gt;:grid-state the updated grid state with the moved active tetriminio&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;If the move is not allowed, it will return the unchanged app state, making sure we cannot move the tetrimino outside of the grid or over existing borders.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;space&amp;#95;key&quot;&gt;&lt;/a&gt;Space Key&lt;/h2&gt;&lt;p&gt;If we press the space key we want to move the tetriminio down to the lowest allowed position. To do this we dispatch on the &lt;strong&gt;:move-one-down&lt;/strong&gt; event with the regarding handler:&lt;/p&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;register-handler
+  :move-one-down
+  &amp;#40;rf/after grid-changed-mw&amp;#41;
+  &amp;#40;fn &amp;#91;app-state &amp;#95;&amp;#93;
+    &amp;#40;when &amp;#40;minios/is-move-allowed? &amp;#40;update-in &amp;#40;:cur-active app-state&amp;#41; &amp;#91;:y&amp;#93; + 2&amp;#41; &amp;#40;:cur-active app-state&amp;#41;
+                                   &amp;#40;:grid-state app-state&amp;#41; minios/tet-recipe&amp;#41;
+      &amp;#40;dispatch &amp;#91;:move-one-down&amp;#93;&amp;#41;&amp;#41;
+    &amp;#40;move-on-keypress app-state #&amp;#40;update-in &amp;#40;:cur-active app-state&amp;#41; &amp;#91;:y&amp;#93; + 1&amp;#41;&amp;#41;&amp;#41;&amp;#41;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;As long as the down move is allowed it will dispatch on itself again with the side effect of moving one position down.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;p&amp;#95;key&quot;&gt;&lt;/a&gt;P Key&lt;/h2&gt;&lt;p&gt;The &lt;strong&gt;P&lt;/strong&gt; key will pause or unpause the game, dispatching on &lt;strong&gt;:pause-game&lt;/strong&gt; or &lt;strong&gt;:unpause-game&lt;/strong&gt; respectively:&lt;/p&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;register-handler
+  :pause-game
+  &amp;#40;fn &amp;#91;db &amp;#95;&amp;#93;
+    &amp;#40;. &amp;#40;:timer db&amp;#41; &amp;#40;stop&amp;#41;&amp;#41;
+    &amp;#40;assoc db :paused? true&amp;#41;&amp;#41;&amp;#41;
+
+&amp;#40;register-handler
+  :unpause-game
+  &amp;#40;fn &amp;#91;db &amp;#95;&amp;#93;
+    &amp;#40;. &amp;#40;:timer db&amp;#41; &amp;#40;start&amp;#41;&amp;#41;
+    &amp;#40;assoc db :paused? false&amp;#41;&amp;#41;&amp;#41;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;It just stops or starts the timer which controls the game speed and updates the app states &lt;strong&gt;:paused&lt;/strong&gt; key.&lt;/p&gt;
+</description>
+<pubDate>
+Mon, 01 Jun 2015 00:00:00 +0200
+</pubDate>
+</item>
 <item>
 <guid>
 http://tales.sveri.de/posts/2015-05-31-tetris-5.html
@@ -25,10 +179,10 @@ http://tales.sveri.de/posts/2015-05-31-tetris-5.html
 http://tales.sveri.de/posts/2015-05-31-tetris-5.html
 </link>
 <title>
-Tetris in clojurescript and re-frame Part 5
+Tetris in clojurescript and re-frame Part 5 - Tetriminios
 </title>
 <description>
- &lt;h2&gt;&lt;a name=&quot;tetriminio&amp;#95;types&quot;&gt;&lt;/a&gt;Tetriminio Types&lt;/h2&gt;&lt;p&gt;There are seven tetriminio types each one defined by a number from 1 to 7. &lt;ul&gt;&lt;li&gt;1 I&lt;/li&gt;&lt;li&gt;2 L&lt;/li&gt;&lt;li&gt;3 J&lt;/li&gt;&lt;li&gt;4 O&lt;/li&gt;&lt;li&gt;5 S&lt;/li&gt;&lt;li&gt;6 T&lt;/li&gt;&lt;li&gt;7 S&lt;/li&gt;&lt;/ul&gt;So when the grid contains the number 1 it will draw the &lt;strong&gt;I&lt;/strong&gt; type at that place.&lt;br /&gt;&lt;/p&gt;&lt;p&gt;Each Tetrimino has an orientation defined by numbers 0 to 4.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;tetriminio&amp;#95;drawing&amp;#95;definitions&quot;&gt;&lt;/a&gt;Tetriminio Drawing Definitions&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;def tet-recipe
+ &lt;h2&gt;&lt;a name=&quot;types&quot;&gt;&lt;/a&gt;Types&lt;/h2&gt;&lt;p&gt;There are seven tetriminio types each one defined by a number from 1 to 7. &lt;ul&gt;&lt;li&gt;1 I&lt;/li&gt;&lt;li&gt;2 L&lt;/li&gt;&lt;li&gt;3 J&lt;/li&gt;&lt;li&gt;4 O&lt;/li&gt;&lt;li&gt;5 S&lt;/li&gt;&lt;li&gt;6 T&lt;/li&gt;&lt;li&gt;7 S&lt;/li&gt;&lt;/ul&gt;So when the grid contains the number 1 it will draw the &lt;strong&gt;I&lt;/strong&gt; type at that place.&lt;br /&gt;&lt;/p&gt;&lt;p&gt;Each Tetrimino has an orientation defined by numbers 0 to 4.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;tetriminio&amp;#95;drawing&amp;#95;definitions&quot;&gt;&lt;/a&gt;Tetriminio Drawing Definitions&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;def tet-recipe
       {1 {0 &amp;#91;{:x #&amp;#40;- % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;+ % 2&amp;#41;}&amp;#93;
           1 &amp;#91;{:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 2&amp;#41;}&amp;#93;
           2 &amp;#91;{:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 2&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;
@@ -59,7 +213,7 @@ Tetris in clojurescript and re-frame Part 5
           3 &amp;#91;{:y #&amp;#40;+ % 1&amp;#41;} {} {:x #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;}}&amp;#41;
           
 &lt;/code&gt;&lt;/pre&gt;This is a map of a map of vecs containing anonymous functions for the type and orientation that will then be appliedin the function call drawing a specific tetriminio. The first key of the nested map is the tetriminio type and the second key the orientation.&lt;br /&gt;So whenever we want to draw type &lt;i&gt;S&lt;/i&gt; with orientation &lt;i&gt;0&lt;/i&gt; we will take this for functions:&lt;br /&gt;&lt;pre&gt;&lt;code&gt;{:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;} {:y #&amp;#40;+ % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;}
-&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;&lt;li&gt;{:x #(- % 1) :y #(+ % 1)} means that for the first block we will subtract x by 1 and add 1 to y.&lt;/li&gt;&lt;li&gt;{:y #(+ % 1)} Here we will add 1 to y and leave x like it is&lt;/li&gt;&lt;li&gt;{} Leave x and y like they are&lt;/li&gt;&lt;li&gt;{:x #(+ % 1)} Add 1 to x and leave y like it is.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;This all is in respect to the grid state. So we just move the tetriminio on the grid by applying these functions.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;active&amp;#95;tetriminio&quot;&gt;&lt;/a&gt;Active Tetriminio&lt;/h2&gt;&lt;p&gt;The current active tetriminio (the one that can be moved) will be stored in the application state as a map like this: &lt;strong&gt;{:x 1 :y 1 :o 0 :t 1}&lt;/strong&gt;. So whenever we pass it around it will be passed as a map.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;sourcecode&quot;&gt;&lt;/a&gt;Sourcecode&lt;/h2&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;&lt;li&gt;{:x #(- % 1) :y #(+ % 1)} means that for the first block we will subtract x by 1 and add 1 to y.&lt;/li&gt;&lt;li&gt;{:y #(+ % 1)} Here we will add 1 to y and leave x like it is&lt;/li&gt;&lt;li&gt;{} Leave x and y like they are&lt;/li&gt;&lt;li&gt;{:x #(+ % 1)} Add 1 to x and leave y like it is.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;This all is in respect to the grid state. So we just move the tetriminio on the grid by applying these functions.&lt;/p&gt;&lt;p&gt;The beauty of this definition is that we could easily add more tetriminios in the map which will just work out of the box.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;active&amp;#95;tetriminio&quot;&gt;&lt;/a&gt;Active Tetriminio&lt;/h2&gt;&lt;p&gt;The current active tetriminio (the one that can be moved) will be stored in the application state as a map like this: &lt;strong&gt;{:x 1 :y 1 :o 0 :t 1}&lt;/strong&gt;. So whenever we pass it around it will be passed as a map.&lt;/p&gt;
 </description>
 <pubDate>
 Sun, 31 May 2015 00:00:00 +0200
@@ -73,7 +227,7 @@ http://tales.sveri.de/posts/2015-05-31-tetris-4.html
 http://tales.sveri.de/posts/2015-05-31-tetris-4.html
 </link>
 <title>
-Tetris in clojurescript and re-frame Part 4
+Tetris in clojurescript and re-frame Part 4 - Drawing
 </title>
 <description>
 &lt;h2&gt;&lt;a name=&quot;drawing&amp;#95;functions&quot;&gt;&lt;/a&gt;Drawing functions&lt;/h2&gt;&lt;p&gt;There are several drawing functions.&lt;br /&gt; The first one is a helper function taking the canvas and a vector of functions that will be executed.&lt;/p&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;defn draw-block-x &amp;#91;ctx &amp;amp; &amp;#91;line-to-fns&amp;#93;&amp;#93;
@@ -142,7 +296,7 @@ http://tales.sveri.de/posts/2015-05-31-tetris-3.html
 http://tales.sveri.de/posts/2015-05-31-tetris-3.html
 </link>
 <title>
-Tetris in clojurescript and re-frame Part 3
+Tetris in clojurescript and re-frame Part 3 - App State
 </title>
 <description>
  &lt;h2&gt;&lt;a name=&quot;app&amp;#95;state&quot;&gt;&lt;/a&gt;App State&lt;/h2&gt;&lt;p&gt;There is a big conceptual difference between javasrcipt and clojurescript (especially in re-frame). Whereas in  javascript you can have as much global state as you want it is discouraged to do so in the cljs-sphere. It is generally advised to have one to a few atoms containing your global application state.&lt;br /&gt; In re-frame it is even more better, you don't declare an atom or global state at all, it is managed by re-frame  completely.&lt;/p&gt;&lt;p&gt;In re-frame there is data flowing in events, this is the general idea, for a very complete documentation, please look here: &lt;a href='https://github.com/Day8/re-frame'&gt;re-frame&lt;/a&gt;&lt;/p&gt;&lt;p&gt;First we will initialize the app state. As you saw in part 2 there is already a call to the dispatch function doing that: &lt;strong&gt;(rf/dispatch [:initialise-db])&lt;/strong&gt;.&lt;/p&gt;&lt;p&gt;Now we will add a new file &lt;strong&gt;handlers.cljs&lt;/strong&gt; with the following content:&lt;/p&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;defn get-clean-db-state &amp;#91;&amp;#93;
@@ -215,7 +369,7 @@ http://tales.sveri.de/posts/2015-05-31-tetris-1.html
 http://tales.sveri.de/posts/2015-05-31-tetris-1.html
 </link>
 <title>
-Tetris in clojurescript and re-frame Part 1
+Tetris in clojurescript and re-frame Part 1 - Introduction
 </title>
 <description>
  &lt;h1&gt;&lt;a name=&quot;introduction&quot;&gt;&lt;/a&gt;Introduction&lt;/h1&gt;&lt;p&gt;In the last few weeks I took some time to code tetris with clojurescript and re-frame following this guide:  &lt;a href='http://www.drewbuck.com/tetris-in-html5-for-noobs/'&gt;Tetris in HTML5 for noobs&lt;/a&gt;.&lt;br /&gt; I will write a small series following the same pattern showing how it is done in cljs. What I will not do is explain basic things like the original author did, but instead focus more on the differences between javascript and  clojurescript.&lt;/p&gt;&lt;p&gt;For every beginner I recommend following Drews tutorial as he is more in depth about the basics of everything.&lt;/p&gt;&lt;p&gt;A big thanks to the original author &lt;a href='http://www.drewbuck.com/about/'&gt;Drew Buck&lt;/a&gt; that got showed how to make tetris  work with the HTML 5 canvas feature!&lt;/p&gt;&lt;h1&gt;&lt;a name=&quot;disclaimer&quot;&gt;&lt;/a&gt;Disclaimer&lt;/h1&gt;&lt;p&gt;I have done this as part of a bigger project which you can find here: &lt;a href='https://github.com/sveri/omtet'&gt;omtet&lt;/a&gt;.&lt;br /&gt; I will only mention a few source files in this tutorial, you can safely ignore the rest of it. The relevant files are these:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href='https://github.com/sveri/omtet/blob/single&amp;#95;player&amp;#95;0.1/resources/templates/tetris/index.html'&gt;index.html&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href='https://github.com/sveri/omtet/blob/single&amp;#95;player&amp;#95;0.1/src/cljs/de/sveri/omtet/tetris/core.cljs'&gt;core.cljs&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href='https://github.com/sveri/omtet/blob/single&amp;#95;player&amp;#95;0.1/src/cljs/de/sveri/omtet/tetris/handlers.cljs'&gt;handlers.cljs&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href='https://github.com/sveri/omtet/blob/single&amp;#95;player&amp;#95;0.1/src/cljs/de/sveri/omtet/tetris/subs.cljs'&gt;subs.cljs&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href='https://github.com/sveri/omtet/blob/single&amp;#95;player&amp;#95;0.1/src/cljs/de/sveri/omtet/tetris/tetriminios.cljs'&gt;tetriminios.cljs&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;

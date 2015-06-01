@@ -74,7 +74,8 @@
   :initialise-db
   &#40;fn &#91;&#95; &#95;&#93;
     &#40;get-clean-db-state&#41;&#41;&#41;
-</code></pre>The first function returns a map which is the app state of the application after the initialization. This is where westore our <i>global</i> and <i>local</i> data. Also you can see that we finally initialize the canvas and also store thatin the app state.<br />The second function <strong>register-handler</strong> registers a handler for the <strong>:initialize-db</strong> event. This will be calledwhenever we call <strong>(re-frame/dispatch [:initialise-db])</strong> and for now it returns the app state from <strong>get-clean-db-state</strong>.<p>A <strong>register-handler</strong> function will always have to return the app state, no matter if it was manipulated or not.</p>
+    
+</code></pre>The first function returns a map which is the app state of the application after the initialization. This is where westore our <i>global</i> and <i>local</i> data. Also you can see that we finally initialize the canvas and also store thatin the app state.<br />The second function <strong>register-handler</strong> registers a handler for the <strong>:initialize-db</strong> event. This will be calledwhenever we call <strong>(re-frame/dispatch [:initialise-db])</strong> and for now it returns the app state from <strong>get-clean-db-state</strong>.<p>A <strong>register-handler</strong> function will always have to return the app state, no matter if it was manipulated or not.</p><ul><li>:ctx is a reference to the canvas element</li><li>:grid-state is a 2-dimensional vector which represents the tetris field. Each entry will represent a tetriminio(1 - 7) or nothing (0).</li><li>:started? indicates whether the game was started or not</li><li>:grid-w and :grid-h are the respective width and height entries</li><li>:start-timestep is the time for the ticker at which the game will run.</li><li>:timestep-dim is the percentage at that the ticker speed will be reduced after each level up</li></ul>
 </div>
 
 <div id="post-tags">
@@ -152,6 +153,8 @@
                         <li><a href="/tags/tetris.html">tetris</a></li>
                         
                         <li><a href="/tags/part 3.html">part 3</a></li>
+                        
+                        <li><a href="/tags/tetriminios.html">tetriminios</a></li>
                         
                         <li><a href="/tags/part 2.html">part 2</a></li>
                         

@@ -15,7 +15,7 @@ http://tales.sveri.de/
 Everything about everything
 </description>
 <lastBuildDate>
-Sun, 31 May 2015 18:39:47 +0200
+Mon, 01 Jun 2015 15:27:56 +0200
 </lastBuildDate>
 <item>
 <guid>
@@ -28,104 +28,7 @@ http://tales.sveri.de/posts/2015-05-31-tetris-5.html
 Tetris in clojurescript and re-frame Part 5
 </title>
 <description>
- &lt;h2&gt;&lt;a name=&quot;drawing&amp;#95;functions&quot;&gt;&lt;/a&gt;Drawing functions&lt;/h2&gt;&lt;p&gt;There are several drawing functions:&lt;/p&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;defn draw-block-x &amp;#91;ctx &amp;amp; &amp;#91;line-to-fns&amp;#93;&amp;#93;
-  &amp;#40;.beginPath ctx&amp;#41;
-  &amp;#40;doseq &amp;#91;f line-to-fns&amp;#93; &amp;#40;f&amp;#41;&amp;#41;
-  &amp;#40;.fill ctx&amp;#41;&amp;#41;
-&lt;/code&gt;&lt;/pre&gt;The first one is a helper function taking the canvas and a vector of functions that will be executed.  &lt;br /&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;defn draw-block-top &amp;#91;x y ctx&amp;#93;
-  &amp;#40;draw-block-x ctx &amp;#91;#&amp;#40;.moveTo ctx x y&amp;#41;
-                         #&amp;#40;.lineTo ctx &amp;#40;+ 20 x&amp;#41; y&amp;#41;
-                         #&amp;#40;.lineTo ctx &amp;#40;+ 18 x&amp;#41; &amp;#40;+ 2 y&amp;#41;&amp;#41;
-                         #&amp;#40;.lineTo ctx &amp;#40;+ 2 x&amp;#41; &amp;#40;+ 2 y&amp;#41;&amp;#41;&amp;#93;&amp;#41;&amp;#41;
-
-&amp;#40;defn draw-block-left &amp;#91;x y ctx&amp;#93;
-  &amp;#40;draw-block-x ctx &amp;#91;#&amp;#40;.moveTo ctx x y&amp;#41;
-                     #&amp;#40;.lineTo ctx x &amp;#40;+ 20 y&amp;#41;&amp;#41;
-                     #&amp;#40;.lineTo ctx &amp;#40;+ 2 x&amp;#41; &amp;#40;+ 18 y&amp;#41;&amp;#41;
-                     #&amp;#40;.lineTo ctx &amp;#40;+ 2 x&amp;#41; &amp;#40;+ 2 y&amp;#41;&amp;#41;&amp;#93;&amp;#41;&amp;#41;
-
-&amp;#40;defn draw-block-right &amp;#91;x y ctx&amp;#93;
-  &amp;#40;draw-block-x ctx &amp;#91;#&amp;#40;.moveTo ctx &amp;#40;+ 20 x&amp;#41; y&amp;#41;
-                     #&amp;#40;.lineTo ctx &amp;#40;+ 20 x&amp;#41; &amp;#40;+ 20 y&amp;#41;&amp;#41;
-                     #&amp;#40;.lineTo ctx &amp;#40;+ 18 x&amp;#41; &amp;#40;+ 18 y&amp;#41;&amp;#41;
-                     #&amp;#40;.lineTo ctx &amp;#40;+ 18 x&amp;#41; &amp;#40;+ 2 y&amp;#41;&amp;#41;&amp;#93;&amp;#41;&amp;#41;
-
-&amp;#40;defn draw-block-bottom &amp;#91;x y ctx&amp;#93;
-  &amp;#40;draw-block-x ctx &amp;#91;#&amp;#40;.moveTo ctx x &amp;#40;+ 20 y&amp;#41;&amp;#41;
-                     #&amp;#40;.lineTo ctx &amp;#40;+ 20 x&amp;#41; &amp;#40;+ 20 y&amp;#41;&amp;#41;
-                     #&amp;#40;.lineTo ctx &amp;#40;+ 18 x&amp;#41; &amp;#40;+ 18 y&amp;#41;&amp;#41;
-                     #&amp;#40;.lineTo ctx &amp;#40;+ 2 x&amp;#41; &amp;#40;+ 18 y&amp;#41;&amp;#41;&amp;#93;&amp;#41;&amp;#41;
-&lt;/code&gt;&lt;/pre&gt;These four functions will draw the for single blocks that each tetrimino contains.&lt;h2&gt;&lt;a name=&quot;sourcecode&quot;&gt;&lt;/a&gt;Sourcecode&lt;/h2&gt;
-</description>
-<pubDate>
-Sun, 31 May 2015 00:00:00 +0200
-</pubDate>
-</item>
-<item>
-<guid>
-http://tales.sveri.de/posts/2015-05-31-tetris-4.html
-</guid>
-<link>
-http://tales.sveri.de/posts/2015-05-31-tetris-4.html
-</link>
-<title>
-Tetris in clojurescript and re-frame Part 4
-</title>
-<description>
-&lt;h2&gt;&lt;a name=&quot;drawing&amp;#95;functions&quot;&gt;&lt;/a&gt;Drawing functions&lt;/h2&gt;&lt;p&gt;There are several drawing functions:&lt;/p&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;defn draw-block-x &amp;#91;ctx &amp;amp; &amp;#91;line-to-fns&amp;#93;&amp;#93;
-  &amp;#40;.beginPath ctx&amp;#41;
-  &amp;#40;doseq &amp;#91;f line-to-fns&amp;#93; &amp;#40;f&amp;#41;&amp;#41;
-  &amp;#40;.fill ctx&amp;#41;&amp;#41;
-  
-&lt;/code&gt;&lt;/pre&gt;The first one is a helper function taking the canvas and a vector of functions that will be executed.  &lt;br /&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;defn draw-block-top &amp;#91;x y ctx&amp;#93;
-  &amp;#40;draw-block-x ctx &amp;#91;#&amp;#40;.moveTo ctx x y&amp;#41;
-                         #&amp;#40;.lineTo ctx &amp;#40;+ 20 x&amp;#41; y&amp;#41;
-                         #&amp;#40;.lineTo ctx &amp;#40;+ 18 x&amp;#41; &amp;#40;+ 2 y&amp;#41;&amp;#41;
-                         #&amp;#40;.lineTo ctx &amp;#40;+ 2 x&amp;#41; &amp;#40;+ 2 y&amp;#41;&amp;#41;&amp;#93;&amp;#41;&amp;#41;
-
-&amp;#40;defn draw-block-left &amp;#91;x y ctx&amp;#93;
-  &amp;#40;draw-block-x ctx &amp;#91;#&amp;#40;.moveTo ctx x y&amp;#41;
-                     #&amp;#40;.lineTo ctx x &amp;#40;+ 20 y&amp;#41;&amp;#41;
-                     #&amp;#40;.lineTo ctx &amp;#40;+ 2 x&amp;#41; &amp;#40;+ 18 y&amp;#41;&amp;#41;
-                     #&amp;#40;.lineTo ctx &amp;#40;+ 2 x&amp;#41; &amp;#40;+ 2 y&amp;#41;&amp;#41;&amp;#93;&amp;#41;&amp;#41;
-
-&amp;#40;defn draw-block-right &amp;#91;x y ctx&amp;#93;
-  &amp;#40;draw-block-x ctx &amp;#91;#&amp;#40;.moveTo ctx &amp;#40;+ 20 x&amp;#41; y&amp;#41;
-                     #&amp;#40;.lineTo ctx &amp;#40;+ 20 x&amp;#41; &amp;#40;+ 20 y&amp;#41;&amp;#41;
-                     #&amp;#40;.lineTo ctx &amp;#40;+ 18 x&amp;#41; &amp;#40;+ 18 y&amp;#41;&amp;#41;
-                     #&amp;#40;.lineTo ctx &amp;#40;+ 18 x&amp;#41; &amp;#40;+ 2 y&amp;#41;&amp;#41;&amp;#93;&amp;#41;&amp;#41;
-
-&amp;#40;defn draw-block-bottom &amp;#91;x y ctx&amp;#93;
-  &amp;#40;draw-block-x ctx &amp;#91;#&amp;#40;.moveTo ctx x &amp;#40;+ 20 y&amp;#41;&amp;#41;
-                     #&amp;#40;.lineTo ctx &amp;#40;+ 20 x&amp;#41; &amp;#40;+ 20 y&amp;#41;&amp;#41;
-                     #&amp;#40;.lineTo ctx &amp;#40;+ 18 x&amp;#41; &amp;#40;+ 18 y&amp;#41;&amp;#41;
-                     #&amp;#40;.lineTo ctx &amp;#40;+ 2 x&amp;#41; &amp;#40;+ 18 y&amp;#41;&amp;#41;&amp;#93;&amp;#41;&amp;#41;
-                     
-&lt;/code&gt;&lt;/pre&gt;These four functions will draw the for single blocks that each tetrimino contains.&lt;pre&gt;&lt;code&gt;&amp;#40;defn draw-block &amp;#91;x y h ctx&amp;#93;
-  &amp;#40;let &amp;#91;x' &amp;#40;&amp;#42; x 20&amp;#41;
-        y' &amp;#40;&amp;#42; y 20&amp;#41;&amp;#93;                                        ; &amp;#40;&amp;#42; 20 &amp;#40;- 19 y&amp;#41;&amp;#41;
-    &amp;#40;aset ctx &amp;quot;fillStyle&amp;quot; &amp;#40;str &amp;quot;hsl&amp;#40;&amp;quot; h &amp;quot;,100%,50%&amp;#41;&amp;quot;&amp;#41;&amp;#41;
-    &amp;#40;.fillRect ctx &amp;#40;+ 2 x'&amp;#41; &amp;#40;+ 2 y'&amp;#41; 16 16&amp;#41;
-
-    &amp;#40;aset ctx &amp;quot;fillStyle&amp;quot; &amp;#40;str &amp;quot;hsl&amp;#40;&amp;quot; h &amp;quot;,100%,70%&amp;#41;&amp;quot;&amp;#41;&amp;#41;
-    &amp;#40;draw-block-top x' y' ctx&amp;#41;
-
-    &amp;#40;aset ctx &amp;quot;fillStyle&amp;quot; &amp;#40;str &amp;quot;hsl&amp;#40;&amp;quot; h &amp;quot;,100%,40%&amp;#41;&amp;quot;&amp;#41;&amp;#41;
-    &amp;#40;draw-block-left x' y' ctx&amp;#41;
-
-    &amp;#40;draw-block-right x' y' ctx&amp;#41;
-
-    &amp;#40;aset ctx &amp;quot;fillStyle&amp;quot; &amp;#40;str &amp;quot;hsl&amp;#40;&amp;quot; h &amp;quot;,100%,30%&amp;#41;&amp;quot;&amp;#41;&amp;#41;
-    &amp;#40;draw-block-bottom x' y' ctx&amp;#41;&amp;#41;&amp;#41;
-    
-&lt;/code&gt;&lt;/pre&gt;And finally the function to draw a complete tetriminio which will call all four functions to draw the single blocks.&lt;pre&gt;&lt;code&gt;&amp;#40;defn draw-grid &amp;#91;grid ctx&amp;#93;
-  &amp;#40;.clearRect ctx 0 0 200 400&amp;#41;
-  &amp;#40;doseq &amp;#91;x &amp;#40;range 10&amp;#41;
-          y &amp;#40;range 20&amp;#41;&amp;#93;
-    &amp;#40;let &amp;#91;t &amp;#40;get-in grid &amp;#91;x y&amp;#93;&amp;#41;&amp;#93;
-      &amp;#40;when-not &amp;#40;= 0 t&amp;#41;
-        &amp;#40;draw-block x y &amp;#40;get color-map t&amp;#41; ctx&amp;#41;&amp;#41;&amp;#41;&amp;#41;&amp;#41;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The &lt;strong&gt;draw-grid&lt;/strong&gt; function draws the complete tetris grid which has a width of 200px and a height of 400pxs.&lt;br /&gt;  it takes a &lt;strong&gt;grid&lt;/strong&gt; as a param which is a 2 dimensional vector whereas each x-y entry contains the element at that  place of the the grid. &lt;br /&gt;&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;tetriminio&amp;#95;types&quot;&gt;&lt;/a&gt;Tetriminio Types&lt;/h2&gt;&lt;p&gt;There are seven tetriminio types each one defined by a number from 1 to 7. &lt;ul&gt;&lt;li&gt;1 I&lt;/li&gt;&lt;li&gt;2 L&lt;/li&gt;&lt;li&gt;3 J&lt;/li&gt;&lt;li&gt;4 O&lt;/li&gt;&lt;li&gt;5 S&lt;/li&gt;&lt;li&gt;6 T&lt;/li&gt;&lt;li&gt;7 S&lt;/li&gt;&lt;/ul&gt;So when the grid contains the number 1 it will draw the &lt;strong&gt;I&lt;/strong&gt; type at that place.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;tetriminio&amp;#95;drawing&amp;#95;definitions&quot;&gt;&lt;/a&gt;Tetriminio Drawing Definitions&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;def tet-recipe
+ &lt;h2&gt;&lt;a name=&quot;tetriminio&amp;#95;types&quot;&gt;&lt;/a&gt;Tetriminio Types&lt;/h2&gt;&lt;p&gt;There are seven tetriminio types each one defined by a number from 1 to 7. &lt;ul&gt;&lt;li&gt;1 I&lt;/li&gt;&lt;li&gt;2 L&lt;/li&gt;&lt;li&gt;3 J&lt;/li&gt;&lt;li&gt;4 O&lt;/li&gt;&lt;li&gt;5 S&lt;/li&gt;&lt;li&gt;6 T&lt;/li&gt;&lt;li&gt;7 S&lt;/li&gt;&lt;/ul&gt;So when the grid contains the number 1 it will draw the &lt;strong&gt;I&lt;/strong&gt; type at that place.&lt;br /&gt;&lt;/p&gt;&lt;p&gt;Each Tetrimino has an orientation defined by numbers 0 to 4.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;tetriminio&amp;#95;drawing&amp;#95;definitions&quot;&gt;&lt;/a&gt;Tetriminio Drawing Definitions&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;def tet-recipe
       {1 {0 &amp;#91;{:x #&amp;#40;- % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;+ % 2&amp;#41;}&amp;#93;
           1 &amp;#91;{:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 2&amp;#41;}&amp;#93;
           2 &amp;#91;{:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 2&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;
@@ -155,7 +58,77 @@ Tetris in clojurescript and re-frame Part 4
           2 &amp;#91;{:x #&amp;#40;- % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;
           3 &amp;#91;{:y #&amp;#40;+ % 1&amp;#41;} {} {:x #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;}}&amp;#41;
           
-&lt;/code&gt;&lt;/pre&gt;This is a map of a map of vecs containing anonymous functions for the type and orientation that will then be appliedin the function call drawing a specific tetriminio.&lt;h2&gt;&lt;a name=&quot;sourcecode&quot;&gt;&lt;/a&gt;Sourcecode&lt;/h2&gt;
+&lt;/code&gt;&lt;/pre&gt;This is a map of a map of vecs containing anonymous functions for the type and orientation that will then be appliedin the function call drawing a specific tetriminio. The first key of the nested map is the tetriminio type and the second key the orientation.&lt;br /&gt;So whenever we want to draw type &lt;i&gt;S&lt;/i&gt; with orientation &lt;i&gt;0&lt;/i&gt; we will take this for functions:&lt;br /&gt;&lt;pre&gt;&lt;code&gt;{:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;} {:y #&amp;#40;+ % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;}
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;&lt;li&gt;{:x #(- % 1) :y #(+ % 1)} means that for the first block we will subtract x by 1 and add 1 to y.&lt;/li&gt;&lt;li&gt;{:y #(+ % 1)} Here we will add 1 to y and leave x like it is&lt;/li&gt;&lt;li&gt;{} Leave x and y like they are&lt;/li&gt;&lt;li&gt;{:x #(+ % 1)} Add 1 to x and leave y like it is.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;This all is in respect to the grid state. So we just move the tetriminio on the grid by applying these functions.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;active&amp;#95;tetriminio&quot;&gt;&lt;/a&gt;Active Tetriminio&lt;/h2&gt;&lt;p&gt;The current active tetriminio (the one that can be moved) will be stored in the application state as a map like this: &lt;strong&gt;{:x 1 :y 1 :o 0 :t 1}&lt;/strong&gt;. So whenever we pass it around it will be passed as a map.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;sourcecode&quot;&gt;&lt;/a&gt;Sourcecode&lt;/h2&gt;
+</description>
+<pubDate>
+Sun, 31 May 2015 00:00:00 +0200
+</pubDate>
+</item>
+<item>
+<guid>
+http://tales.sveri.de/posts/2015-05-31-tetris-4.html
+</guid>
+<link>
+http://tales.sveri.de/posts/2015-05-31-tetris-4.html
+</link>
+<title>
+Tetris in clojurescript and re-frame Part 4
+</title>
+<description>
+&lt;h2&gt;&lt;a name=&quot;drawing&amp;#95;functions&quot;&gt;&lt;/a&gt;Drawing functions&lt;/h2&gt;&lt;p&gt;There are several drawing functions.&lt;br /&gt; The first one is a helper function taking the canvas and a vector of functions that will be executed.&lt;/p&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;defn draw-block-x &amp;#91;ctx &amp;amp; &amp;#91;line-to-fns&amp;#93;&amp;#93;
+  &amp;#40;.beginPath ctx&amp;#41;
+  &amp;#40;doseq &amp;#91;f line-to-fns&amp;#93; &amp;#40;f&amp;#41;&amp;#41;
+  &amp;#40;.fill ctx&amp;#41;&amp;#41;
+                     
+&lt;/code&gt;&lt;/pre&gt;These four functions will draw the for single blocks that each tetrimino contains.   &lt;br /&gt;  &lt;br /&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;defn draw-block-top &amp;#91;x y ctx&amp;#93;
+  &amp;#40;draw-block-x ctx &amp;#91;#&amp;#40;.moveTo ctx x y&amp;#41;
+                         #&amp;#40;.lineTo ctx &amp;#40;+ 20 x&amp;#41; y&amp;#41;
+                         #&amp;#40;.lineTo ctx &amp;#40;+ 18 x&amp;#41; &amp;#40;+ 2 y&amp;#41;&amp;#41;
+                         #&amp;#40;.lineTo ctx &amp;#40;+ 2 x&amp;#41; &amp;#40;+ 2 y&amp;#41;&amp;#41;&amp;#93;&amp;#41;&amp;#41;
+
+&amp;#40;defn draw-block-left &amp;#91;x y ctx&amp;#93;
+  &amp;#40;draw-block-x ctx &amp;#91;#&amp;#40;.moveTo ctx x y&amp;#41;
+                     #&amp;#40;.lineTo ctx x &amp;#40;+ 20 y&amp;#41;&amp;#41;
+                     #&amp;#40;.lineTo ctx &amp;#40;+ 2 x&amp;#41; &amp;#40;+ 18 y&amp;#41;&amp;#41;
+                     #&amp;#40;.lineTo ctx &amp;#40;+ 2 x&amp;#41; &amp;#40;+ 2 y&amp;#41;&amp;#41;&amp;#93;&amp;#41;&amp;#41;
+
+&amp;#40;defn draw-block-right &amp;#91;x y ctx&amp;#93;
+  &amp;#40;draw-block-x ctx &amp;#91;#&amp;#40;.moveTo ctx &amp;#40;+ 20 x&amp;#41; y&amp;#41;
+                     #&amp;#40;.lineTo ctx &amp;#40;+ 20 x&amp;#41; &amp;#40;+ 20 y&amp;#41;&amp;#41;
+                     #&amp;#40;.lineTo ctx &amp;#40;+ 18 x&amp;#41; &amp;#40;+ 18 y&amp;#41;&amp;#41;
+                     #&amp;#40;.lineTo ctx &amp;#40;+ 18 x&amp;#41; &amp;#40;+ 2 y&amp;#41;&amp;#41;&amp;#93;&amp;#41;&amp;#41;
+
+&amp;#40;defn draw-block-bottom &amp;#91;x y ctx&amp;#93;
+  &amp;#40;draw-block-x ctx &amp;#91;#&amp;#40;.moveTo ctx x &amp;#40;+ 20 y&amp;#41;&amp;#41;
+                     #&amp;#40;.lineTo ctx &amp;#40;+ 20 x&amp;#41; &amp;#40;+ 20 y&amp;#41;&amp;#41;
+                     #&amp;#40;.lineTo ctx &amp;#40;+ 18 x&amp;#41; &amp;#40;+ 18 y&amp;#41;&amp;#41;
+                     #&amp;#40;.lineTo ctx &amp;#40;+ 2 x&amp;#41; &amp;#40;+ 18 y&amp;#41;&amp;#41;&amp;#93;&amp;#41;&amp;#41;
+    
+&lt;/code&gt;&lt;/pre&gt;And finally the function to draw a complete tetriminio which will call all four functions to draw the single blocks.&lt;pre&gt;&lt;code&gt;&amp;#40;defn draw-block &amp;#91;x y h ctx&amp;#93;
+  &amp;#40;let &amp;#91;x' &amp;#40;&amp;#42; x 20&amp;#41;
+        y' &amp;#40;&amp;#42; y 20&amp;#41;&amp;#93;                                        ; &amp;#40;&amp;#42; 20 &amp;#40;- 19 y&amp;#41;&amp;#41;
+    &amp;#40;aset ctx &amp;quot;fillStyle&amp;quot; &amp;#40;str &amp;quot;hsl&amp;#40;&amp;quot; h &amp;quot;,100%,50%&amp;#41;&amp;quot;&amp;#41;&amp;#41;
+    &amp;#40;.fillRect ctx &amp;#40;+ 2 x'&amp;#41; &amp;#40;+ 2 y'&amp;#41; 16 16&amp;#41;
+
+    &amp;#40;aset ctx &amp;quot;fillStyle&amp;quot; &amp;#40;str &amp;quot;hsl&amp;#40;&amp;quot; h &amp;quot;,100%,70%&amp;#41;&amp;quot;&amp;#41;&amp;#41;
+    &amp;#40;draw-block-top x' y' ctx&amp;#41;
+
+    &amp;#40;aset ctx &amp;quot;fillStyle&amp;quot; &amp;#40;str &amp;quot;hsl&amp;#40;&amp;quot; h &amp;quot;,100%,40%&amp;#41;&amp;quot;&amp;#41;&amp;#41;
+    &amp;#40;draw-block-left x' y' ctx&amp;#41;
+
+    &amp;#40;draw-block-right x' y' ctx&amp;#41;
+
+    &amp;#40;aset ctx &amp;quot;fillStyle&amp;quot; &amp;#40;str &amp;quot;hsl&amp;#40;&amp;quot; h &amp;quot;,100%,30%&amp;#41;&amp;quot;&amp;#41;&amp;#41;
+    &amp;#40;draw-block-bottom x' y' ctx&amp;#41;&amp;#41;&amp;#41;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The &lt;strong&gt;draw-grid&lt;/strong&gt; function draws the complete tetris grid which has a width of 200px and a height of 400pxs.&lt;br /&gt;  it takes a &lt;strong&gt;grid&lt;/strong&gt; as a param which is a 2 dimensional vector whereas each x-y entry contains the element at that  place of the the grid:&lt;/p&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;defn draw-grid &amp;#91;grid ctx&amp;#93;
+  &amp;#40;.clearRect ctx 0 0 200 400&amp;#41;
+  &amp;#40;doseq &amp;#91;x &amp;#40;range 10&amp;#41;
+          y &amp;#40;range 20&amp;#41;&amp;#93;
+    &amp;#40;let &amp;#91;t &amp;#40;get-in grid &amp;#91;x y&amp;#93;&amp;#41;&amp;#93;
+      &amp;#40;when-not &amp;#40;= 0 t&amp;#41;
+        &amp;#40;draw-block x y &amp;#40;get color-map t&amp;#41; ctx&amp;#41;&amp;#41;&amp;#41;&amp;#41;&amp;#41;  
+&lt;/code&gt;&lt;/pre&gt;
 </description>
 <pubDate>
 Sun, 31 May 2015 00:00:00 +0200
@@ -186,7 +159,8 @@ Tetris in clojurescript and re-frame Part 3
   :initialise-db
   &amp;#40;fn &amp;#91;&amp;#95; &amp;#95;&amp;#93;
     &amp;#40;get-clean-db-state&amp;#41;&amp;#41;&amp;#41;
-&lt;/code&gt;&lt;/pre&gt;The first function returns a map which is the app state of the application after the initialization. This is where westore our &lt;i&gt;global&lt;/i&gt; and &lt;i&gt;local&lt;/i&gt; data. Also you can see that we finally initialize the canvas and also store thatin the app state.&lt;br /&gt;The second function &lt;strong&gt;register-handler&lt;/strong&gt; registers a handler for the &lt;strong&gt;:initialize-db&lt;/strong&gt; event. This will be calledwhenever we call &lt;strong&gt;(re-frame/dispatch [:initialise-db])&lt;/strong&gt; and for now it returns the app state from &lt;strong&gt;get-clean-db-state&lt;/strong&gt;.&lt;p&gt;A &lt;strong&gt;register-handler&lt;/strong&gt; function will always have to return the app state, no matter if it was manipulated or not.&lt;/p&gt;
+    
+&lt;/code&gt;&lt;/pre&gt;The first function returns a map which is the app state of the application after the initialization. This is where westore our &lt;i&gt;global&lt;/i&gt; and &lt;i&gt;local&lt;/i&gt; data. Also you can see that we finally initialize the canvas and also store thatin the app state.&lt;br /&gt;The second function &lt;strong&gt;register-handler&lt;/strong&gt; registers a handler for the &lt;strong&gt;:initialize-db&lt;/strong&gt; event. This will be calledwhenever we call &lt;strong&gt;(re-frame/dispatch [:initialise-db])&lt;/strong&gt; and for now it returns the app state from &lt;strong&gt;get-clean-db-state&lt;/strong&gt;.&lt;p&gt;A &lt;strong&gt;register-handler&lt;/strong&gt; function will always have to return the app state, no matter if it was manipulated or not.&lt;/p&gt;&lt;ul&gt;&lt;li&gt;:ctx is a reference to the canvas element&lt;/li&gt;&lt;li&gt;:grid-state is a 2-dimensional vector which represents the tetris field. Each entry will represent a tetriminio(1 - 7) or nothing (0).&lt;/li&gt;&lt;li&gt;:started? indicates whether the game was started or not&lt;/li&gt;&lt;li&gt;:grid-w and :grid-h are the respective width and height entries&lt;/li&gt;&lt;li&gt;:start-timestep is the time for the ticker at which the game will run.&lt;/li&gt;&lt;li&gt;:timestep-dim is the percentage at that the ticker speed will be reduced after each level up&lt;/li&gt;&lt;/ul&gt;
 </description>
 <pubDate>
 Sun, 31 May 2015 00:00:00 +0200

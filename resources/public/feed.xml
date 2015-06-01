@@ -15,20 +15,20 @@ http://tales.sveri.de/
 Everything about everything
 </description>
 <lastBuildDate>
-Mon, 01 Jun 2015 18:26:14 +0200
+Mon, 01 Jun 2015 23:14:02 +0200
 </lastBuildDate>
 <item>
 <guid>
-http://tales.sveri.de/posts/2015-06-01-tetris-9.html
+http://tales.sveri.de/posts/2015-06-01-tetris-10.html
 </guid>
 <link>
-http://tales.sveri.de/posts/2015-06-01-tetris-9.html
+http://tales.sveri.de/posts/2015-06-01-tetris-10.html
 </link>
 <title>
-Tetris in clojurescript and re-frame Part 9 - Game Logic
+Tetris in clojurescript and re-frame Part 10 - Game Logic
 </title>
 <description>
- &lt;p&gt;Now that defined the basic building blocks we will put it all together. &lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;core.cljs&quot;&gt;&lt;/a&gt;core.cljs&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/sveri/omtet/blob/single&lt;i&gt;player&lt;/i&gt;0.1/resources/templates/tetris/index.html&quot;&gt;https://github.com/sveri/omtet/blob/single&lt;i&gt;player&lt;/i&gt;0.1/resources/templates/tetris/index.html&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Here we have the UI defined. It just draws the canvas and the score div. It is also responsible for drawing any updates to the UI.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;handlers.cljs&quot;&gt;&lt;/a&gt;handlers.cljs&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/sveri/omtet/blob/single&lt;i&gt;player&lt;/i&gt;0.1/src/cljs/de/sveri/omtet/tetris/handlers.cljs&quot;&gt;https://github.com/sveri/omtet/blob/single&lt;i&gt;player&lt;/i&gt;0.1/src/cljs/de/sveri/omtet/tetris/handlers.cljs&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Here we defined all the handlers whenever an event occurs. There are still some t&lt;/p&gt;
+ &lt;p&gt;Now that defined the basic building blocks we will put it all together. &lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;core.cljs&quot;&gt;&lt;/a&gt;core.cljs&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/sveri/omtet/blob/single&lt;i&gt;player&lt;/i&gt;0.1/resources/templates/tetris/index.html&quot;&gt;https://github.com/sveri/omtet/blob/single&lt;i&gt;player&lt;/i&gt;0.1/resources/templates/tetris/index.html&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Here we have the UI defined. It just draws the canvas and the score div. It is also responsible for drawing any updates to the UI.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;handlers.cljs&quot;&gt;&lt;/a&gt;handlers.cljs&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/sveri/omtet/blob/single&lt;i&gt;player&lt;/i&gt;0.1/src/cljs/de/sveri/omtet/tetris/handlers.cljs&quot;&gt;https://github.com/sveri/omtet/blob/single&lt;i&gt;player&lt;/i&gt;0.1/src/cljs/de/sveri/omtet/tetris/handlers.cljs&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Here we defined all the handlers that act whenever an event occurs. There are still some t&lt;/p&gt;
 </description>
 <pubDate>
 Mon, 01 Jun 2015 00:00:00 +0200
@@ -36,10 +36,51 @@ Mon, 01 Jun 2015 00:00:00 +0200
 </item>
 <item>
 <guid>
-http://tales.sveri.de/posts/2015-06-01-tetris-8.html
+http://tales.sveri.de/posts/2015-05-26-tetris-9.html
 </guid>
 <link>
-http://tales.sveri.de/posts/2015-06-01-tetris-8.html
+http://tales.sveri.de/posts/2015-05-26-tetris-9.html
+</link>
+<title>
+Tetris in clojurescript and re-frame Part 9 - Game Ticker
+</title>
+<description>
+ &lt;p&gt;Now we need to define what happens every &quot;round&quot; of the game. In Tetris this just means that the current active tetriminio will drop by 1 on the y axis until it reaches the bottom or another tetriminion on the grid.&lt;br /&gt; For this we have three functions. &lt;/p&gt;&lt;p&gt;&lt;i&gt;move-tick&lt;/i&gt; will check if the tetriminion is allowed to move one step down and if so, moves it one step down&lt;/p&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;defn- move-tick &amp;#91;app-state&amp;#93;
+  &amp;#40;let &amp;#91;cur-active &amp;#40;:cur-active app-state&amp;#41;
+        cur-grid &amp;#40;:grid-state app-state&amp;#41;
+        remove-cur-grid &amp;#40;minios/draw-tet cur-active minios/tet-recipe 0 cur-grid&amp;#41;&amp;#93;    
+    &amp;#40;if &amp;#40;minios/is-move-allowed? &amp;#40;update-in cur-active &amp;#91;:y&amp;#93; + 1&amp;#41; cur-active remove-cur-grid minios/tet-recipe&amp;#41;
+      &amp;#40;let &amp;#91;moved-active &amp;#40;update-in cur-active &amp;#91;:y&amp;#93; + 1&amp;#41;
+            moved-grid &amp;#40;minios/draw-tet moved-active minios/tet-recipe 1 remove-cur-grid&amp;#41;&amp;#93;
+        &amp;#40;assoc app-state :grid-state moved-grid :cur-active moved-active&amp;#41;&amp;#41;
+      &amp;#40;let &amp;#91;new-act &amp;#40;minios/get-rand-tetriminio&amp;#41;&amp;#93;
+        &amp;#40;if &amp;#40;minios/is-move-allowed? &amp;#40;update-in new-act &amp;#91;:y&amp;#93; + 1&amp;#41; cur-active cur-grid minios/tet-recipe&amp;#41;
+          &amp;#40;assoc app-state :cur-active new-act&amp;#41;
+          &amp;#40;do &amp;#40;dispatch &amp;#91;:game-over&amp;#93;&amp;#41; app-state&amp;#41;&amp;#41;&amp;#41;&amp;#41;&amp;#41;&amp;#41;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;i&gt;check-lvl&lt;/i&gt; just checks if a level up is reached and if so, increases the level count and decreases the timer.               &lt;/p&gt;  &lt;br /&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;defn check-lvl &amp;#91;app-state new-points&amp;#93;
+  &amp;#40;when &amp;#40;&amp;lt; &amp;#40;&amp;#42; 10 &amp;#40;:lvl app-state&amp;#41;&amp;#41; &amp;#40;+ new-points &amp;#40;:score app-state&amp;#41;&amp;#41;&amp;#41; &amp;#40;dispatch &amp;#91;:next-lvl&amp;#93;&amp;#41;&amp;#41;&amp;#41;
+&lt;/code&gt;&lt;/pre&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;register-handler
+  :game-sec-tick
+  &amp;#40;rf/after grid-changed-mw&amp;#41;
+  &amp;#40;fn &amp;#91;app-state&amp;#93;
+    &amp;#40;let &amp;#91;moved-app-state &amp;#40;move-tick app-state&amp;#41;
+          new-points &amp;#40;minios/count-points &amp;#40;:grid-state moved-app-state&amp;#41;&amp;#41;&amp;#93;
+      &amp;#40;check-lvl moved-app-state new-points&amp;#41;
+      &amp;#40;update-in
+        &amp;#40;assoc moved-app-state :grid-state &amp;#40;minios/remove-full-lines &amp;#40;:grid-state moved-app-state&amp;#41;&amp;#41;&amp;#41;
+        &amp;#91;:score&amp;#93; + new-points&amp;#41;&amp;#41;&amp;#41;&amp;#41;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Whenever &lt;/p&gt;
+</description>
+<pubDate>
+Tue, 26 May 2015 00:00:00 +0200
+</pubDate>
+</item>
+<item>
+<guid>
+http://tales.sveri.de/posts/2015-05-25-tetris-8.html
+</guid>
+<link>
+http://tales.sveri.de/posts/2015-05-25-tetris-8.html
 </link>
 <title>
 Tetris in clojurescript and re-frame Part 8 - Subscriptions
@@ -74,15 +115,15 @@ Tetris in clojurescript and re-frame Part 8 - Subscriptions
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;You can see the added &lt;i&gt;(rf/subscribe [:...])&lt;/i&gt; functions which refer to the &lt;i&gt;(register-sub ...)&lt;/i&gt; definitions made before. Now whenever the app state changes the UI will be actualized. This is the part that reagent is  responsible for (which wraps react.js).&lt;/p&gt;
 </description>
 <pubDate>
-Mon, 01 Jun 2015 00:00:00 +0200
+Mon, 25 May 2015 00:00:00 +0200
 </pubDate>
 </item>
 <item>
 <guid>
-http://tales.sveri.de/posts/2015-06-01-tetris-7.html
+http://tales.sveri.de/posts/2015-05-24-tetris-7.html
 </guid>
 <link>
-http://tales.sveri.de/posts/2015-06-01-tetris-7.html
+http://tales.sveri.de/posts/2015-05-24-tetris-7.html
 </link>
 <title>
 Tetris in clojurescript and re-frame Part 7 - Collision Detection
@@ -108,15 +149,15 @@ Tetris in clojurescript and re-frame Part 7 - Collision Detection
 &lt;/code&gt;&lt;/pre&gt;
 </description>
 <pubDate>
-Mon, 01 Jun 2015 00:00:00 +0200
+Sun, 24 May 2015 00:00:00 +0200
 </pubDate>
 </item>
 <item>
 <guid>
-http://tales.sveri.de/posts/2015-06-01-tetris-6.html
+http://tales.sveri.de/posts/2015-05-24-tetris-6.html
 </guid>
 <link>
-http://tales.sveri.de/posts/2015-06-01-tetris-6.html
+http://tales.sveri.de/posts/2015-05-24-tetris-6.html
 </link>
 <title>
 Tetris in clojurescript and re-frame Part 6 - User Interaction
@@ -168,15 +209,15 @@ Tetris in clojurescript and re-frame Part 6 - User Interaction
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;It just stops or starts the timer which controls the game speed and updates the app states &lt;strong&gt;:paused&lt;/strong&gt; key.&lt;/p&gt;
 </description>
 <pubDate>
-Mon, 01 Jun 2015 00:00:00 +0200
+Sun, 24 May 2015 00:00:00 +0200
 </pubDate>
 </item>
 <item>
 <guid>
-http://tales.sveri.de/posts/2015-05-31-tetris-5.html
+http://tales.sveri.de/posts/2015-05-23-tetris-5.html
 </guid>
 <link>
-http://tales.sveri.de/posts/2015-05-31-tetris-5.html
+http://tales.sveri.de/posts/2015-05-23-tetris-5.html
 </link>
 <title>
 Tetris in clojurescript and re-frame Part 5 - Tetriminios
@@ -216,15 +257,15 @@ Tetris in clojurescript and re-frame Part 5 - Tetriminios
 &lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;&lt;li&gt;{:x #(- % 1) :y #(+ % 1)} means that for the first block we will subtract x by 1 and add 1 to y.&lt;/li&gt;&lt;li&gt;{:y #(+ % 1)} Here we will add 1 to y and leave x like it is&lt;/li&gt;&lt;li&gt;{} Leave x and y like they are&lt;/li&gt;&lt;li&gt;{:x #(+ % 1)} Add 1 to x and leave y like it is.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;This all is in respect to the grid state. So we just move the tetriminio on the grid by applying these functions.&lt;/p&gt;&lt;p&gt;The beauty of this definition is that we could easily add more tetriminios in the map which will just work out of the box.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;active&amp;#95;tetriminio&quot;&gt;&lt;/a&gt;Active Tetriminio&lt;/h2&gt;&lt;p&gt;The current active tetriminio (the one that can be moved) will be stored in the application state as a map like this: &lt;strong&gt;{:x 1 :y 1 :o 0 :t 1}&lt;/strong&gt;. So whenever we pass it around it will be passed as a map.&lt;/p&gt;
 </description>
 <pubDate>
-Sun, 31 May 2015 00:00:00 +0200
+Sat, 23 May 2015 00:00:00 +0200
 </pubDate>
 </item>
 <item>
 <guid>
-http://tales.sveri.de/posts/2015-05-31-tetris-4.html
+http://tales.sveri.de/posts/2015-05-23-tetris-4.html
 </guid>
 <link>
-http://tales.sveri.de/posts/2015-05-31-tetris-4.html
+http://tales.sveri.de/posts/2015-05-23-tetris-4.html
 </link>
 <title>
 Tetris in clojurescript and re-frame Part 4 - Drawing
@@ -285,15 +326,15 @@ Tetris in clojurescript and re-frame Part 4 - Drawing
 &lt;/code&gt;&lt;/pre&gt;
 </description>
 <pubDate>
-Sun, 31 May 2015 00:00:00 +0200
+Sat, 23 May 2015 00:00:00 +0200
 </pubDate>
 </item>
 <item>
 <guid>
-http://tales.sveri.de/posts/2015-05-31-tetris-3.html
+http://tales.sveri.de/posts/2015-05-23-tetris-3.html
 </guid>
 <link>
-http://tales.sveri.de/posts/2015-05-31-tetris-3.html
+http://tales.sveri.de/posts/2015-05-23-tetris-3.html
 </link>
 <title>
 Tetris in clojurescript and re-frame Part 3 - App State
@@ -317,15 +358,15 @@ Tetris in clojurescript and re-frame Part 3 - App State
 &lt;/code&gt;&lt;/pre&gt;The first function returns a map which is the app state of the application after the initialization. This is where westore our &lt;i&gt;global&lt;/i&gt; and &lt;i&gt;local&lt;/i&gt; data. Also you can see that we finally initialize the canvas and also store thatin the app state.&lt;br /&gt;The second function &lt;strong&gt;register-handler&lt;/strong&gt; registers a handler for the &lt;strong&gt;:initialize-db&lt;/strong&gt; event. This will be calledwhenever we call &lt;strong&gt;(re-frame/dispatch [:initialise-db])&lt;/strong&gt; and for now it returns the app state from &lt;strong&gt;get-clean-db-state&lt;/strong&gt;.&lt;p&gt;A &lt;strong&gt;register-handler&lt;/strong&gt; function will always have to return the app state, no matter if it was manipulated or not.&lt;/p&gt;&lt;ul&gt;&lt;li&gt;:ctx is a reference to the canvas element&lt;/li&gt;&lt;li&gt;:grid-state is a 2-dimensional vector which represents the tetris field. Each entry will represent a tetriminio(1 - 7) or nothing (0).&lt;/li&gt;&lt;li&gt;:started? indicates whether the game was started or not&lt;/li&gt;&lt;li&gt;:grid-w and :grid-h are the respective width and height entries&lt;/li&gt;&lt;li&gt;:start-timestep is the time for the ticker at which the game will run.&lt;/li&gt;&lt;li&gt;:timestep-dim is the percentage at that the ticker speed will be reduced after each level up&lt;/li&gt;&lt;/ul&gt;
 </description>
 <pubDate>
-Sun, 31 May 2015 00:00:00 +0200
+Sat, 23 May 2015 00:00:00 +0200
 </pubDate>
 </item>
 <item>
 <guid>
-http://tales.sveri.de/posts/2015-05-31-tetris-2.html
+http://tales.sveri.de/posts/2015-05-22-tetris-2.html
 </guid>
 <link>
-http://tales.sveri.de/posts/2015-05-31-tetris-2.html
+http://tales.sveri.de/posts/2015-05-22-tetris-2.html
 </link>
 <title>
 Tetris in clojurescript and re-frame Part 2 - Basic Layout
@@ -358,15 +399,15 @@ Tetris in clojurescript and re-frame Part 2 - Basic Layout
 &lt;/code&gt;&lt;/pre&gt;This just defines the HTML structure of the canvas and two buttons. One to start the game and one to restart the game.There is also a Score panel beneath the canvas.&lt;br /&gt;&lt;p&gt;One thing to note here are the &lt;strong&gt;#(rf/dispatch...&lt;/strong&gt; functions. &lt;em&gt;rf&lt;/em&gt; is the re-frame namespace and &lt;em&gt;dispatch&lt;/em&gt; will be called when a click on the respective button was done.&lt;/p&gt;&lt;p&gt;Every &lt;strong&gt;dispatch&lt;/strong&gt; function takes 1..n arguments whereas the first one is always a vector containing the event id path. In these cases: &lt;em&gt;:start-game&lt;/em&gt; and &lt;em&gt;:restart-game&lt;/em&gt;, which do what their name implies.&lt;/p&gt;&lt;p&gt;We will not init the canvas itself yet. This will be done as part of the application state initalization.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;sourcecode&quot;&gt;&lt;/a&gt;Sourcecode&lt;/h2&gt;&lt;p&gt;&lt;a href='https://github.com/sveri/omtet/blob/Part2/src/cljs/de/sveri/omtet/tetris/core.cljs'&gt;Part 2 - core.cljs&lt;/a&gt;&lt;/p&gt;
 </description>
 <pubDate>
-Sun, 31 May 2015 00:00:00 +0200
+Fri, 22 May 2015 00:00:00 +0200
 </pubDate>
 </item>
 <item>
 <guid>
-http://tales.sveri.de/posts/2015-05-31-tetris-1.html
+http://tales.sveri.de/posts/2015-05-21-tetris-1.html
 </guid>
 <link>
-http://tales.sveri.de/posts/2015-05-31-tetris-1.html
+http://tales.sveri.de/posts/2015-05-21-tetris-1.html
 </link>
 <title>
 Tetris in clojurescript and re-frame Part 1 - Introduction
@@ -375,15 +416,15 @@ Tetris in clojurescript and re-frame Part 1 - Introduction
  &lt;h1&gt;&lt;a name=&quot;introduction&quot;&gt;&lt;/a&gt;Introduction&lt;/h1&gt;&lt;p&gt;In the last few weeks I took some time to code tetris with clojurescript and re-frame following this guide:  &lt;a href='http://www.drewbuck.com/tetris-in-html5-for-noobs/'&gt;Tetris in HTML5 for noobs&lt;/a&gt;.&lt;br /&gt; I will write a small series following the same pattern showing how it is done in cljs. What I will not do is explain basic things like the original author did, but instead focus more on the differences between javascript and  clojurescript.&lt;/p&gt;&lt;p&gt;For every beginner I recommend following Drews tutorial as he is more in depth about the basics of everything.&lt;/p&gt;&lt;p&gt;A big thanks to the original author &lt;a href='http://www.drewbuck.com/about/'&gt;Drew Buck&lt;/a&gt; that got showed how to make tetris  work with the HTML 5 canvas feature!&lt;/p&gt;&lt;h1&gt;&lt;a name=&quot;disclaimer&quot;&gt;&lt;/a&gt;Disclaimer&lt;/h1&gt;&lt;p&gt;I have done this as part of a bigger project which you can find here: &lt;a href='https://github.com/sveri/omtet'&gt;omtet&lt;/a&gt;.&lt;br /&gt; I will only mention a few source files in this tutorial, you can safely ignore the rest of it. The relevant files are these:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href='https://github.com/sveri/omtet/blob/single&amp;#95;player&amp;#95;0.1/resources/templates/tetris/index.html'&gt;index.html&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href='https://github.com/sveri/omtet/blob/single&amp;#95;player&amp;#95;0.1/src/cljs/de/sveri/omtet/tetris/core.cljs'&gt;core.cljs&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href='https://github.com/sveri/omtet/blob/single&amp;#95;player&amp;#95;0.1/src/cljs/de/sveri/omtet/tetris/handlers.cljs'&gt;handlers.cljs&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href='https://github.com/sveri/omtet/blob/single&amp;#95;player&amp;#95;0.1/src/cljs/de/sveri/omtet/tetris/subs.cljs'&gt;subs.cljs&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href='https://github.com/sveri/omtet/blob/single&amp;#95;player&amp;#95;0.1/src/cljs/de/sveri/omtet/tetris/tetriminios.cljs'&gt;tetriminios.cljs&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;
 </description>
 <pubDate>
-Sun, 31 May 2015 00:00:00 +0200
+Thu, 21 May 2015 00:00:00 +0200
 </pubDate>
 </item>
 <item>
 <guid>
-http://tales.sveri.de/posts/2015-05-31-first-post.html
+http://tales.sveri.de/posts/2015-05-20-first-post.html
 </guid>
 <link>
-http://tales.sveri.de/posts/2015-05-31-first-post.html
+http://tales.sveri.de/posts/2015-05-20-first-post.html
 </link>
 <title>
 First Post
@@ -392,7 +433,7 @@ First Post
 &lt;h3&gt;&lt;a name=&quot;first&amp;#95;post&amp;#95;in&amp;#95;my&amp;#95;new&amp;#95;blog&quot;&gt;&lt;/a&gt;First Post in my new blog&lt;/h3&gt;&lt;p&gt;I got tired of wordpress and so decided to play around with &lt;a href='https://github.com/cryogen-project/cryogen'&gt;cryogen&lt;/a&gt;  for static site generation. My old blog of course will be available as usual under &lt;a href=&quot;http://blog.sveri.de&quot;&gt;http://blog.sveri.de&lt;/a&gt;.&lt;/p&gt;
 </description>
 <pubDate>
-Sun, 31 May 2015 00:00:00 +0200
+Wed, 20 May 2015 00:00:00 +0200
 </pubDate>
 </item>
 </channel>

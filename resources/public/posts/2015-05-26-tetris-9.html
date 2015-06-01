@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>Sveris Tales: Tetris in clojurescript and re-frame Part 9 - Game Ticker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='http://fonts.googleapis.com/css?family=Alegreya:400italic,700italic,400,700' rel='stylesheet'
+          type='text/css'>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/default.min.css">
+    <link href="../css/screen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+
+<nav class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/index.html">Sveris Tales</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li ><a href="/index.html">Home</a></li>
+                <li
+                ><a href="/archives.html">Archives</a></li>
+                
+                <li
+                >
+                <a href="/pages/about.html">About</a>
+                </li>
+                
+                <li><a href="/feed.xml">RSS</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div><!--/.container-fluid -->
+</nav>
+
+
+<div class="container">
+
+
+    <div class="row">
+        <div class="col-lg-9">
+            <div id="content">
+                
+<div id="post">
+    <div id="post-header">
+    <div id="post-meta" class="row">
+        <div class="col-lg-6">May 26, 2015</div>
+        
+    </div>
+    <h2>Tetris in clojurescript and re-frame Part 9 - Game Ticker</h2>
+</div>
+<div>
+    
+     <p>Now we need to define what happens every "round" of the game. In Tetris this just means that the current active tetriminio will drop by 1 on the y axis until it reaches the bottom or another tetriminion on the grid.<br /> For this we have three functions. </p><p><i>move-tick</i> will check if the tetriminion is allowed to move one step down and if so, moves it one step down</p><pre><code>&#40;defn- move-tick &#91;app-state&#93;
+  &#40;let &#91;cur-active &#40;:cur-active app-state&#41;
+        cur-grid &#40;:grid-state app-state&#41;
+        remove-cur-grid &#40;minios/draw-tet cur-active minios/tet-recipe 0 cur-grid&#41;&#93;    
+    &#40;if &#40;minios/is-move-allowed? &#40;update-in cur-active &#91;:y&#93; + 1&#41; cur-active remove-cur-grid minios/tet-recipe&#41;
+      &#40;let &#91;moved-active &#40;update-in cur-active &#91;:y&#93; + 1&#41;
+            moved-grid &#40;minios/draw-tet moved-active minios/tet-recipe 1 remove-cur-grid&#41;&#93;
+        &#40;assoc app-state :grid-state moved-grid :cur-active moved-active&#41;&#41;
+      &#40;let &#91;new-act &#40;minios/get-rand-tetriminio&#41;&#93;
+        &#40;if &#40;minios/is-move-allowed? &#40;update-in new-act &#91;:y&#93; + 1&#41; cur-active cur-grid minios/tet-recipe&#41;
+          &#40;assoc app-state :cur-active new-act&#41;
+          &#40;do &#40;dispatch &#91;:game-over&#93;&#41; app-state&#41;&#41;&#41;&#41;&#41;&#41;
+</code></pre><p><i>check-lvl</i> just checks if a level up is reached and if so, increases the level count and decreases the timer.               </p>  <br /><pre><code>&#40;defn check-lvl &#91;app-state new-points&#93;
+  &#40;when &#40;&lt; &#40;&#42; 10 &#40;:lvl app-state&#41;&#41; &#40;+ new-points &#40;:score app-state&#41;&#41;&#41; &#40;dispatch &#91;:next-lvl&#93;&#41;&#41;&#41;
+</code></pre><pre><code>&#40;register-handler
+  :game-sec-tick
+  &#40;rf/after grid-changed-mw&#41;
+  &#40;fn &#91;app-state&#93;
+    &#40;let &#91;moved-app-state &#40;move-tick app-state&#41;
+          new-points &#40;minios/count-points &#40;:grid-state moved-app-state&#41;&#41;&#93;
+      &#40;check-lvl moved-app-state new-points&#41;
+      &#40;update-in
+        &#40;assoc moved-app-state :grid-state &#40;minios/remove-full-lines &#40;:grid-state moved-app-state&#41;&#41;&#41;
+        &#91;:score&#93; + new-points&#41;&#41;&#41;&#41;
+</code></pre><p>Whenever </p>
+</div>
+
+<div id="post-tags">
+    <b>Tags: </b>
+    
+    <a href="/tags/html5.html">html5</a>
+    
+    <a href="/tags/re-frame.html">re-frame</a>
+    
+    <a href="/tags/tetris.html">tetris</a>
+    
+    <a href="/tags/clojuresrcipt.html">clojuresrcipt</a>
+    
+    <a href="/tags/part 9.html">part 9</a>
+    
+</div>
+
+
+    <div id="prev-next">
+        
+        <a href="/posts/2015-06-01-tetris-10.html">&laquo; Tetris in clojurescript and re-frame Part 10 - Game Logic</a>
+        
+        
+        <a class="right" href="/posts/2015-05-25-tetris-8.html">Tetris in clojurescript and re-frame Part 8 - Subscriptions &raquo;</a>
+        
+    </div>
+
+    
+
+
+</div>
+
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div id="sidebar">
+                <h3>Links</h3>
+                <ul id="links">
+                    <li><a href="http://cryogenweb.org/docs/home.html">Cryogen Docs</a></li>
+                    <li><a href="http://carmenla.me/blog/index.html">Carmen's Blog</a></li>
+                    
+                </ul>
+                
+                <div id="recent">
+                    <h3>Recent Posts</h3>
+                    <ul>
+                        
+                        <li><a href="/posts/2015-06-01-tetris-10.html">Tetris in clojurescript and re-frame Part 10 - Game Logic</a></li>
+                        
+                        <li><a href="/posts/2015-05-26-tetris-9.html">Tetris in clojurescript and re-frame Part 9 - Game Ticker</a></li>
+                        
+                        <li><a href="/posts/2015-05-25-tetris-8.html">Tetris in clojurescript and re-frame Part 8 - Subscriptions</a></li>
+                        
+                    </ul>
+                </div>
+                
+                
+                <div id="tags">
+                    <h3>Tags</h3>
+                    <ul>
+                        
+                        <li><a href="/tags/html5.html">html5</a></li>
+                        
+                        <li><a href="/tags/part 5.html">part 5</a></li>
+                        
+                        <li><a href="/tags/new blog.html">new blog</a></li>
+                        
+                        <li><a href="/tags/cryogen.html">cryogen</a></li>
+                        
+                        <li><a href="/tags/re-frame.html">re-frame</a></li>
+                        
+                        <li><a href="/tags/part 8.html">part 8</a></li>
+                        
+                        <li><a href="/tags/part 1.html">part 1</a></li>
+                        
+                        <li><a href="/tags/part 7.html">part 7</a></li>
+                        
+                        <li><a href="/tags/tetris.html">tetris</a></li>
+                        
+                        <li><a href="/tags/part 3.html">part 3</a></li>
+                        
+                        <li><a href="/tags/tetriminios.html">tetriminios</a></li>
+                        
+                        <li><a href="/tags/part 2.html">part 2</a></li>
+                        
+                        <li><a href="/tags/clojuresrcipt.html">clojuresrcipt</a></li>
+                        
+                        <li><a href="/tags/part 6.html">part 6</a></li>
+                        
+                        <li><a href="/tags/part 9.html">part 9</a></li>
+                        
+                        <li><a href="/tags/part 4.html">part 4</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <footer>Copyright &copy; 2015 Sven Richter
+        <p style="text-align: center;">Powered by <a href="http://cryogenweb.org">Cryogen</a></p></footer>
+</div>
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="../js/highlight.pack.js" type="text/javascript"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>
+

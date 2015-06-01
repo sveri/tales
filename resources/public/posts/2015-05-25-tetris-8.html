@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>Sveris Tales: Tetris in clojurescript and re-frame Part 8 - Subscriptions</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='http://fonts.googleapis.com/css?family=Alegreya:400italic,700italic,400,700' rel='stylesheet'
+          type='text/css'>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/default.min.css">
+    <link href="../css/screen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+
+<nav class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/index.html">Sveris Tales</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li ><a href="/index.html">Home</a></li>
+                <li
+                ><a href="/archives.html">Archives</a></li>
+                
+                <li
+                >
+                <a href="/pages/about.html">About</a>
+                </li>
+                
+                <li><a href="/feed.xml">RSS</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div><!--/.container-fluid -->
+</nav>
+
+
+<div class="container">
+
+
+    <div class="row">
+        <div class="col-lg-9">
+            <div id="content">
+                
+<div id="post">
+    <div id="post-header">
+    <div id="post-meta" class="row">
+        <div class="col-lg-6">May 25, 2015</div>
+        
+    </div>
+    <h2>Tetris in clojurescript and re-frame Part 8 - Subscriptions</h2>
+</div>
+<div>
+    
+     <h2><a name="register-sub"></a>register-sub</h2><p>The last building block in re-frame are the subscriptions. This is to notify the UI if something in the app state changes. These are all we need for now.   </p><p>The first checks if the application is initialized or not.</p><pre><code>&#40;register-sub :initalized? &#40;fn &#91;db &#95;&#93; &#40;reaction &#40;:initalized? @db&#41;&#41;&#41;&#41;
+
+</code></pre>The second checks if the game was started or not.<pre><code>&#40;register-sub :started? &#40;fn &#91;db &#95;&#93; &#40;reaction &#40;:started? @db&#41;&#41;&#41;&#41;
+</code></pre><p>The third checks if the game is paused or not.</p><pre><code>&#40;register-sub :paused? &#40;fn &#91;db &#95;&#93; &#40;reaction &#40;:paused? @db&#41;&#41;&#41;&#41;
+</code></pre><p>And the last one is triggered whenever the score of the game changed.</p><pre><code>&#40;register-sub :score &#40;fn &#91;db &#95;&#93; &#40;reaction &#40;:score @db&#41;&#41;&#41;&#41;
+</code></pre><p>Now we redefine our layout function from part 2:<br /></p><pre><code>&#40;defn core &#91;&#93;
+  &#40;let &#91;tet-width &quot;200px&quot;
+        initalized? &#40;rf/subscribe &#91;:initalized?&#93;&#41;
+        score &#40;rf/subscribe &#91;:score&#93;&#41;&#93;
+    &#40;if initalized?
+      &#91;:div.row
+       &#91;:div.col-md-3
+        &#91;:canvas#tetris-canv {:height &quot;400px&quot; :width tet-width :style {:background-color &quot;#444444&quot;}}&#93;
+        &#91;:div#score {:style {:background-color &quot;#CCCCCC&quot; :width tet-width}} &#40;str &quot;Score: &quot; @score&#41;&#93;&#93;
+       &#91;:div.col-md-3
+        &#40;let &#91;started? @&#40;rf/subscribe &#91;:started?&#93;&#41;
+              paused? @&#40;rf/subscribe &#91;:paused?&#93;&#41;&#93;
+          &#91;:div
+           &#91;:button.btn.btn-primary
+            {:on-click &#40;cond &#40;not started?&#41; #&#40;rf/dispatch &#91;:start-game&#93;&#41;
+                             paused? #&#40;rf/dispatch &#91;:unpause-game&#93;&#41;
+                             &#40;not paused?&#41; #&#40;rf/dispatch &#91;:pause-game&#93;&#41;&#41;}
+            &#40;cond &#40;not started?&#41; &quot;Start&quot; paused? &quot;Continue&quot; &#40;not paused?&#41; &quot;Pause&quot;&#41;&#93;
+           &#91;:br&#93;
+           &#91;:button.btn.btn-primary {:on-click #&#40;rf/dispatch &#91;:restart-game&#93;&#41;} &quot;Restart&quot;&#93;&#93;&#41;&#93;&#93;
+      &#91;:h4 &quot;Loading...&quot;&#93;&#41;&#41;&#41;
+</code></pre><p>You can see the added <i>(rf/subscribe [:...])</i> functions which refer to the <i>(register-sub ...)</i> definitions made before. Now whenever the app state changes the UI will be actualized. This is the part that reagent is  responsible for (which wraps react.js).</p>
+</div>
+
+<div id="post-tags">
+    <b>Tags: </b>
+    
+    <a href="/tags/html5.html">html5</a>
+    
+    <a href="/tags/re-frame.html">re-frame</a>
+    
+    <a href="/tags/part 8.html">part 8</a>
+    
+    <a href="/tags/tetris.html">tetris</a>
+    
+    <a href="/tags/clojuresrcipt.html">clojuresrcipt</a>
+    
+</div>
+
+
+    <div id="prev-next">
+        
+        <a href="/posts/2015-05-26-tetris-9.html">&laquo; Tetris in clojurescript and re-frame Part 9 - Game Ticker</a>
+        
+        
+        <a class="right" href="/posts/2015-05-24-tetris-7.html">Tetris in clojurescript and re-frame Part 7 - Collision Detection &raquo;</a>
+        
+    </div>
+
+    
+
+
+</div>
+
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div id="sidebar">
+                <h3>Links</h3>
+                <ul id="links">
+                    <li><a href="http://cryogenweb.org/docs/home.html">Cryogen Docs</a></li>
+                    <li><a href="http://carmenla.me/blog/index.html">Carmen's Blog</a></li>
+                    
+                </ul>
+                
+                <div id="recent">
+                    <h3>Recent Posts</h3>
+                    <ul>
+                        
+                        <li><a href="/posts/2015-06-01-tetris-10.html">Tetris in clojurescript and re-frame Part 10 - Game Logic</a></li>
+                        
+                        <li><a href="/posts/2015-05-26-tetris-9.html">Tetris in clojurescript and re-frame Part 9 - Game Ticker</a></li>
+                        
+                        <li><a href="/posts/2015-05-25-tetris-8.html">Tetris in clojurescript and re-frame Part 8 - Subscriptions</a></li>
+                        
+                    </ul>
+                </div>
+                
+                
+                <div id="tags">
+                    <h3>Tags</h3>
+                    <ul>
+                        
+                        <li><a href="/tags/html5.html">html5</a></li>
+                        
+                        <li><a href="/tags/part 5.html">part 5</a></li>
+                        
+                        <li><a href="/tags/new blog.html">new blog</a></li>
+                        
+                        <li><a href="/tags/cryogen.html">cryogen</a></li>
+                        
+                        <li><a href="/tags/re-frame.html">re-frame</a></li>
+                        
+                        <li><a href="/tags/part 8.html">part 8</a></li>
+                        
+                        <li><a href="/tags/part 1.html">part 1</a></li>
+                        
+                        <li><a href="/tags/part 7.html">part 7</a></li>
+                        
+                        <li><a href="/tags/tetris.html">tetris</a></li>
+                        
+                        <li><a href="/tags/part 3.html">part 3</a></li>
+                        
+                        <li><a href="/tags/tetriminios.html">tetriminios</a></li>
+                        
+                        <li><a href="/tags/part 2.html">part 2</a></li>
+                        
+                        <li><a href="/tags/clojuresrcipt.html">clojuresrcipt</a></li>
+                        
+                        <li><a href="/tags/part 6.html">part 6</a></li>
+                        
+                        <li><a href="/tags/part 9.html">part 9</a></li>
+                        
+                        <li><a href="/tags/part 4.html">part 4</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <footer>Copyright &copy; 2015 Sven Richter
+        <p style="text-align: center;">Powered by <a href="http://cryogenweb.org">Cryogen</a></p></footer>
+</div>
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="../js/highlight.pack.js" type="text/javascript"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>
+

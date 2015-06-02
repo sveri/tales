@@ -15,7 +15,7 @@ http://tales.sveri.de/
 Everything about everything
 </description>
 <lastBuildDate>
-Tue, 02 Jun 2015 11:24:10 +0200
+Tue, 02 Jun 2015 11:28:53 +0200
 </lastBuildDate>
 <item>
 <guid>
@@ -152,6 +152,7 @@ Tetris in clojurescript and re-frame Part 7 - Collision Detection
     {:x x' :y y'}&amp;#41;&amp;#41;
     
 &amp;#40;defn realize-move &amp;#91;x y t grid&amp;#93; &amp;#40;assoc-in grid &amp;#91;x y&amp;#93; t&amp;#41;&amp;#41;
+
 
 &lt;/code&gt;&lt;/pre&gt;This draws one tetriminio in the grid according to the tetriminio definition:&lt;br /&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;defn draw-tet &amp;#91;{:keys &amp;#91;x y t o&amp;#93; :as cur-tet} tet-recipe d grid&amp;#93;
   &amp;#40;let &amp;#91;new-position &amp;#40;map #&amp;#40;move-x-y x y %&amp;#41; &amp;#40;get-in tet-recipe &amp;#91;t o&amp;#93;&amp;#41;&amp;#41;&amp;#93;

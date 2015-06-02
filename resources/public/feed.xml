@@ -15,7 +15,7 @@ http://tales.sveri.de/
 Everything about everything
 </description>
 <lastBuildDate>
-Tue, 02 Jun 2015 11:15:53 +0200
+Tue, 02 Jun 2015 11:24:10 +0200
 </lastBuildDate>
 <item>
 <guid>
@@ -34,7 +34,7 @@ Tetris in clojurescript and re-frame Part 10 - Missing Bits
 &amp;#40;register-handler
   :...
   &amp;#40;rf/after grid-changed-mw&amp;#41;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This calls the middleware function &lt;i&gt;after&lt;/i&gt; from re-frame which will execute the given function after the  register-handler was executed. In this case we will draw the grid everytime it did change, or if we assume it did  change.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;subs.cljs&quot;&gt;&lt;/a&gt;subs.cljs&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/sveri/omtet/blob/single&amp;#95;player&amp;#95;0.1/src/cljs/de/sveri/omtet/tetris/subs.cljs&quot;&gt;https://github.com/sveri/omtet/blob/single&amp;#95;player&amp;#95;0.1/src/cljs/de/sveri/omtet/tetris/subs.cljs&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Here you find the subcriptions for every time a specified app state changes.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;tetriminios.cljs&quot;&gt;&lt;/a&gt;tetriminios.cljs&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/sveri/omtet/blob/single&amp;#95;player&amp;#95;0.1/src/cljs/de/sveri/omtet/tetris/tetriminios.cljs&quot;&gt;https://github.com/sveri/omtet/blob/single&amp;#95;player&amp;#95;0.1/src/cljs/de/sveri/omtet/tetris/tetriminios.cljs&lt;/a&gt;&lt;/p&gt;&lt;p&gt;And here you can see the business logic for the tetris related stuff.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This calls the middleware function &lt;i&gt;after&lt;/i&gt; from re-frame which will execute the given function after the  register-handler was executed. In this case we will draw the grid everytime it did change, or if we assume it did  change.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;subs.cljs&quot;&gt;&lt;/a&gt;subs.cljs&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/sveri/omtet/blob/single&amp;#95;player&amp;#95;0.1/src/cljs/de/sveri/omtet/tetris/subs.cljs&quot;&gt;https://github.com/sveri/omtet/blob/single&amp;#95;player&amp;#95;0.1/src/cljs/de/sveri/omtet/tetris/subs.cljs&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Here you find the subcriptions for every time a specified app state changes.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;tetriminios.cljs&quot;&gt;&lt;/a&gt;tetriminios.cljs&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/sveri/omtet/blob/single&amp;#95;player&amp;#95;0.1/src/cljs/de/sveri/omtet/tetris/tetriminios.cljs&quot;&gt;https://github.com/sveri/omtet/blob/single&amp;#95;player&amp;#95;0.1/src/cljs/de/sveri/omtet/tetris/tetriminios.cljs&lt;/a&gt;&lt;/p&gt;&lt;p&gt;And here you can find the business logic for the tetris related stuff.&lt;/p&gt;
 </description>
 <pubDate>
 Mon, 01 Jun 2015 00:00:00 +0200

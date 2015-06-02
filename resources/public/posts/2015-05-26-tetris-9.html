@@ -74,7 +74,7 @@
           &#40;do &#40;dispatch &#91;:game-over&#93;&#41; app-state&#41;&#41;&#41;&#41;&#41;&#41;
 </code></pre><p><i>check-lvl</i> just checks if a level up is reached and if so, increases the level count and decreases the timer.               </p>  <br /><pre><code>&#40;defn check-lvl &#91;app-state new-points&#93;
   &#40;when &#40;&lt; &#40;&#42; 10 &#40;:lvl app-state&#41;&#41; &#40;+ new-points &#40;:score app-state&#41;&#41;&#41; &#40;dispatch &#91;:next-lvl&#93;&#41;&#41;&#41;
-</code></pre><pre><code>&#40;register-handler
+</code></pre><p>Whenever the <strong>:game-sec-tick</strong> event is dispatched we move the tetriminio one step down, check if we have to  update the score and update the level if needed.<br /> As you can see, we do that by updating the app state, which is then returned from the handler.</p><pre><code>&#40;register-handler
   :game-sec-tick
   &#40;rf/after grid-changed-mw&#41;
   &#40;fn &#91;app-state&#93;
@@ -84,7 +84,16 @@
       &#40;update-in
         &#40;assoc moved-app-state :grid-state &#40;minios/remove-full-lines &#40;:grid-state moved-app-state&#41;&#41;&#41;
         &#91;:score&#93; + new-points&#41;&#41;&#41;&#41;
-</code></pre><p>Whenever </p>
+</code></pre><p>Here we have a few more functions needed for our game logic, to count the points and to remove the full lines.<br /></p><p>Transpose the 2d vec:<br /></p><pre><code>&#40;defn transpose &#91;xs&#93; &#40;apply map vector xs&#41;&#41;
+</code></pre><p>Does the vec contain zero?     </p><pre><code>&#40;defn wanted? &#91;xs&#93; &#40;some zero? xs&#41;&#41;
+</code></pre><p>Fill the vec with zeros after removing them.     </p><pre><code>&#40;defn lpad &#91;n xs&#93; &#40;vec &#40;concat &#40;repeat &#40;- n &#40;count xs&#41;&#41; 0&#41; xs&#41;&#41;&#41;
+</code></pre><p>And, tie the functions together:     </p><pre><code>&#40;defn remove-full-lines &#91;xs&#93;
+  &#40;let &#91;n &#40;count &#40;first xs&#41;&#41;&#93;
+    &#40;vec &#40;map &#40;partial lpad n&#41; &#40;transpose &#40;filter wanted? &#40;transpose xs&#41;&#41;&#41;&#41;&#41;&#41;&#41;
+
+&#40;defn count-points &#91;xs&#93;
+  &#40;count &#40;filter #&#40;not &#40;some zero? %&#41;&#41; &#40;transpose xs&#41;&#41;&#41;&#41;
+</code></pre><br />
 </div>
 
 <div id="post-tags">
@@ -105,7 +114,7 @@
 
     <div id="prev-next">
         
-        <a href="/posts/2015-06-01-tetris-10.html">&laquo; Tetris in clojurescript and re-frame Part 10 - Game Logic</a>
+        <a href="/posts/2015-06-01-tetris-10.html">&laquo; Tetris in clojurescript and re-frame Part 10 - Missing Bits</a>
         
         
         <a class="right" href="/posts/2015-05-25-tetris-8.html">Tetris in clojurescript and re-frame Part 8 - Subscriptions &raquo;</a>
@@ -133,7 +142,7 @@
                     <h3>Recent Posts</h3>
                     <ul>
                         
-                        <li><a href="/posts/2015-06-01-tetris-10.html">Tetris in clojurescript and re-frame Part 10 - Game Logic</a></li>
+                        <li><a href="/posts/2015-06-01-tetris-10.html">Tetris in clojurescript and re-frame Part 10 - Missing Bits</a></li>
                         
                         <li><a href="/posts/2015-05-26-tetris-9.html">Tetris in clojurescript and re-frame Part 9 - Game Ticker</a></li>
                         

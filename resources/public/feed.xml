@@ -15,7 +15,7 @@ http://tales.sveri.de/
 Everything about everything
 </description>
 <lastBuildDate>
-Mon, 01 Jun 2015 23:30:39 +0200
+Tue, 02 Jun 2015 10:54:28 +0200
 </lastBuildDate>
 <item>
 <guid>
@@ -25,10 +25,16 @@ http://tales.sveri.de/posts/2015-06-01-tetris-10.html
 http://tales.sveri.de/posts/2015-06-01-tetris-10.html
 </link>
 <title>
-Tetris in clojurescript and re-frame Part 10 - Game Logic
+Tetris in clojurescript and re-frame Part 10 - Missing Bits
 </title>
 <description>
- &lt;p&gt;Now that defined the basic building blocks we will put it all together. &lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;core.cljs&quot;&gt;&lt;/a&gt;core.cljs&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/sveri/omtet/blob/single&amp;#95;player&amp;#95;0.1/resources/templates/tetris/index.html&quot;&gt;https://github.com/sveri/omtet/blob/single&amp;#95;player&amp;#95;0.1/resources/templates/tetris/index.html&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Here we have the UI defined. It just draws the canvas and the score div. It is also responsible for drawing any updates to the UI.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;handlers.cljs&quot;&gt;&lt;/a&gt;handlers.cljs&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/sveri/omtet/blob/single&amp;#95;player&amp;#95;0.1/src/cljs/de/sveri/omtet/tetris/handlers.cljs&quot;&gt;https://github.com/sveri/omtet/blob/single&amp;#95;player&amp;#95;0.1/src/cljs/de/sveri/omtet/tetris/handlers.cljs&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Here we defined all the handlers that act whenever an event occurs. There are still some t&lt;/p&gt;
+ &lt;p&gt;Now that defined the basic building blocks we will put it all together and deliver the missing bits. &lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;core.cljs&quot;&gt;&lt;/a&gt;core.cljs&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/sveri/omtet/blob/single&amp;#95;player&amp;#95;0.1/resources/templates/tetris/index.html&quot;&gt;https://github.com/sveri/omtet/blob/single&amp;#95;player&amp;#95;0.1/resources/templates/tetris/index.html&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Here we have the UI defined. It just draws the canvas and the score div. It is also responsible for drawing any updates to the UI.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;handlers.cljs&quot;&gt;&lt;/a&gt;handlers.cljs&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/sveri/omtet/blob/single&amp;#95;player&amp;#95;0.1/src/cljs/de/sveri/omtet/tetris/handlers.cljs&quot;&gt;https://github.com/sveri/omtet/blob/single&amp;#95;player&amp;#95;0.1/src/cljs/de/sveri/omtet/tetris/handlers.cljs&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Here we defined all the handlers that act whenever an event occurs.&lt;br /&gt; One thing I did not explain yet are these lines: &lt;/p&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;defn grid-changed-mw &amp;#91;app-state&amp;#93;
+  &amp;#40;minios/draw-grid &amp;#40;:grid-state app-state&amp;#41; &amp;#40;:ctx app-state&amp;#41;&amp;#41;&amp;#41;
+  
+&amp;#40;register-handler
+  :...
+  &amp;#40;rf/after grid-changed-mw&amp;#41;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This calls the middleware function &lt;i&gt;after&lt;/i&gt; from re-frame which will execute the given function after the  register-handler was executed. In this case we will draw the grid everytime it did change, or if we assume it did  change.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;subs.cljs&quot;&gt;&lt;/a&gt;subs.cljs&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/sveri/omtet/blob/single&amp;#95;player&amp;#95;0.1/src/cljs/de/sveri/omtet/tetris/subs.cljs&quot;&gt;https://github.com/sveri/omtet/blob/single&amp;#95;player&amp;#95;0.1/src/cljs/de/sveri/omtet/tetris/subs.cljs&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Here you find the subcriptions for every time a specified app state changes.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;tetriminios.cljs&quot;&gt;&lt;/a&gt;tetriminios.cljs&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/sveri/omtet/blob/single&amp;#95;player&amp;#95;0.1/src/cljs/de/sveri/omtet/tetris/tetriminios.cljs&quot;&gt;https://github.com/sveri/omtet/blob/single&amp;#95;player&amp;#95;0.1/src/cljs/de/sveri/omtet/tetris/tetriminios.cljs&lt;/a&gt;&lt;/p&gt;&lt;p&gt;And here you can see the business logic for the tetris related stuff.&lt;/p&gt;
 </description>
 <pubDate>
 Mon, 01 Jun 2015 00:00:00 +0200
@@ -59,7 +65,7 @@ Tetris in clojurescript and re-frame Part 9 - Game Ticker
           &amp;#40;do &amp;#40;dispatch &amp;#91;:game-over&amp;#93;&amp;#41; app-state&amp;#41;&amp;#41;&amp;#41;&amp;#41;&amp;#41;&amp;#41;
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;i&gt;check-lvl&lt;/i&gt; just checks if a level up is reached and if so, increases the level count and decreases the timer.               &lt;/p&gt;  &lt;br /&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;defn check-lvl &amp;#91;app-state new-points&amp;#93;
   &amp;#40;when &amp;#40;&amp;lt; &amp;#40;&amp;#42; 10 &amp;#40;:lvl app-state&amp;#41;&amp;#41; &amp;#40;+ new-points &amp;#40;:score app-state&amp;#41;&amp;#41;&amp;#41; &amp;#40;dispatch &amp;#91;:next-lvl&amp;#93;&amp;#41;&amp;#41;&amp;#41;
-&lt;/code&gt;&lt;/pre&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;register-handler
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Whenever the &lt;strong&gt;:game-sec-tick&lt;/strong&gt; event is dispatched we move the tetriminio one step down, check if we have to  update the score and update the level if needed.&lt;br /&gt; As you can see, we do that by updating the app state, which is then returned from the handler.&lt;/p&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;register-handler
   :game-sec-tick
   &amp;#40;rf/after grid-changed-mw&amp;#41;
   &amp;#40;fn &amp;#91;app-state&amp;#93;
@@ -69,7 +75,16 @@ Tetris in clojurescript and re-frame Part 9 - Game Ticker
       &amp;#40;update-in
         &amp;#40;assoc moved-app-state :grid-state &amp;#40;minios/remove-full-lines &amp;#40;:grid-state moved-app-state&amp;#41;&amp;#41;&amp;#41;
         &amp;#91;:score&amp;#93; + new-points&amp;#41;&amp;#41;&amp;#41;&amp;#41;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Whenever &lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Here we have a few more functions needed for our game logic, to count the points and to remove the full lines.&lt;br /&gt;&lt;/p&gt;&lt;p&gt;Transpose the 2d vec:&lt;br /&gt;&lt;/p&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;defn transpose &amp;#91;xs&amp;#93; &amp;#40;apply map vector xs&amp;#41;&amp;#41;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Does the vec contain zero?     &lt;/p&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;defn wanted? &amp;#91;xs&amp;#93; &amp;#40;some zero? xs&amp;#41;&amp;#41;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Fill the vec with zeros after removing them.     &lt;/p&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;defn lpad &amp;#91;n xs&amp;#93; &amp;#40;vec &amp;#40;concat &amp;#40;repeat &amp;#40;- n &amp;#40;count xs&amp;#41;&amp;#41; 0&amp;#41; xs&amp;#41;&amp;#41;&amp;#41;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;And, tie the functions together:     &lt;/p&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;defn remove-full-lines &amp;#91;xs&amp;#93;
+  &amp;#40;let &amp;#91;n &amp;#40;count &amp;#40;first xs&amp;#41;&amp;#41;&amp;#93;
+    &amp;#40;vec &amp;#40;map &amp;#40;partial lpad n&amp;#41; &amp;#40;transpose &amp;#40;filter wanted? &amp;#40;transpose xs&amp;#41;&amp;#41;&amp;#41;&amp;#41;&amp;#41;&amp;#41;&amp;#41;
+
+&amp;#40;defn count-points &amp;#91;xs&amp;#93;
+  &amp;#40;count &amp;#40;filter #&amp;#40;not &amp;#40;some zero? %&amp;#41;&amp;#41; &amp;#40;transpose xs&amp;#41;&amp;#41;&amp;#41;&amp;#41;
+&lt;/code&gt;&lt;/pre&gt;&lt;br /&gt;
 </description>
 <pubDate>
 Tue, 26 May 2015 00:00:00 +0200
@@ -396,7 +411,7 @@ Tetris in clojurescript and re-frame Part 2 - Basic Layout
         {:on-click #&amp;#40;rf/dispatch &amp;#91;:start-game&amp;#93;&amp;#41;} &amp;quot;Start&amp;quot;&amp;#93;
        &amp;#91;:br&amp;#93;
        &amp;#91;:button.btn.btn-primary {:on-click #&amp;#40;rf/dispatch &amp;#91;:restart-game&amp;#93;&amp;#41;} &amp;quot;Restart&amp;quot;&amp;#93;&amp;#93;&amp;#93;&amp;#93;&amp;#41;&amp;#41;
-&lt;/code&gt;&lt;/pre&gt;This just defines the HTML structure of the canvas and two buttons. One to start the game and one to restart the game.There is also a Score panel beneath the canvas.&lt;br /&gt;&lt;p&gt;One thing to note here are the &lt;strong&gt;#(rf/dispatch...&lt;/strong&gt; functions. &lt;em&gt;rf&lt;/em&gt; is the re-frame namespace and &lt;em&gt;dispatch&lt;/em&gt; will be called when a click on the respective button was done.&lt;/p&gt;&lt;p&gt;Every &lt;strong&gt;dispatch&lt;/strong&gt; function takes 1..n arguments whereas the first one is always a vector containing the event id path. In these cases: &lt;em&gt;:start-game&lt;/em&gt; and &lt;em&gt;:restart-game&lt;/em&gt;, which do what their name implies.&lt;/p&gt;&lt;p&gt;We will not init the canvas itself yet. This will be done as part of the application state initalization.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;sourcecode&quot;&gt;&lt;/a&gt;Sourcecode&lt;/h2&gt;&lt;p&gt;&lt;a href='https://github.com/sveri/omtet/blob/Part2/src/cljs/de/sveri/omtet/tetris/core.cljs'&gt;Part 2 - core.cljs&lt;/a&gt;&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;This just defines the HTML structure of the canvas and two buttons. One to start the game and one to restart the game.There is also a Score panel beneath the canvas.&lt;br /&gt;&lt;p&gt;One thing to note here are the &lt;strong&gt;#(rf/dispatch...&lt;/strong&gt; functions. &lt;em&gt;rf&lt;/em&gt; is the re-frame namespace and &lt;em&gt;dispatch&lt;/em&gt; will be called when a click on the respective button was done.&lt;/p&gt;&lt;p&gt;Every &lt;strong&gt;dispatch&lt;/strong&gt; function takes 1..n arguments whereas the first one is always a vector containing the event id path. In these cases: &lt;em&gt;:start-game&lt;/em&gt; and &lt;em&gt;:restart-game&lt;/em&gt;, which do what their name implies.&lt;/p&gt;&lt;p&gt;We will not init the canvas itself yet. This will be done as part of the application state initalization.&lt;/p&gt;
 </description>
 <pubDate>
 Fri, 22 May 2015 00:00:00 +0200

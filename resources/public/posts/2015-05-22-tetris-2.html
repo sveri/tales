@@ -84,7 +84,7 @@
         {:on-click #&#40;rf/dispatch &#91;:start-game&#93;&#41;} &quot;Start&quot;&#93;
        &#91;:br&#93;
        &#91;:button.btn.btn-primary {:on-click #&#40;rf/dispatch &#91;:restart-game&#93;&#41;} &quot;Restart&quot;&#93;&#93;&#93;&#93;&#41;&#41;
-</code></pre>This just defines the HTML structure of the canvas and two buttons. One to start the game and one to restart the game.There is also a Score panel beneath the canvas.<br /><p>One thing to note here are the <strong>#(rf/dispatch...</strong> functions. <em>rf</em> is the re-frame namespace and <em>dispatch</em> will be called when a click on the respective button was done.</p><p>Every <strong>dispatch</strong> function takes 1..n arguments whereas the first one is always a vector containing the event id path. In these cases: <em>:start-game</em> and <em>:restart-game</em>, which do what their name implies.</p><p>We will not init the canvas itself yet. This will be done as part of the application state initalization.</p><h2><a name="sourcecode"></a>Sourcecode</h2><p><a href='https://github.com/sveri/omtet/blob/Part2/src/cljs/de/sveri/omtet/tetris/core.cljs'>Part 2 - core.cljs</a></p>
+</code></pre>This just defines the HTML structure of the canvas and two buttons. One to start the game and one to restart the game.There is also a Score panel beneath the canvas.<br /><p>One thing to note here are the <strong>#(rf/dispatch...</strong> functions. <em>rf</em> is the re-frame namespace and <em>dispatch</em> will be called when a click on the respective button was done.</p><p>Every <strong>dispatch</strong> function takes 1..n arguments whereas the first one is always a vector containing the event id path. In these cases: <em>:start-game</em> and <em>:restart-game</em>, which do what their name implies.</p><p>We will not init the canvas itself yet. This will be done as part of the application state initalization.</p>
 </div>
 
 <div id="post-tags">
@@ -133,7 +133,7 @@
                     <h3>Recent Posts</h3>
                     <ul>
                         
-                        <li><a href="/posts/2015-06-01-tetris-10.html">Tetris in clojurescript and re-frame Part 10 - Game Logic</a></li>
+                        <li><a href="/posts/2015-06-01-tetris-10.html">Tetris in clojurescript and re-frame Part 10 - Missing Bits</a></li>
                         
                         <li><a href="/posts/2015-05-26-tetris-9.html">Tetris in clojurescript and re-frame Part 9 - Game Ticker</a></li>
                         

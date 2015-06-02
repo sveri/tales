@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
     <meta charset="utf-8"/>
-    <title>Sveris Tales: Tetris in clojurescript and re-frame Part 10 - Game Logic</title>
+    <title>Sveris Tales: Tetris in clojurescript and re-frame Part 10 - Missing Bits</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href='http://fonts.googleapis.com/css?family=Alegreya:400italic,700italic,400,700' rel='stylesheet'
           type='text/css'>
@@ -56,11 +56,17 @@
         <div class="col-lg-6">June 1, 2015</div>
         
     </div>
-    <h2>Tetris in clojurescript and re-frame Part 10 - Game Logic</h2>
+    <h2>Tetris in clojurescript and re-frame Part 10 - Missing Bits</h2>
 </div>
 <div>
     
-     <p>Now that defined the basic building blocks we will put it all together. </p><h2><a name="core.cljs"></a>core.cljs</h2><p><a href="https://github.com/sveri/omtet/blob/single&#95;player&#95;0.1/resources/templates/tetris/index.html">https://github.com/sveri/omtet/blob/single&#95;player&#95;0.1/resources/templates/tetris/index.html</a></p><p>Here we have the UI defined. It just draws the canvas and the score div. It is also responsible for drawing any updates to the UI.</p><h2><a name="handlers.cljs"></a>handlers.cljs</h2><p><a href="https://github.com/sveri/omtet/blob/single&#95;player&#95;0.1/src/cljs/de/sveri/omtet/tetris/handlers.cljs">https://github.com/sveri/omtet/blob/single&#95;player&#95;0.1/src/cljs/de/sveri/omtet/tetris/handlers.cljs</a></p><p>Here we defined all the handlers that act whenever an event occurs. There are still some t</p>
+     <p>Now that defined the basic building blocks we will put it all together and deliver the missing bits. </p><h2><a name="core.cljs"></a>core.cljs</h2><p><a href="https://github.com/sveri/omtet/blob/single&#95;player&#95;0.1/resources/templates/tetris/index.html">https://github.com/sveri/omtet/blob/single&#95;player&#95;0.1/resources/templates/tetris/index.html</a></p><p>Here we have the UI defined. It just draws the canvas and the score div. It is also responsible for drawing any updates to the UI.</p><h2><a name="handlers.cljs"></a>handlers.cljs</h2><p><a href="https://github.com/sveri/omtet/blob/single&#95;player&#95;0.1/src/cljs/de/sveri/omtet/tetris/handlers.cljs">https://github.com/sveri/omtet/blob/single&#95;player&#95;0.1/src/cljs/de/sveri/omtet/tetris/handlers.cljs</a></p><p>Here we defined all the handlers that act whenever an event occurs.<br /> One thing I did not explain yet are these lines: </p><pre><code>&#40;defn grid-changed-mw &#91;app-state&#93;
+  &#40;minios/draw-grid &#40;:grid-state app-state&#41; &#40;:ctx app-state&#41;&#41;&#41;
+  
+&#40;register-handler
+  :...
+  &#40;rf/after grid-changed-mw&#41;
+</code></pre><p>This calls the middleware function <i>after</i> from re-frame which will execute the given function after the  register-handler was executed. In this case we will draw the grid everytime it did change, or if we assume it did  change.</p><h2><a name="subs.cljs"></a>subs.cljs</h2><p><a href="https://github.com/sveri/omtet/blob/single&#95;player&#95;0.1/src/cljs/de/sveri/omtet/tetris/subs.cljs">https://github.com/sveri/omtet/blob/single&#95;player&#95;0.1/src/cljs/de/sveri/omtet/tetris/subs.cljs</a></p><p>Here you find the subcriptions for every time a specified app state changes.</p><h2><a name="tetriminios.cljs"></a>tetriminios.cljs</h2><p><a href="https://github.com/sveri/omtet/blob/single&#95;player&#95;0.1/src/cljs/de/sveri/omtet/tetris/tetriminios.cljs">https://github.com/sveri/omtet/blob/single&#95;player&#95;0.1/src/cljs/de/sveri/omtet/tetris/tetriminios.cljs</a></p><p>And here you can see the business logic for the tetris related stuff.</p>
 </div>
 
 <div id="post-tags">
@@ -107,7 +113,7 @@
                     <h3>Recent Posts</h3>
                     <ul>
                         
-                        <li><a href="/posts/2015-06-01-tetris-10.html">Tetris in clojurescript and re-frame Part 10 - Game Logic</a></li>
+                        <li><a href="/posts/2015-06-01-tetris-10.html">Tetris in clojurescript and re-frame Part 10 - Missing Bits</a></li>
                         
                         <li><a href="/posts/2015-05-26-tetris-9.html">Tetris in clojurescript and re-frame Part 9 - Game Ticker</a></li>
                         

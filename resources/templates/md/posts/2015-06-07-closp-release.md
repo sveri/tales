@@ -2,8 +2,8 @@
  :layout :post
  :tags  ["clojure" "clojurescript" "closp"]}
 
-I did two releases in the last week, the second one being more of a bug fix release. The goal of the last changes was
-to eliminate some libraries like piggieback and get a cleaner figwheel experience.  
+I did two releases of <https://github.com/sveri/closp> in the last week, the second one being more of a bug fix release. 
+The goal of the last changes was to eliminate some libraries like piggieback and get a cleaner figwheel experience.  
 While I was doing that I also updated to clojure 1.70-RC1 and added a very small reader conditionals example 
 while removing the cljx support.  
 

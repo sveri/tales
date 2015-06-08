@@ -15,7 +15,7 @@ http://tales.sveri.de/
 Everything about everything
 </description>
 <lastBuildDate>
-Mon, 08 Jun 2015 08:17:43 +0200
+Mon, 08 Jun 2015 08:23:34 +0200
 </lastBuildDate>
 <item>
 <guid>
@@ -28,7 +28,7 @@ http://tales.sveri.de/posts/2015-06-07-closp-release.html
 Closp Release 0.1.15
 </title>
 <description>
-&lt;p&gt;I did two releases in the last week, the second one being more of a bug fix release. The goal of the last changes was to eliminate some libraries like piggieback and get a cleaner figwheel experience.&lt;br /&gt; While I was doing that I also updated to clojure 1.70-RC1 and added a very small reader conditionals example  while removing the cljx support.&lt;br /&gt;&lt;/p&gt;&lt;p&gt;Figwheel needs to be started in a separate REPL now. However, if one needs, I guess, one could still start it in the REPL process inside the IDE where the main process is running.&lt;/p&gt;&lt;p&gt;I am still thinking about moving closp to luminus, but just do not have the time for a major change like this  right now, so, we will see :-)&lt;/p&gt;
+&lt;p&gt;I did two releases of &lt;a href=&quot;https://github.com/sveri/closp&quot;&gt;https://github.com/sveri/closp&lt;/a&gt; in the last week, the second one being more of a bug fix release.  The goal of the last changes was to eliminate some libraries like piggieback and get a cleaner figwheel experience.&lt;br /&gt; While I was doing that I also updated to clojure 1.70-RC1 and added a very small reader conditionals example  while removing the cljx support.&lt;br /&gt;&lt;/p&gt;&lt;p&gt;Figwheel needs to be started in a separate REPL now. However, if one needs, I guess, one could still start it in the REPL process inside the IDE where the main process is running.&lt;/p&gt;&lt;p&gt;I am still thinking about moving closp to luminus, but just do not have the time for a major change like this  right now, so, we will see :-)&lt;/p&gt;
 </description>
 <pubDate>
 Sun, 07 Jun 2015 00:00:00 +0200

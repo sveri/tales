@@ -53,42 +53,38 @@
 <div id="post">
     <div id="post-header">
     <div id="post-meta" class="row">
-        <div class="col-lg-6">June 1, 2015</div>
+        <div class="col-lg-6">June 7, 2015</div>
         
     </div>
-    <h2>Tetris in clojurescript and re-frame Part 10 - Missing Bits</h2>
+    <h2>Closp Release 0.1.15</h2>
 </div>
 <div>
     
-     <p>Now that defined the basic building blocks we will put it all together and deliver the missing bits. </p><h2><a name="core.cljs"></a>core.cljs</h2><p><a href="https://github.com/sveri/omtet/blob/single&#95;player&#95;0.1/resources/templates/tetris/index.html">https://github.com/sveri/omtet/blob/single&#95;player&#95;0.1/resources/templates/tetris/index.html</a></p><p>Here we have the UI defined. It just draws the canvas and the score div. It is also responsible for drawing any updates to the UI.</p><h2><a name="handlers.cljs"></a>handlers.cljs</h2><p><a href="https://github.com/sveri/omtet/blob/single&#95;player&#95;0.1/src/cljs/de/sveri/omtet/tetris/handlers.cljs">https://github.com/sveri/omtet/blob/single&#95;player&#95;0.1/src/cljs/de/sveri/omtet/tetris/handlers.cljs</a></p><p>Here we defined all the handlers that act whenever an event occurs.<br /> One thing I did not explain yet are these lines: </p><pre><code>&#40;defn grid-changed-mw &#91;app-state&#93;
-  &#40;minios/draw-grid &#40;:grid-state app-state&#41; &#40;:ctx app-state&#41;&#41;&#41;
-  
-&#40;register-handler
-  :...
-  &#40;rf/after grid-changed-mw&#41;
-</code></pre><p>This calls the middleware function <i>after</i> from re-frame which will execute the given function after the  register-handler was executed. In this case we will draw the grid everytime it did change, or if we assume it did  change.</p><h2><a name="subs.cljs"></a>subs.cljs</h2><p><a href="https://github.com/sveri/omtet/blob/single&#95;player&#95;0.1/src/cljs/de/sveri/omtet/tetris/subs.cljs">https://github.com/sveri/omtet/blob/single&#95;player&#95;0.1/src/cljs/de/sveri/omtet/tetris/subs.cljs</a></p><p>Here you find the subcriptions for every time a specified app state changes.</p><h2><a name="tetriminios.cljs"></a>tetriminios.cljs</h2><p><a href="https://github.com/sveri/omtet/blob/single&#95;player&#95;0.1/src/cljs/de/sveri/omtet/tetris/tetriminios.cljs">https://github.com/sveri/omtet/blob/single&#95;player&#95;0.1/src/cljs/de/sveri/omtet/tetris/tetriminios.cljs</a></p><p>And here you can find the business logic for the tetris related stuff.</p>
+    <p>I did two releases in the last week, the second one being more of a bug fix release. The goal of the last changes was to eliminate some libraries like piggieback and get a cleaner figwheel experience.<br /> While I was doing that I also updated to clojure 1.70-RC1 and added a very small reader conditionals example  while removing the cljx support.<br /></p><p>Figwheel needs to be started in a separate REPL now. However, if one needs, I guess, one could still start it in the REPL process inside the IDE where the main process is running.</p><p>I am still thinking about moving closp to luminus, but just do not have the time for a major change like this  right now, so, we will see :-)</p>
 </div>
 
 <div id="post-tags">
     <b>Tags: </b>
     
-    <a href="/tags/tetris.html">tetris</a>
+    <a href="/tags/clojure.html">clojure</a>
     
-    <a href="/tags/clojuresrcipt.html">clojuresrcipt</a>
+    <a href="/tags/closp.html">closp</a>
+    
+    <a href="/tags/clojurescript.html">clojurescript</a>
     
 </div>
 
 
     
     <div id="comments">
-        <a href="/posts/2015-06-01-tetris-10.html#disqus_thread">View Comments</a>
+        <a href="/posts/2015-06-07-closp-release.html#disqus_thread">View Comments</a>
     </div>
     
 
     <div id="prev-next">
         
         
-        <a class="right" href="/posts/2015-05-26-tetris-9.html">Tetris in clojurescript and re-frame Part 9 - Game Ticker &raquo;</a>
+        <a class="right" href="/posts/2015-06-01-tetris-10.html">Tetris in clojurescript and re-frame Part 10 - Missing Bits &raquo;</a>
         
     </div>
 </div>
@@ -108,11 +104,11 @@
                     <h3>Recent Posts</h3>
                     <ul>
                         
+                        <li><a href="/posts/2015-06-07-closp-release.html">Closp Release 0.1.15</a></li>
+                        
                         <li><a href="/posts/2015-06-01-tetris-10.html">Tetris in clojurescript and re-frame Part 10 - Missing Bits</a></li>
                         
                         <li><a href="/posts/2015-05-26-tetris-9.html">Tetris in clojurescript and re-frame Part 9 - Game Ticker</a></li>
-                        
-                        <li><a href="/posts/2015-05-25-tetris-8.html">Tetris in clojurescript and re-frame Part 8 - Subscriptions</a></li>
                         
                     </ul>
                 </div>
@@ -129,6 +125,12 @@
                         <li><a href="/tags/clojuresrcipt.html">clojuresrcipt</a></li>
                         
                         <li><a href="/tags/tetris.html">tetris</a></li>
+                        
+                        <li><a href="/tags/clojurescript.html">clojurescript</a></li>
+                        
+                        <li><a href="/tags/closp.html">closp</a></li>
+                        
+                        <li><a href="/tags/clojure.html">clojure</a></li>
                         
                     </ul>
                 </div>

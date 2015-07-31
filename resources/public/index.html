@@ -53,14 +53,14 @@
 <div id="post">
     <div id="post-header">
     <div id="post-meta" class="row">
-        <div class="col-lg-6">June 7, 2015</div>
+        <div class="col-lg-6">July 31, 2015</div>
         
     </div>
-    <h2>Closp Release 0.1.15</h2>
+    <h2>Closp Release 0.1.20</h2>
 </div>
 <div>
     
-    <p>I did two releases of <a href="https://github.com/sveri/closp">https://github.com/sveri/closp</a> in the last week, the second one being more of a bug fix release.  The goal of the last changes was to eliminate some libraries like piggieback and get a cleaner figwheel experience.<br /> While I was doing that I also updated to clojure 1.70-RC1 and added a very small reader conditionals example  while removing the cljx support.<br /></p><p>Figwheel needs to be started in a separate REPL now. However, if one needs, I guess, one could still start it in the REPL process inside the IDE where the main process is running.</p><p>I am still thinking about moving closp to luminus, but just do not have the time for a major change like this  right now, so, we will see :-)</p>
+     <h1><a name="closp"></a>CLOSP</h1><p>A leiningen template combining several useful libraries for clojure and clojurescript web development:  <a href="https://github.com/sveri/closp">https://github.com/sveri/closp</a></p><p>There were several releases between the last announcement and this one, some of which had known issues in the administrator view. So for this release I concentrated mainly on stabilization by adding several integration tests for the user and administration workflow.</p><p>Other notable features:<br /></p><ul><li>Internationalization support with tower (starting to translate some of closps strings)</li><li>Adding test2junit to generate junit test results</li><li>Rename <code>db.users</code> to <code>db.user</code></li><li>Recaptcha configuration now available in closp.edn</li><li>Providing react.js (0.12.1) and jquery (2.0.3) as local files instead of cdn provided (FIX #6)</li><li>Updating dependencies<ul><li>[clojure "1.7.0"]</li><li>[ring "1.4.0"]</li><li>[compojure "1.4.0"]</li><li>[selmer "0.8.5"]</li><li>[buddy/buddy-auth "0.6.0"]</li><li>[buddy/buddy-hashers "0.6.0"]</li><li>[korma "0.4.2"]</li><li>[org.xerial/sqlite-jdbc "3.8.10.1"]</li><li>[datascript "0.11.6"]</li><li>[ring/ring-devel "1.4.0"]</li><li>[pjstadig/humane-test-output "0.7.0"]</li><li>[closp-crud "0.1.3"]</li><li>[bootstrap "3.35"]</li></ul></li></ul>
 </div>
 
 <div id="post-tags">
@@ -77,14 +77,14 @@
 
     
     <div id="comments">
-        <a href="/posts/2015-06-07-closp-release.html#disqus_thread">View Comments</a>
+        <a href="/posts/2015-07-31-closp-release.html#disqus_thread">View Comments</a>
     </div>
     
 
     <div id="prev-next">
         
         
-        <a class="right" href="/posts/2015-06-01-tetris-10.html">Tetris in clojurescript and re-frame Part 10 - Missing Bits &raquo;</a>
+        <a class="right" href="/posts/2015-06-07-closp-release.html">Closp Release 0.1.15 &raquo;</a>
         
     </div>
 </div>
@@ -106,11 +106,11 @@
                     <h3>Recent Posts</h3>
                     <ul>
                         
+                        <li><a href="/posts/2015-07-31-closp-release.html">Closp Release 0.1.20</a></li>
+                        
                         <li><a href="/posts/2015-06-07-closp-release.html">Closp Release 0.1.15</a></li>
                         
                         <li><a href="/posts/2015-06-01-tetris-10.html">Tetris in clojurescript and re-frame Part 10 - Missing Bits</a></li>
-                        
-                        <li><a href="/posts/2015-05-26-tetris-9.html">Tetris in clojurescript and re-frame Part 9 - Game Ticker</a></li>
                         
                     </ul>
                 </div>

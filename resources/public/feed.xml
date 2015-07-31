@@ -15,8 +15,25 @@ http://tales.sveri.de/
 Everything about everything
 </description>
 <lastBuildDate>
-Mon, 08 Jun 2015 09:40:32 +0200
+Fri, 31 Jul 2015 17:19:37 +0200
 </lastBuildDate>
+<item>
+<guid>
+http://tales.sveri.de/posts/2015-07-31-closp-release.html
+</guid>
+<link>
+http://tales.sveri.de/posts/2015-07-31-closp-release.html
+</link>
+<title>
+Closp Release 0.1.20
+</title>
+<description>
+ &lt;h1&gt;&lt;a name=&quot;closp&quot;&gt;&lt;/a&gt;CLOSP&lt;/h1&gt;&lt;p&gt;A leiningen template combining several useful libraries for clojure and clojurescript web development:  &lt;a href=&quot;https://github.com/sveri/closp&quot;&gt;https://github.com/sveri/closp&lt;/a&gt;&lt;/p&gt;&lt;p&gt;There were several releases between the last announcement and this one, some of which had known issues in the administrator view. So for this release I concentrated mainly on stabilization by adding several integration tests for the user and administration workflow.&lt;/p&gt;&lt;p&gt;Other notable features:&lt;br /&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Internationalization support with tower (starting to translate some of closps strings)&lt;/li&gt;&lt;li&gt;Adding test2junit to generate junit test results&lt;/li&gt;&lt;li&gt;Rename &lt;code&gt;db.users&lt;/code&gt; to &lt;code&gt;db.user&lt;/code&gt;&lt;/li&gt;&lt;li&gt;Recaptcha configuration now available in closp.edn&lt;/li&gt;&lt;li&gt;Providing react.js (0.12.1) and jquery (2.0.3) as local files instead of cdn provided (FIX #6)&lt;/li&gt;&lt;li&gt;Updating dependencies&lt;ul&gt;&lt;li&gt;[clojure &quot;1.7.0&quot;]&lt;/li&gt;&lt;li&gt;[ring &quot;1.4.0&quot;]&lt;/li&gt;&lt;li&gt;[compojure &quot;1.4.0&quot;]&lt;/li&gt;&lt;li&gt;[selmer &quot;0.8.5&quot;]&lt;/li&gt;&lt;li&gt;[buddy/buddy-auth &quot;0.6.0&quot;]&lt;/li&gt;&lt;li&gt;[buddy/buddy-hashers &quot;0.6.0&quot;]&lt;/li&gt;&lt;li&gt;[korma &quot;0.4.2&quot;]&lt;/li&gt;&lt;li&gt;[org.xerial/sqlite-jdbc &quot;3.8.10.1&quot;]&lt;/li&gt;&lt;li&gt;[datascript &quot;0.11.6&quot;]&lt;/li&gt;&lt;li&gt;[ring/ring-devel &quot;1.4.0&quot;]&lt;/li&gt;&lt;li&gt;[pjstadig/humane-test-output &quot;0.7.0&quot;]&lt;/li&gt;&lt;li&gt;[closp-crud &quot;0.1.3&quot;]&lt;/li&gt;&lt;li&gt;[bootstrap &quot;3.35&quot;]&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;
+</description>
+<pubDate>
+Fri, 31 Jul 2015 00:00:00 +0200
+</pubDate>
+</item>
 <item>
 <guid>
 http://tales.sveri.de/posts/2015-06-07-closp-release.html

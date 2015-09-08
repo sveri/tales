@@ -15,8 +15,25 @@ http://tales.sveri.de/
 Everything about everything
 </description>
 <lastBuildDate>
-Sun, 30 Aug 2015 21:17:58 +0200
+Sun, 06 Sep 2015 17:54:47 +0200
 </lastBuildDate>
+<item>
+<guid>
+http://tales.sveri.de/posts/2015-09-06-strategy-pattern-clojure.html
+</guid>
+<link>
+http://tales.sveri.de/posts/2015-09-06-strategy-pattern-clojure.html
+</link>
+<title>
+Strategy pattern in clojure
+</title>
+<description>
+ &lt;p&gt;This is the first part of an ongoing series. I am currently working through Heads First Design Patterns to refresh my memory and while the examples are mostly in Java I want to take a look at them and see how to code them in clojure.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;java&amp;#95;implementation&quot;&gt;&lt;/a&gt;Java Implementation&lt;/h2&gt;&lt;p&gt;In the book we have two different kinds of classes: &lt;/p&gt;&lt;ol&gt;&lt;li&gt;An abstract &lt;code&gt;Duck&lt;/code&gt; class with it's concrete implementations:&lt;ul&gt;&lt;li&gt;&lt;code&gt;MallardDuck&lt;/code&gt;&lt;/li&gt;&lt;li&gt;&lt;code&gt;ReadheadDuck&lt;/code&gt;&lt;/li&gt;&lt;li&gt;...&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;li&gt;Behaviors &lt;code&gt;FlyBehavior&lt;/code&gt; and &lt;code&gt;QuackBehavior&lt;/code&gt; as interfaces with it's concrete implementations:&lt;ul&gt;&lt;li&gt;&lt;code&gt;FlyWithWings&lt;/code&gt;&lt;/li&gt;&lt;li&gt;&lt;code&gt;FlyNoWay&lt;/code&gt;&lt;/li&gt;&lt;li&gt;&lt;code&gt;Quack&lt;/code&gt;&lt;/li&gt;&lt;li&gt;&lt;code&gt;Squeak&lt;/code&gt;&lt;/li&gt;&lt;li&gt;&lt;code&gt;MuteQuack&lt;/code&gt;  &lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;The Duck class contains references to the behaviors:  &lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;code&gt;performQuack&lt;/code&gt;&lt;/li&gt;&lt;li&gt;&lt;code&gt;performFly&lt;/code&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;A &lt;code&gt;swim&lt;/code&gt; method with a concrete implementation valid for all subclasses, a &lt;code&gt;setXXX&lt;/code&gt; Method to change the behavior during  runtime and finally an abstract &lt;code&gt;display&lt;/code&gt; method to be defined by the implementors.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;clojure&amp;#95;implementation&quot;&gt;&lt;/a&gt;Clojure implementation&lt;/h2&gt;&lt;p&gt;3 2,33 2568&lt;/p&gt;
+</description>
+<pubDate>
+Sun, 06 Sep 2015 00:00:00 +0200
+</pubDate>
+</item>
 <item>
 <guid>
 http://tales.sveri.de/posts/2015-08-30-worst-stacktrace.html

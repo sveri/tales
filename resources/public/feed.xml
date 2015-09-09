@@ -15,7 +15,7 @@ http://tales.sveri.de/
 Everything about everything
 </description>
 <lastBuildDate>
-Sun, 06 Sep 2015 17:54:47 +0200
+Wed, 09 Sep 2015 09:59:17 +0200
 </lastBuildDate>
 <item>
 <guid>
@@ -28,7 +28,70 @@ http://tales.sveri.de/posts/2015-09-06-strategy-pattern-clojure.html
 Strategy pattern in clojure
 </title>
 <description>
- &lt;p&gt;This is the first part of an ongoing series. I am currently working through Heads First Design Patterns to refresh my memory and while the examples are mostly in Java I want to take a look at them and see how to code them in clojure.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;java&amp;#95;implementation&quot;&gt;&lt;/a&gt;Java Implementation&lt;/h2&gt;&lt;p&gt;In the book we have two different kinds of classes: &lt;/p&gt;&lt;ol&gt;&lt;li&gt;An abstract &lt;code&gt;Duck&lt;/code&gt; class with it's concrete implementations:&lt;ul&gt;&lt;li&gt;&lt;code&gt;MallardDuck&lt;/code&gt;&lt;/li&gt;&lt;li&gt;&lt;code&gt;ReadheadDuck&lt;/code&gt;&lt;/li&gt;&lt;li&gt;...&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;li&gt;Behaviors &lt;code&gt;FlyBehavior&lt;/code&gt; and &lt;code&gt;QuackBehavior&lt;/code&gt; as interfaces with it's concrete implementations:&lt;ul&gt;&lt;li&gt;&lt;code&gt;FlyWithWings&lt;/code&gt;&lt;/li&gt;&lt;li&gt;&lt;code&gt;FlyNoWay&lt;/code&gt;&lt;/li&gt;&lt;li&gt;&lt;code&gt;Quack&lt;/code&gt;&lt;/li&gt;&lt;li&gt;&lt;code&gt;Squeak&lt;/code&gt;&lt;/li&gt;&lt;li&gt;&lt;code&gt;MuteQuack&lt;/code&gt;  &lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;The Duck class contains references to the behaviors:  &lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;code&gt;performQuack&lt;/code&gt;&lt;/li&gt;&lt;li&gt;&lt;code&gt;performFly&lt;/code&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;A &lt;code&gt;swim&lt;/code&gt; method with a concrete implementation valid for all subclasses, a &lt;code&gt;setXXX&lt;/code&gt; Method to change the behavior during  runtime and finally an abstract &lt;code&gt;display&lt;/code&gt; method to be defined by the implementors.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;clojure&amp;#95;implementation&quot;&gt;&lt;/a&gt;Clojure implementation&lt;/h2&gt;&lt;p&gt;3 2,33 2568&lt;/p&gt;
+ &lt;p&gt;This is the first part of an ongoing series. I am currently working through Head First Design Patterns to refresh my memory and while the examples are mostly in Java I want to take a look at them and see how to code them in clojure.&lt;br /&gt; That said, most people want to argue that &lt;code&gt;design patterns&lt;/code&gt; are not mostly not needed in a functional programming  language. But for me a &lt;code&gt;design pattern&lt;/code&gt; is an idea or a concept and both of these can be coded in any language and here I will show how.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;definition&quot;&gt;&lt;/a&gt;Definition&lt;/h2&gt;&lt;p&gt;The Strategy Pattern defines a family of algorithms, encapsulates each one, and makes them interchangeable. Strategy lets the algorithm vary independently from clients that use it.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;java&amp;#95;implementation&quot;&gt;&lt;/a&gt;Java Implementation&lt;/h2&gt;&lt;p&gt;In the book we have two different kinds of classes: &lt;/p&gt;&lt;ol&gt;&lt;li&gt;An abstract &lt;code&gt;Duck&lt;/code&gt; class with it's concrete implementations:&lt;ul&gt;&lt;li&gt;&lt;code&gt;MallardDuck&lt;/code&gt;&lt;/li&gt;&lt;li&gt;&lt;code&gt;ReadheadDuck&lt;/code&gt;&lt;/li&gt;&lt;li&gt;...&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;li&gt;Behaviors &lt;code&gt;FlyBehavior&lt;/code&gt; and &lt;code&gt;QuackBehavior&lt;/code&gt; as interfaces with it's concrete implementations:&lt;ul&gt;&lt;li&gt;&lt;code&gt;FlyWithWings&lt;/code&gt;&lt;/li&gt;&lt;li&gt;&lt;code&gt;FlyNoWay&lt;/code&gt;&lt;/li&gt;&lt;li&gt;&lt;code&gt;Quack&lt;/code&gt;&lt;/li&gt;&lt;li&gt;&lt;code&gt;Squeak&lt;/code&gt;&lt;/li&gt;&lt;li&gt;&lt;code&gt;MuteQuack&lt;/code&gt;  &lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;The Duck class contains references to the behaviors:  &lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;code&gt;performQuack&lt;/code&gt;&lt;/li&gt;&lt;li&gt;&lt;code&gt;performFly&lt;/code&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;A &lt;code&gt;swim&lt;/code&gt; method with a concrete implementation valid for all subclasses, a &lt;code&gt;setXXX&lt;/code&gt; Method to change the behavior during  runtime and finally an abstract &lt;code&gt;display&lt;/code&gt; method to be defined by the implementors.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;clojure&amp;#95;implementation&quot;&gt;&lt;/a&gt;Clojure implementation&lt;/h2&gt;  &lt;br /&gt;&lt;pre&gt;&lt;code&gt;; Two different fly behaviors
+&amp;#40;defn fly-with-wings &amp;#91;&amp;#93; &amp;#40;println &amp;quot;Flying with wings.&amp;quot;&amp;#41;&amp;#41;
+&amp;#40;defn fly-no-way &amp;#91;&amp;#93; &amp;#40;println &amp;quot;Poor duck cannot fly.&amp;quot;&amp;#41;&amp;#41;
+
+; Three different Quack behaviors
+&amp;#40;defn quack-duck &amp;#91;&amp;#93; &amp;#40;println &amp;quot;Duck is Quacking.&amp;quot;&amp;#41;&amp;#41;
+&amp;#40;defn squeak-duck &amp;#91;&amp;#93; &amp;#40;println &amp;quot;Duck is Squeaking.&amp;quot;&amp;#41;&amp;#41;
+&amp;#40;defn mute-duck &amp;#91;&amp;#93; &amp;#40;println &amp;quot;Duck is quiet.&amp;quot;&amp;#41;&amp;#41;
+
+; Define a relationship, this means that rubber-duck `is-a` duck
+&amp;#40;derive ::rubber-duck ::duck&amp;#41;
+
+; Define two Duck entities with different flay and quack behaviors
+&amp;#40;def rubber-duck {:type ::rubber-duck :fly-fn fly-no-way :quack-fn quack-duck}&amp;#41;
+&amp;#40;def mallard-duck {:type ::mallard-duck :fly-fn fly-with-wings :quack-fn squeak-duck}&amp;#41;
+
+; Swim function, does the same for all ducks
+&amp;#40;defn swim &amp;#91;duck&amp;#93;
+  &amp;#40;println &amp;#40;str &amp;#40;:type duck&amp;#41; &amp;quot; is swimming.&amp;quot;&amp;#41;&amp;#41;&amp;#41;
+
+; Fly function, accepting a duck entity and calling the defined fly behavior
+&amp;#40;defn fly &amp;#91;duck&amp;#93;
+  &amp;#40;&amp;#40;:fly-fn duck&amp;#41;&amp;#41;&amp;#41;
+
+; Quack function, accepting a duck entity and calling the defined fly behavior
+&amp;#40;defn quack &amp;#91;duck&amp;#93;
+  &amp;#40;&amp;#40;:quack-fn duck&amp;#41;&amp;#41;&amp;#41;
+
+; Display function, dispatching on the type of the duck and executing different actions
+&amp;#40;defmulti display &amp;#40;fn &amp;#91;duck&amp;#93; &amp;#40;:type duck&amp;#41;&amp;#41;&amp;#41;
+
+&amp;#40;defmethod display ::rubber-duck &amp;#91;duck&amp;#93;
+  &amp;#40;println &amp;quot;Displaying Rubber Duck.&amp;quot;&amp;#41;&amp;#41;
+
+&amp;#40;defmethod display ::mallard-duck &amp;#91;duck&amp;#93;
+  &amp;#40;println &amp;quot;Displaying Mallard Duck.&amp;quot;&amp;#41;&amp;#41;
+
+&amp;#40;swim rubber-duck&amp;#41;
+&amp;#40;swim mallard-duck&amp;#41;
+
+&amp;#40;fly rubber-duck&amp;#41;
+&amp;#40;fly mallard-duck&amp;#41;
+
+&amp;#40;quack rubber-duck&amp;#41;
+&amp;#40;quack mallard-duck&amp;#41;
+
+&amp;#40;display rubber-duck&amp;#41;
+&amp;#40;display mallard-duck&amp;#41;
+
+; Output
+;
+;:de.sveri.designpatterns.chapterone.core/rubber-duck is swimming.
+;:de.sveri.designpatterns.chapterone.core/mallard-duck is swimming.
+;Poor duck cannot fly.
+;Flying with wings.
+;Duck is Quacking.
+;Duck is Squeaking.
+;Displaying Rubber Duck.
+;Displaying Mallard Duck.
+
+&lt;/code&gt;&lt;/pre&gt;One aspect of the pattern is that you can change behavior during runtime. To do that you have &lt;code&gt;setXXX&lt;/code&gt; methods in the &lt;code&gt;Duck&lt;/code&gt; class. In clojure you can do this by using the &lt;code&gt;assoc&lt;/code&gt; method on a duck entity:&lt;pre&gt;&lt;code&gt;&amp;#40;def another-rubber-duck &amp;#40;assoc rubber-duck :fly-fn fly-with-wings&amp;#41;&amp;#41;
+&amp;#40;fly another-rubber-duck&amp;#41;
+
+&lt;/code&gt;&lt;/pre&gt;This creates a new duck entity with a different fly behavior. This is due to the fact that clojure makes use ofimmutable data structures.&lt;br /&gt;That is also the thing that strikes me about the Java example. Changing implementation of a thing during runtime surely has it's usages, but I like to avoid using setters as long as possible, wich it is most of the times.&lt;br /&gt;So the clojure approach is very much approved here.
 </description>
 <pubDate>
 Sun, 06 Sep 2015 00:00:00 +0200

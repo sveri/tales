@@ -60,7 +60,7 @@
 </div>
 <div>
     
-     <p>This is the first part of an ongoing series. I am currently working through Head First Design Patterns to refresh my memory and while the examples are mostly in Java I want to take a look at them and see how to code them in clojure.<br /> That said, most people want to argue that <code>design patterns</code> are not mostly not needed in a functional programming  language. But for me a <code>design pattern</code> is an idea or a concept and both of these can be coded in any language and here I will show how.</p><h2><a name="definition"></a>Definition</h2><p>The Strategy Pattern defines a family of algorithms, encapsulates each one, and makes them interchangeable. Strategy lets the algorithm vary independently from clients that use it.</p><h2><a name="java&#95;implementation"></a>Java Implementation</h2><p>In the book we have two different kinds of classes: </p><ol><li>An abstract <code>Duck</code> class with it's concrete implementations:<ul><li><code>MallardDuck</code></li><li><code>ReadheadDuck</code></li><li>...</li></ul></li><li>Behaviors <code>FlyBehavior</code> and <code>QuackBehavior</code> as interfaces with it's concrete implementations:<ul><li><code>FlyWithWings</code></li><li><code>FlyNoWay</code></li><li><code>Quack</code></li><li><code>Squeak</code></li><li><code>MuteQuack</code>  </li></ul></li></ol><p>The Duck class contains references to the behaviors:  </p><ul><li><code>performQuack</code></li><li><code>performFly</code></li></ul><p>A <code>swim</code> method with a concrete implementation valid for all subclasses, a <code>setXXX</code> Method to change the behavior during  runtime and finally an abstract <code>display</code> method to be defined by the implementors.</p><h2><a name="clojure&#95;implementation"></a>Clojure implementation</h2>  <br /><pre><code>; Two different fly behaviors
+     <h2><a name="disclaimer"></a>Disclaimer</h2><p>This is the first part of an ongoing series. I am currently working through Head First Design Patterns to refresh my memory and while the examples are mostly in Java I want to take a look at them and see how to code them in clojure.<br /> That said, most people want to argue that <code>design patterns</code> are not mostly not needed in a functional programming  language. But for me a <code>design pattern</code> is an idea or a concept and both of these can be coded in any language and here I will show how.<br /> That aside, please be aware that it is often impossible to translate object oriented patterns into a functional  style, hence, what you see here are approaches or examples that you can use, but only a subset of them. </p><h2><a name="definition"></a>Definition</h2><p>The Strategy Pattern defines a family of algorithms, encapsulates each one, and makes them interchangeable. Strategy lets the algorithm vary independently from clients that use it.</p><h2><a name="java&#95;implementation"></a>Java Implementation</h2><p>In the book we have two different kinds of classes: </p><ol><li>An abstract <code>Duck</code> class with it's concrete implementations:<ul><li><code>MallardDuck</code></li><li><code>ReadheadDuck</code></li><li>...</li></ul></li><li>Behaviors <code>FlyBehavior</code> and <code>QuackBehavior</code> as interfaces with it's concrete implementations:<ul><li><code>FlyWithWings</code></li><li><code>FlyNoWay</code></li><li><code>Quack</code></li><li><code>Squeak</code></li><li><code>MuteQuack</code>  </li></ul></li></ol><p>The Duck class contains references to the behaviors:  </p><ul><li><code>performQuack</code></li><li><code>performFly</code></li></ul><p>A <code>swim</code> method with a concrete implementation valid for all subclasses, a <code>setXXX</code> Method to change the behavior during  runtime and finally an abstract <code>display</code> method to be defined by the implementors.</p><h2><a name="clojure&#95;implementation"></a>Clojure implementation</h2>  <br /><pre><code>; Two different fly behaviors
 &#40;defn fly-with-wings &#91;&#93; &#40;println &quot;Flying with wings.&quot;&#41;&#41;
 &#40;defn fly-no-way &#91;&#93; &#40;println &quot;Poor duck cannot fly.&quot;&#41;&#41;
 
@@ -138,6 +138,8 @@
 
     <div id="prev-next">
         
+        <a href="/posts/2015-09-07-observer-pattern-clojure.html">&laquo; Observer pattern in clojure</a>
+        
         
         <a class="right" href="/posts/2015-08-30-worst-stacktrace.html">Worst Stacktrace ever? &raquo;</a>
         
@@ -174,11 +176,11 @@
                     <h3>Recent Posts</h3>
                     <ul>
                         
+                        <li><a href="/posts/2015-09-07-observer-pattern-clojure.html">Observer pattern in clojure</a></li>
+                        
                         <li><a href="/posts/2015-09-06-strategy-pattern-clojure.html">Strategy pattern in clojure</a></li>
                         
                         <li><a href="/posts/2015-08-30-worst-stacktrace.html">Worst Stacktrace ever?</a></li>
-                        
-                        <li><a href="/posts/2015-07-31-closp-release.html">Closp Release 0.1.20</a></li>
                         
                     </ul>
                 </div>
@@ -195,6 +197,8 @@
                         <li><a href="/tags/jhipster.html">jhipster</a></li>
                         
                         <li><a href="/tags/clojure.html">clojure</a></li>
+                        
+                        <li><a href="/tags/observer pattern.html">observer pattern</a></li>
                         
                         <li><a href="/tags/long.html">long</a></li>
                         

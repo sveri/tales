@@ -16,6 +16,8 @@ Every selmer template has add the `templates` folder now like this:
 
 ## CLOSP-CRUD
 
+A clojure library to generate CRUD files for database operations: <https://github.com/sveri/closp-crud>
+
 ### Breaking Change
 
 I completely threw away the idea of using UUIDs as database identifiers. I thought long and hard about that and

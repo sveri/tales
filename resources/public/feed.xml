@@ -15,23 +15,24 @@ http://tales.sveri.de/
 Everything about everything
 </description>
 <lastBuildDate>
-Wed, 09 Sep 2015 11:38:44 +0200
+Fri, 08 Apr 2016 17:00:17 +0200
 </lastBuildDate>
 <item>
 <guid>
-http://tales.sveri.de/posts/2015-09-07-observer-pattern-clojure.html
+http://tales.sveri.de/posts/2016-04-08-closp-release.html
 </guid>
 <link>
-http://tales.sveri.de/posts/2015-09-07-observer-pattern-clojure.html
+http://tales.sveri.de/posts/2016-04-08-closp-release.html
 </link>
 <title>
-Observer pattern in clojure
+Closp 0.1.28 and closp-crud 0.2.0 Release
 </title>
 <description>
- &lt;h2&gt;&lt;a name=&quot;disclaimer&quot;&gt;&lt;/a&gt;Disclaimer&lt;/h2&gt;&lt;p&gt;This is the second part of an ongoing series. I am currently working through Head First Design Patterns to refresh my memory and while the examples are mostly in Java I want to take a look at them and see how to code them in clojure.&lt;br /&gt; That said, most people want to argue that &lt;code&gt;design patterns&lt;/code&gt; are not mostly not needed in a functional programming  language. But for me a &lt;code&gt;design pattern&lt;/code&gt; is an idea or a concept and both of these can be coded in any language and here I will show how.&lt;br /&gt; That aside, please be aware that it is often impossible to translate object oriented patterns into a functional  style, hence, what you see here are approaches or examples that you can use, but only a subset of them. &lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;definition&quot;&gt;&lt;/a&gt;Definition&lt;/h2&gt;&lt;p&gt;The Observer Patternt defines a one-to-many dependency between objects so that when one object changes state, all of its dependents are notified and updated automatically.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;java&amp;#95;implementation&quot;&gt;&lt;/a&gt;Java Implementation&lt;/h2&gt;&lt;p&gt;In the book we have &lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;clojure&amp;#95;implementation&quot;&gt;&lt;/a&gt;Clojure implementation&lt;/h2&gt;
+ &lt;h2&gt;&lt;a name=&quot;closp&quot;&gt;&lt;/a&gt;CLOSP&lt;/h2&gt;&lt;p&gt;A leiningen template combining several useful libraries for clojure and clojurescript web development:  &lt;a href=&quot;https://github.com/sveri/closp&quot;&gt;https://github.com/sveri/closp&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Due to the work on a graphical interface for closp-crud there is a breaking change:&lt;br /&gt; Every selmer template has add the &lt;code&gt;templates&lt;/code&gt; folder now like this:&lt;/p&gt;&lt;pre&gt;&lt;code&gt;{% extends &amp;quot;templates/base.html&amp;quot; %}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2&gt;&lt;a name=&quot;closp-crud&quot;&gt;&lt;/a&gt;CLOSP-CRUD&lt;/h2&gt;&lt;h3&gt;&lt;a name=&quot;breaking&amp;#95;change&quot;&gt;&lt;/a&gt;Breaking Change&lt;/h3&gt;&lt;p&gt;I completely threw away the idea of using UUIDs as database identifiers. I thought long and hard about that and finally came to the conclusion that the net gain was not worth the confusion it brought.&lt;br /&gt; So instead closp-crud generates the database table as defined in the entity definition. &lt;/p&gt;&lt;h3&gt;&lt;a name=&quot;other&amp;#95;changes&quot;&gt;&lt;/a&gt;Other Changes&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;Closp-crud switched from providing core.typed annotations to using plumatic schema instead.&lt;/li&gt;&lt;li&gt;Fixed some bugs&lt;/li&gt;&lt;/ul&gt;
 </description>
 <pubDate>
-Mon, 07 Sep 2015 00:00:00 +0200
+Fri, 08 Apr 2016 00:00:00 +0200
 </pubDate>
 </item>
 <item>
@@ -799,41 +800,6 @@ Mon, 25 May 2015 00:00:00 +0200
 </item>
 <item>
 <guid>
-http://tales.sveri.de/posts/2015-05-24-tetris-7.html
-</guid>
-<link>
-http://tales.sveri.de/posts/2015-05-24-tetris-7.html
-</link>
-<title>
-Tetris in clojurescript and re-frame Part 7 - Collision Detection
-</title>
-<description>
- &lt;h2&gt;&lt;a name=&quot;is&amp;#95;move&amp;#95;allowed?&quot;&gt;&lt;/a&gt;Is Move Allowed?&lt;/h2&gt; &lt;p&gt; In the last chapter we already used the &lt;i&gt;is-move-allowed?&lt;/i&gt; function. There are four functions at all taking care  of it.&lt;br /&gt;  &lt;/p&gt;&lt;p&gt; The first one just checks the boundaries and if none tetriminio is defined at that position:  &lt;/p&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;defn is-moving-part-allowed? &amp;#91;x y grid&amp;#93;
-  &amp;#40;and &amp;#40;&amp;lt;= 0 x&amp;#41; &amp;#40;&amp;lt; x 10&amp;#41; &amp;#40;&amp;lt;= 0 y&amp;#41; &amp;#40;&amp;lt; y 20&amp;#41; &amp;#40;= 0 &amp;#40;get-in grid &amp;#91;x y&amp;#93;&amp;#41;&amp;#41;&amp;#41;&amp;#41;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The second one makes use of the function definitions. If a x or y key exists in the map if will apply the function to the old x or y value. If not, it just returns the old one. This is how we update the four blocks:&lt;br /&gt;&lt;/p&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;defn move-x-y &amp;#91;x y rec&amp;#93;
-  &amp;#40;let &amp;#91;x' &amp;#40;if &amp;#40;get rec :x&amp;#41; &amp;#40;&amp;#40;get rec :x&amp;#41; x&amp;#41; x&amp;#41;
-        y' &amp;#40;if &amp;#40;get rec :y&amp;#41; &amp;#40;&amp;#40;get rec :y&amp;#41; y&amp;#41; y&amp;#41;&amp;#93;
-    {:x x' :y y'}&amp;#41;&amp;#41;
-    
-&amp;#40;defn realize-move &amp;#91;x y t grid&amp;#93; &amp;#40;assoc-in grid &amp;#91;x y&amp;#93; t&amp;#41;&amp;#41;
-
-
-&lt;/code&gt;&lt;/pre&gt;This draws one tetriminio in the grid according to the tetriminio definition:&lt;br /&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;defn draw-tet &amp;#91;{:keys &amp;#91;x y t o&amp;#93; :as cur-tet} tet-recipe d grid&amp;#93;
-  &amp;#40;let &amp;#91;new-position &amp;#40;map #&amp;#40;move-x-y x y %&amp;#41; &amp;#40;get-in tet-recipe &amp;#91;t o&amp;#93;&amp;#41;&amp;#41;&amp;#93;
-      &amp;#40;reduce &amp;#40;fn &amp;#91;a b&amp;#93; &amp;#40;realize-move &amp;#40;:x b&amp;#41; &amp;#40;:y b&amp;#41; &amp;#40;&amp;#42; t d&amp;#41; a&amp;#41;&amp;#41; grid new-position&amp;#41;&amp;#41;&amp;#41;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;i&gt;is-move-allowed?&lt;/i&gt; basically only calls the functions defined above for every single block and returns true orfalse:&lt;br /&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;defn is-move-allowed? &amp;#91;{:keys &amp;#91;x y t o&amp;#93;} cur-active grid tet-recipe&amp;#93;
-  &amp;#40;let &amp;#91;new-position &amp;#40;map #&amp;#40;move-x-y x y %&amp;#41; &amp;#40;get-in tet-recipe &amp;#91;t o&amp;#93;&amp;#41;&amp;#41;
-        removed-grid &amp;#40;draw-tet cur-active tet-recipe 0 grid&amp;#41;&amp;#93;
-    &amp;#40;h/not-in? &amp;#40;map #&amp;#40;is-moving-part-allowed? &amp;#40;:x %&amp;#41; &amp;#40;:y %&amp;#41; removed-grid&amp;#41; new-position&amp;#41; false&amp;#41;&amp;#41;&amp;#41;
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-<pubDate>
-Sun, 24 May 2015 00:00:00 +0200
-</pubDate>
-</item>
-<item>
-<guid>
 http://tales.sveri.de/posts/2015-05-24-tetris-6.html
 </guid>
 <link>
@@ -894,50 +860,37 @@ Sun, 24 May 2015 00:00:00 +0200
 </item>
 <item>
 <guid>
-http://tales.sveri.de/posts/2015-05-23-tetris-5.html
+http://tales.sveri.de/posts/2015-05-24-tetris-7.html
 </guid>
 <link>
-http://tales.sveri.de/posts/2015-05-23-tetris-5.html
+http://tales.sveri.de/posts/2015-05-24-tetris-7.html
 </link>
 <title>
-Tetris in clojurescript and re-frame Part 5 - Tetriminios
+Tetris in clojurescript and re-frame Part 7 - Collision Detection
 </title>
 <description>
- &lt;h2&gt;&lt;a name=&quot;types&quot;&gt;&lt;/a&gt;Types&lt;/h2&gt;&lt;p&gt;There are seven tetriminio types each one defined by a number from 1 to 7. &lt;ul&gt;&lt;li&gt;1 I&lt;/li&gt;&lt;li&gt;2 L&lt;/li&gt;&lt;li&gt;3 J&lt;/li&gt;&lt;li&gt;4 O&lt;/li&gt;&lt;li&gt;5 S&lt;/li&gt;&lt;li&gt;6 T&lt;/li&gt;&lt;li&gt;7 S&lt;/li&gt;&lt;/ul&gt;So when the grid contains the number 1 it will draw the &lt;strong&gt;I&lt;/strong&gt; type at that place.&lt;br /&gt;&lt;/p&gt;&lt;p&gt;Each Tetrimino has an orientation defined by numbers 0 to 4.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;tetriminio&amp;#95;drawing&amp;#95;definitions&quot;&gt;&lt;/a&gt;Tetriminio Drawing Definitions&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;def tet-recipe
-      {1 {0 &amp;#91;{:x #&amp;#40;- % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;+ % 2&amp;#41;}&amp;#93;
-          1 &amp;#91;{:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 2&amp;#41;}&amp;#93;
-          2 &amp;#91;{:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 2&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;
-          3 &amp;#91;{:y #&amp;#40;+ % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;} {:y #&amp;#40;- % 2&amp;#41;}&amp;#93;}
-       2 {0 &amp;#91;{:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;- % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;}&amp;#93;
-          1 &amp;#91;{:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;} {:y #&amp;#40;+ % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;}&amp;#93;
-          2 &amp;#91;{:x #&amp;#40;- % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;
-          3 &amp;#91;{:y #&amp;#40;+ % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;}
-       3 {0 &amp;#91;{:x #&amp;#40;- % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;}&amp;#93;
-          1 &amp;#91;{:y #&amp;#40;+ % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;
-          2 &amp;#91;{:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;- % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;}&amp;#93;
-          3 &amp;#91;{:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;} {:y #&amp;#40;+ % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;}&amp;#93;}
-       4 {0 &amp;#91;{} {:x #&amp;#40;+ % 1&amp;#41;} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;
-          1 &amp;#91;{} {:x #&amp;#40;+ % 1&amp;#41;} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;
-          2 &amp;#91;{} {:x #&amp;#40;+ % 1&amp;#41;} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;
-          3 &amp;#91;{} {:x #&amp;#40;+ % 1&amp;#41;} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;}
-       5 {0 &amp;#91;{:x #&amp;#40;- % 1&amp;#41;} {} {:y #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;}&amp;#93;
-          1 &amp;#91;{:y #&amp;#40;+ % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;
-          2 &amp;#91;{:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;} {:y #&amp;#40;- % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;}&amp;#93;
-          3 &amp;#91;{:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;- % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;}&amp;#93;}
-       6 {0 &amp;#91;{:x #&amp;#40;- % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;} {:y #&amp;#40;+ % 1&amp;#41;}&amp;#93;
-          1 &amp;#91;{:y #&amp;#40;+ % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41;}&amp;#93;
-          2 &amp;#91;{:x #&amp;#40;- % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;}&amp;#93;
-          3 &amp;#91;{:y #&amp;#40;+ % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;- % 1&amp;#41;}&amp;#93;}
-       7 {0 &amp;#91;{:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;} {:y #&amp;#40;+ % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;}&amp;#93;
-          1 &amp;#91;{:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;}&amp;#93;
-          2 &amp;#91;{:x #&amp;#40;- % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;
-          3 &amp;#91;{:y #&amp;#40;+ % 1&amp;#41;} {} {:x #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;}}&amp;#41;
-          
-&lt;/code&gt;&lt;/pre&gt;This is a map of a map of vecs containing anonymous functions for the type and orientation that will then be appliedin the function call drawing a specific tetriminio. The first key of the nested map is the tetriminio type and the second key the orientation.&lt;br /&gt;So whenever we want to draw type &lt;i&gt;S&lt;/i&gt; with orientation &lt;i&gt;0&lt;/i&gt; we will take this for functions:&lt;br /&gt;&lt;pre&gt;&lt;code&gt;{:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;} {:y #&amp;#40;+ % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;}
-&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;&lt;li&gt;{:x #(- % 1) :y #(+ % 1)} means that for the first block we will subtract x by 1 and add 1 to y.&lt;/li&gt;&lt;li&gt;{:y #(+ % 1)} Here we will add 1 to y and leave x like it is&lt;/li&gt;&lt;li&gt;{} Leave x and y like they are&lt;/li&gt;&lt;li&gt;{:x #(+ % 1)} Add 1 to x and leave y like it is.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;This all is in respect to the grid state. So we just move the tetriminio on the grid by applying these functions.&lt;/p&gt;&lt;p&gt;The beauty of this definition is that we could easily add more tetriminios in the map which will just work out of the box.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;active&amp;#95;tetriminio&quot;&gt;&lt;/a&gt;Active Tetriminio&lt;/h2&gt;&lt;p&gt;The current active tetriminio (the one that can be moved) will be stored in the application state as a map like this: &lt;strong&gt;{:x 1 :y 1 :o 0 :t 1}&lt;/strong&gt;. So whenever we pass it around it will be passed as a map.&lt;/p&gt;
+ &lt;h2&gt;&lt;a name=&quot;is&amp;#95;move&amp;#95;allowed?&quot;&gt;&lt;/a&gt;Is Move Allowed?&lt;/h2&gt; &lt;p&gt; In the last chapter we already used the &lt;i&gt;is-move-allowed?&lt;/i&gt; function. There are four functions at all taking care  of it.&lt;br /&gt;  &lt;/p&gt;&lt;p&gt; The first one just checks the boundaries and if none tetriminio is defined at that position:  &lt;/p&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;defn is-moving-part-allowed? &amp;#91;x y grid&amp;#93;
+  &amp;#40;and &amp;#40;&amp;lt;= 0 x&amp;#41; &amp;#40;&amp;lt; x 10&amp;#41; &amp;#40;&amp;lt;= 0 y&amp;#41; &amp;#40;&amp;lt; y 20&amp;#41; &amp;#40;= 0 &amp;#40;get-in grid &amp;#91;x y&amp;#93;&amp;#41;&amp;#41;&amp;#41;&amp;#41;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The second one makes use of the function definitions. If a x or y key exists in the map if will apply the function to the old x or y value. If not, it just returns the old one. This is how we update the four blocks:&lt;br /&gt;&lt;/p&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;defn move-x-y &amp;#91;x y rec&amp;#93;
+  &amp;#40;let &amp;#91;x' &amp;#40;if &amp;#40;get rec :x&amp;#41; &amp;#40;&amp;#40;get rec :x&amp;#41; x&amp;#41; x&amp;#41;
+        y' &amp;#40;if &amp;#40;get rec :y&amp;#41; &amp;#40;&amp;#40;get rec :y&amp;#41; y&amp;#41; y&amp;#41;&amp;#93;
+    {:x x' :y y'}&amp;#41;&amp;#41;
+    
+&amp;#40;defn realize-move &amp;#91;x y t grid&amp;#93; &amp;#40;assoc-in grid &amp;#91;x y&amp;#93; t&amp;#41;&amp;#41;
+
+
+&lt;/code&gt;&lt;/pre&gt;This draws one tetriminio in the grid according to the tetriminio definition:&lt;br /&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;defn draw-tet &amp;#91;{:keys &amp;#91;x y t o&amp;#93; :as cur-tet} tet-recipe d grid&amp;#93;
+  &amp;#40;let &amp;#91;new-position &amp;#40;map #&amp;#40;move-x-y x y %&amp;#41; &amp;#40;get-in tet-recipe &amp;#91;t o&amp;#93;&amp;#41;&amp;#41;&amp;#93;
+      &amp;#40;reduce &amp;#40;fn &amp;#91;a b&amp;#93; &amp;#40;realize-move &amp;#40;:x b&amp;#41; &amp;#40;:y b&amp;#41; &amp;#40;&amp;#42; t d&amp;#41; a&amp;#41;&amp;#41; grid new-position&amp;#41;&amp;#41;&amp;#41;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;i&gt;is-move-allowed?&lt;/i&gt; basically only calls the functions defined above for every single block and returns true orfalse:&lt;br /&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;defn is-move-allowed? &amp;#91;{:keys &amp;#91;x y t o&amp;#93;} cur-active grid tet-recipe&amp;#93;
+  &amp;#40;let &amp;#91;new-position &amp;#40;map #&amp;#40;move-x-y x y %&amp;#41; &amp;#40;get-in tet-recipe &amp;#91;t o&amp;#93;&amp;#41;&amp;#41;
+        removed-grid &amp;#40;draw-tet cur-active tet-recipe 0 grid&amp;#41;&amp;#93;
+    &amp;#40;h/not-in? &amp;#40;map #&amp;#40;is-moving-part-allowed? &amp;#40;:x %&amp;#41; &amp;#40;:y %&amp;#41; removed-grid&amp;#41; new-position&amp;#41; false&amp;#41;&amp;#41;&amp;#41;
+&lt;/code&gt;&lt;/pre&gt;
 </description>
 <pubDate>
-Sat, 23 May 2015 00:00:00 +0200
+Sun, 24 May 2015 00:00:00 +0200
 </pubDate>
 </item>
 <item>
@@ -1004,6 +957,54 @@ Tetris in clojurescript and re-frame Part 4 - Drawing
       &amp;#40;when-not &amp;#40;= 0 t&amp;#41;
         &amp;#40;draw-block x y &amp;#40;get color-map t&amp;#41; ctx&amp;#41;&amp;#41;&amp;#41;&amp;#41;&amp;#41;  
 &lt;/code&gt;&lt;/pre&gt;
+</description>
+<pubDate>
+Sat, 23 May 2015 00:00:00 +0200
+</pubDate>
+</item>
+<item>
+<guid>
+http://tales.sveri.de/posts/2015-05-23-tetris-5.html
+</guid>
+<link>
+http://tales.sveri.de/posts/2015-05-23-tetris-5.html
+</link>
+<title>
+Tetris in clojurescript and re-frame Part 5 - Tetriminios
+</title>
+<description>
+ &lt;h2&gt;&lt;a name=&quot;types&quot;&gt;&lt;/a&gt;Types&lt;/h2&gt;&lt;p&gt;There are seven tetriminio types each one defined by a number from 1 to 7. &lt;ul&gt;&lt;li&gt;1 I&lt;/li&gt;&lt;li&gt;2 L&lt;/li&gt;&lt;li&gt;3 J&lt;/li&gt;&lt;li&gt;4 O&lt;/li&gt;&lt;li&gt;5 S&lt;/li&gt;&lt;li&gt;6 T&lt;/li&gt;&lt;li&gt;7 S&lt;/li&gt;&lt;/ul&gt;So when the grid contains the number 1 it will draw the &lt;strong&gt;I&lt;/strong&gt; type at that place.&lt;br /&gt;&lt;/p&gt;&lt;p&gt;Each Tetrimino has an orientation defined by numbers 0 to 4.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;tetriminio&amp;#95;drawing&amp;#95;definitions&quot;&gt;&lt;/a&gt;Tetriminio Drawing Definitions&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;def tet-recipe
+      {1 {0 &amp;#91;{:x #&amp;#40;- % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;+ % 2&amp;#41;}&amp;#93;
+          1 &amp;#91;{:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 2&amp;#41;}&amp;#93;
+          2 &amp;#91;{:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 2&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;
+          3 &amp;#91;{:y #&amp;#40;+ % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;} {:y #&amp;#40;- % 2&amp;#41;}&amp;#93;}
+       2 {0 &amp;#91;{:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;- % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;}&amp;#93;
+          1 &amp;#91;{:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;} {:y #&amp;#40;+ % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;}&amp;#93;
+          2 &amp;#91;{:x #&amp;#40;- % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;
+          3 &amp;#91;{:y #&amp;#40;+ % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;}
+       3 {0 &amp;#91;{:x #&amp;#40;- % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;}&amp;#93;
+          1 &amp;#91;{:y #&amp;#40;+ % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;
+          2 &amp;#91;{:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;- % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;}&amp;#93;
+          3 &amp;#91;{:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;} {:y #&amp;#40;+ % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;}&amp;#93;}
+       4 {0 &amp;#91;{} {:x #&amp;#40;+ % 1&amp;#41;} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;
+          1 &amp;#91;{} {:x #&amp;#40;+ % 1&amp;#41;} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;
+          2 &amp;#91;{} {:x #&amp;#40;+ % 1&amp;#41;} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;
+          3 &amp;#91;{} {:x #&amp;#40;+ % 1&amp;#41;} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;}
+       5 {0 &amp;#91;{:x #&amp;#40;- % 1&amp;#41;} {} {:y #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;}&amp;#93;
+          1 &amp;#91;{:y #&amp;#40;+ % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;
+          2 &amp;#91;{:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;} {:y #&amp;#40;- % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;}&amp;#93;
+          3 &amp;#91;{:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;- % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;}&amp;#93;}
+       6 {0 &amp;#91;{:x #&amp;#40;- % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;} {:y #&amp;#40;+ % 1&amp;#41;}&amp;#93;
+          1 &amp;#91;{:y #&amp;#40;+ % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41;}&amp;#93;
+          2 &amp;#91;{:x #&amp;#40;- % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;}&amp;#93;
+          3 &amp;#91;{:y #&amp;#40;+ % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;- % 1&amp;#41;}&amp;#93;}
+       7 {0 &amp;#91;{:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;} {:y #&amp;#40;+ % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;}&amp;#93;
+          1 &amp;#91;{:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;}&amp;#93;
+          2 &amp;#91;{:x #&amp;#40;- % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;
+          3 &amp;#91;{:y #&amp;#40;+ % 1&amp;#41;} {} {:x #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;}}&amp;#41;
+          
+&lt;/code&gt;&lt;/pre&gt;This is a map of a map of vecs containing anonymous functions for the type and orientation that will then be appliedin the function call drawing a specific tetriminio. The first key of the nested map is the tetriminio type and the second key the orientation.&lt;br /&gt;So whenever we want to draw type &lt;i&gt;S&lt;/i&gt; with orientation &lt;i&gt;0&lt;/i&gt; we will take this for functions:&lt;br /&gt;&lt;pre&gt;&lt;code&gt;{:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;} {:y #&amp;#40;+ % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;}
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;&lt;li&gt;{:x #(- % 1) :y #(+ % 1)} means that for the first block we will subtract x by 1 and add 1 to y.&lt;/li&gt;&lt;li&gt;{:y #(+ % 1)} Here we will add 1 to y and leave x like it is&lt;/li&gt;&lt;li&gt;{} Leave x and y like they are&lt;/li&gt;&lt;li&gt;{:x #(+ % 1)} Add 1 to x and leave y like it is.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;This all is in respect to the grid state. So we just move the tetriminio on the grid by applying these functions.&lt;/p&gt;&lt;p&gt;The beauty of this definition is that we could easily add more tetriminios in the map which will just work out of the box.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;active&amp;#95;tetriminio&quot;&gt;&lt;/a&gt;Active Tetriminio&lt;/h2&gt;&lt;p&gt;The current active tetriminio (the one that can be moved) will be stored in the application state as a map like this: &lt;strong&gt;{:x 1 :y 1 :o 0 :t 1}&lt;/strong&gt;. So whenever we pass it around it will be passed as a map.&lt;/p&gt;
 </description>
 <pubDate>
 Sat, 23 May 2015 00:00:00 +0200

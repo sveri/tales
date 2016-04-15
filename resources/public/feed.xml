@@ -15,8 +15,25 @@ http://tales.sveri.de/
 Everything about everything
 </description>
 <lastBuildDate>
-Fri, 08 Apr 2016 19:32:01 +0200
+Fri, 15 Apr 2016 12:58:58 +0200
 </lastBuildDate>
+<item>
+<guid>
+http://tales.sveri.de/posts/2016-04-14-closp-documentation.html
+</guid>
+<link>
+http://tales.sveri.de/posts/2016-04-14-closp-documentation.html
+</link>
+<title>
+Closp Documentation
+</title>
+<description>
+ &lt;h1&gt;&lt;a name=&quot;getting&amp;#95;started&amp;#95;with&amp;#95;clojure&amp;#95;web&amp;#95;development&quot;&gt;&lt;/a&gt;Getting Started with Clojure Web Development&lt;/h1&gt;&lt;p&gt;I have finally managed to start documenting web develompent with closp.&lt;br /&gt; You can find the first chapters here: &lt;a href=&quot;http://closp.net&quot;&gt;http://closp.net&lt;/a&gt;.&lt;/p&gt;
+</description>
+<pubDate>
+Thu, 14 Apr 2016 00:00:00 +0200
+</pubDate>
+</item>
 <item>
 <guid>
 http://tales.sveri.de/posts/2016-04-08-closp-release.html

@@ -44,14 +44,18 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
                 <li  class="active" ><a href="/index.html">Home</a></li>
+                
                 <li
-                ><a href="/archives.html">Archives</a></li>
+                >
+                <a href="/pages/closp-tutorial.html">Closp Tutorial</a>
+                </li>
                 
                 <li
                 >
                 <a href="/pages/about.html">About</a>
                 </li>
                 
+                <li ><a href="/archives.html">Archives</a></li>
                 <li><a href="/feed.xml">RSS</a></li>
             </ul>
         </div><!--/.nav-collapse -->
@@ -69,21 +73,22 @@
 <div id="post">
     <div id="post-header">
     <div id="post-meta" class="row">
-        <div class="col-lg-6">April 8, 2016</div>
+        <div class="col-lg-6">April 14, 2016</div>
         
     </div>
-    <h2>Closp 0.1.28 and closp-crud 0.2.0 Release</h2>
+    <h2>Closp Documentation</h2>
 </div>
 <div>
     
-     <h2><a name="closp"></a>CLOSP</h2><p>A leiningen template combining several useful libraries for clojure and clojurescript web development:  <a href="https://github.com/sveri/closp">https://github.com/sveri/closp</a></p><p>Due to the work on a graphical interface for closp-crud there is a breaking change:<br /> Every selmer template has add the <code>templates</code> folder now like this:</p><pre><code>{% extends &quot;templates/base.html&quot; %}
-</code></pre><h2><a name="closp-crud"></a>CLOSP-CRUD</h2><p>A clojure library to generate CRUD files for database operations: <a href="https://github.com/sveri/closp-crud">https://github.com/sveri/closp-crud</a></p><h3><a name="breaking&#95;change"></a>Breaking Change</h3><p>I completely threw away the idea of using UUIDs as database identifiers. I thought long and hard about that and finally came to the conclusion that the net gain was not worth the confusion it brought.<br /> So instead closp-crud generates the database table as defined in the entity definition. </p><h3><a name="other&#95;changes"></a>Other Changes</h3><ul><li>Closp-crud switched from providing core.typed annotations to using plumatic schema instead.</li><li>Fixed some bugs</li></ul>
+     <h1><a name="getting&#95;started&#95;with&#95;clojure&#95;web&#95;development"></a>Getting Started with Clojure Web Development</h1><p>I have finally managed to start documenting web develompent with closp.<br /> You can find the first chapters here: <a href="http://closp.net">http://closp.net</a>.</p>
 </div>
 
 <div id="post-tags">
     <b>Tags: </b>
     
     <a href="/tags/clojure.html">clojure</a>
+    
+    <a href="/tags/tutorial.html">tutorial</a>
     
     <a href="/tags/closp.html">closp</a>
     
@@ -94,14 +99,14 @@
 
     
     <div id="comments">
-        <a href="/posts/2016-04-08-closp-release.html#disqus_thread">View Comments</a>
+        <a href="/posts/2016-04-14-closp-documentation.html#disqus_thread">View Comments</a>
     </div>
     
 
     <div id="prev-next">
         
         
-        <a class="right" href="/posts/2015-09-06-strategy-pattern-clojure.html">Strategy pattern in clojure &raquo;</a>
+        <a class="right" href="/posts/2016-04-08-closp-release.html">Closp 0.1.28 and closp-crud 0.2.0 Release &raquo;</a>
         
     </div>
 </div>
@@ -123,11 +128,11 @@
                     <h3>Recent Posts</h3>
                     <ul>
                         
+                        <li><a href="/posts/2016-04-14-closp-documentation.html">Closp Documentation</a></li>
+                        
                         <li><a href="/posts/2016-04-08-closp-release.html">Closp 0.1.28 and closp-crud 0.2.0 Release</a></li>
                         
                         <li><a href="/posts/2015-09-06-strategy-pattern-clojure.html">Strategy pattern in clojure</a></li>
-                        
-                        <li><a href="/posts/2015-08-30-worst-stacktrace.html">Worst Stacktrace ever?</a></li>
                         
                     </ul>
                 </div>
@@ -144,6 +149,8 @@
                         <li><a href="/tags/jhipster.html">jhipster</a></li>
                         
                         <li><a href="/tags/clojure.html">clojure</a></li>
+                        
+                        <li><a href="/tags/tutorial.html">tutorial</a></li>
                         
                         <li><a href="/tags/long.html">long</a></li>
                         

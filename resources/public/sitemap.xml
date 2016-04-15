@@ -5,7 +5,7 @@
 http://tales.sveri.de/tags/closp.html
 </loc>
 <lastmod>
-2016-04-08
+2016-04-15
 </lastmod>
 </url>
 <url>
@@ -13,7 +13,7 @@ http://tales.sveri.de/tags/closp.html
 http://tales.sveri.de/tags/clojurescript.html
 </loc>
 <lastmod>
-2016-04-08
+2016-04-15
 </lastmod>
 </url>
 <url>
@@ -21,7 +21,7 @@ http://tales.sveri.de/tags/clojurescript.html
 http://tales.sveri.de/tags/new blog.html
 </loc>
 <lastmod>
-2016-04-08
+2016-04-15
 </lastmod>
 </url>
 <url>
@@ -29,7 +29,7 @@ http://tales.sveri.de/tags/new blog.html
 http://tales.sveri.de/tags/long.html
 </loc>
 <lastmod>
-2016-04-08
+2016-04-15
 </lastmod>
 </url>
 <url>
@@ -37,7 +37,7 @@ http://tales.sveri.de/tags/long.html
 http://tales.sveri.de/tags/tetris.html
 </loc>
 <lastmod>
-2016-04-08
+2016-04-15
 </lastmod>
 </url>
 <url>
@@ -45,7 +45,15 @@ http://tales.sveri.de/tags/tetris.html
 http://tales.sveri.de/tags/jhipster.html
 </loc>
 <lastmod>
-2016-04-08
+2016-04-15
+</lastmod>
+</url>
+<url>
+<loc>
+http://tales.sveri.de/tags/tutorial.html
+</loc>
+<lastmod>
+2016-04-15
 </lastmod>
 </url>
 <url>
@@ -53,7 +61,7 @@ http://tales.sveri.de/tags/jhipster.html
 http://tales.sveri.de/tags/cryogen.html
 </loc>
 <lastmod>
-2016-04-08
+2016-04-15
 </lastmod>
 </url>
 <url>
@@ -61,7 +69,7 @@ http://tales.sveri.de/tags/cryogen.html
 http://tales.sveri.de/tags/clojuresrcipt.html
 </loc>
 <lastmod>
-2016-04-08
+2016-04-15
 </lastmod>
 </url>
 <url>
@@ -69,7 +77,7 @@ http://tales.sveri.de/tags/clojuresrcipt.html
 http://tales.sveri.de/tags/strategy pattern.html
 </loc>
 <lastmod>
-2016-04-08
+2016-04-15
 </lastmod>
 </url>
 <url>
@@ -77,7 +85,7 @@ http://tales.sveri.de/tags/strategy pattern.html
 http://tales.sveri.de/tags/stacktrace.html
 </loc>
 <lastmod>
-2016-04-08
+2016-04-15
 </lastmod>
 </url>
 <url>
@@ -85,7 +93,7 @@ http://tales.sveri.de/tags/stacktrace.html
 http://tales.sveri.de/tags/clojure.html
 </loc>
 <lastmod>
-2016-04-08
+2016-04-15
 </lastmod>
 </url>
 <url>
@@ -93,7 +101,7 @@ http://tales.sveri.de/tags/clojure.html
 http://tales.sveri.de/index.html
 </loc>
 <lastmod>
-2016-04-08
+2016-04-15
 </lastmod>
 </url>
 <url>
@@ -101,7 +109,7 @@ http://tales.sveri.de/index.html
 http://tales.sveri.de/archives.html
 </loc>
 <lastmod>
-2016-04-08
+2016-04-15
 </lastmod>
 </url>
 <url>
@@ -109,7 +117,7 @@ http://tales.sveri.de/archives.html
 http://tales.sveri.de/posts/2015-09-06-strategy-pattern-clojure.html
 </loc>
 <lastmod>
-2016-04-08
+2016-04-15
 </lastmod>
 </url>
 <url>
@@ -117,7 +125,7 @@ http://tales.sveri.de/posts/2015-09-06-strategy-pattern-clojure.html
 http://tales.sveri.de/posts/2015-05-22-tetris-2.html
 </loc>
 <lastmod>
-2016-04-08
+2016-04-15
 </lastmod>
 </url>
 <url>
@@ -125,7 +133,7 @@ http://tales.sveri.de/posts/2015-05-22-tetris-2.html
 http://tales.sveri.de/posts/2016-04-08-closp-release.html
 </loc>
 <lastmod>
-2016-04-08
+2016-04-15
 </lastmod>
 </url>
 <url>
@@ -133,7 +141,7 @@ http://tales.sveri.de/posts/2016-04-08-closp-release.html
 http://tales.sveri.de/posts/2015-06-07-closp-release.html
 </loc>
 <lastmod>
-2016-04-08
+2016-04-15
 </lastmod>
 </url>
 <url>
@@ -141,7 +149,7 @@ http://tales.sveri.de/posts/2015-06-07-closp-release.html
 http://tales.sveri.de/posts/2015-05-24-tetris-6.html
 </loc>
 <lastmod>
-2016-04-08
+2016-04-15
 </lastmod>
 </url>
 <url>
@@ -149,7 +157,7 @@ http://tales.sveri.de/posts/2015-05-24-tetris-6.html
 http://tales.sveri.de/posts/2015-05-23-tetris-3.html
 </loc>
 <lastmod>
-2016-04-08
+2016-04-15
 </lastmod>
 </url>
 <url>
@@ -157,7 +165,7 @@ http://tales.sveri.de/posts/2015-05-23-tetris-3.html
 http://tales.sveri.de/posts/2015-05-24-tetris-7.html
 </loc>
 <lastmod>
-2016-04-08
+2016-04-15
 </lastmod>
 </url>
 <url>
@@ -165,7 +173,7 @@ http://tales.sveri.de/posts/2015-05-24-tetris-7.html
 http://tales.sveri.de/posts/2015-07-31-closp-release.html
 </loc>
 <lastmod>
-2016-04-08
+2016-04-15
 </lastmod>
 </url>
 <url>
@@ -173,7 +181,7 @@ http://tales.sveri.de/posts/2015-07-31-closp-release.html
 http://tales.sveri.de/posts/2015-05-23-tetris-4.html
 </loc>
 <lastmod>
-2016-04-08
+2016-04-15
 </lastmod>
 </url>
 <url>
@@ -181,7 +189,7 @@ http://tales.sveri.de/posts/2015-05-23-tetris-4.html
 http://tales.sveri.de/posts/2015-08-30-worst-stacktrace.html
 </loc>
 <lastmod>
-2016-04-08
+2016-04-15
 </lastmod>
 </url>
 <url>
@@ -189,7 +197,7 @@ http://tales.sveri.de/posts/2015-08-30-worst-stacktrace.html
 http://tales.sveri.de/posts/2015-05-23-tetris-5.html
 </loc>
 <lastmod>
-2016-04-08
+2016-04-15
 </lastmod>
 </url>
 <url>
@@ -197,7 +205,7 @@ http://tales.sveri.de/posts/2015-05-23-tetris-5.html
 http://tales.sveri.de/posts/2015-05-25-tetris-8.html
 </loc>
 <lastmod>
-2016-04-08
+2016-04-15
 </lastmod>
 </url>
 <url>
@@ -205,7 +213,7 @@ http://tales.sveri.de/posts/2015-05-25-tetris-8.html
 http://tales.sveri.de/posts/2015-05-21-tetris-1.html
 </loc>
 <lastmod>
-2016-04-08
+2016-04-15
 </lastmod>
 </url>
 <url>
@@ -213,7 +221,7 @@ http://tales.sveri.de/posts/2015-05-21-tetris-1.html
 http://tales.sveri.de/posts/2015-05-26-tetris-9.html
 </loc>
 <lastmod>
-2016-04-08
+2016-04-15
 </lastmod>
 </url>
 <url>
@@ -221,7 +229,15 @@ http://tales.sveri.de/posts/2015-05-26-tetris-9.html
 http://tales.sveri.de/posts/2015-06-01-tetris-10.html
 </loc>
 <lastmod>
-2016-04-08
+2016-04-15
+</lastmod>
+</url>
+<url>
+<loc>
+http://tales.sveri.de/posts/2016-04-14-closp-documentation.html
+</loc>
+<lastmod>
+2016-04-15
 </lastmod>
 </url>
 <url>
@@ -229,7 +245,15 @@ http://tales.sveri.de/posts/2015-06-01-tetris-10.html
 http://tales.sveri.de/posts/2015-05-20-first-post.html
 </loc>
 <lastmod>
-2016-04-08
+2016-04-15
+</lastmod>
+</url>
+<url>
+<loc>
+http://tales.sveri.de/pages/closp-tutorial.html
+</loc>
+<lastmod>
+2016-04-15
 </lastmod>
 </url>
 <url>
@@ -237,7 +261,7 @@ http://tales.sveri.de/posts/2015-05-20-first-post.html
 http://tales.sveri.de/pages/about.html
 </loc>
 <lastmod>
-2016-04-08
+2016-04-15
 </lastmod>
 </url>
 <url>
@@ -245,7 +269,7 @@ http://tales.sveri.de/pages/about.html
 http://tales.sveri.de/404.html
 </loc>
 <lastmod>
-2016-04-08
+2016-04-15
 </lastmod>
 </url>
 </urlset>

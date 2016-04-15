@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
     <meta charset="utf-8"/>
-    <title>Sveris Tales: Tetris in clojurescript and re-frame Part 6 - User Interaction</title>
+    <title>Sveris Tales: Closp Tutorial</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href='http://fonts.googleapis.com/css?family=Alegreya:400italic,700italic,400,700' rel='stylesheet'
           type='text/css'>
@@ -46,7 +46,7 @@
                 <li ><a href="/index.html">Home</a></li>
                 
                 <li
-                >
+                 class="active" >
                 <a href="/pages/closp-tutorial.html">Closp Tutorial</a>
                 </li>
                 
@@ -70,93 +70,20 @@
         <div class="col-lg-9">
             <div id="content">
                 
-<div id="post">
-    <div id="post-header">
-    <div id="post-meta" class="row">
-        <div class="col-lg-6">May 24, 2015</div>
-        
+<div id="custom-page">
+    <div id="page-header">
+        <h2>Closp Tutorial</h2>
     </div>
-    <h2>Tetris in clojurescript and re-frame Part 6 - User Interaction</h2>
-</div>
-<div>
     
-     <h2><a name="event&#95;handler"></a>Event Handler</h2><p>In the <strong>:initialise-db</strong> register handler we also define the following code:</p><pre><code>&#40;set! &#40;.-onkeydown js/document&#41; keydown&#41;
-</code></pre><p>This will call the <i>keydown</i> function whenever a key is pressed and the window has the focus. It looks like this:</p><pre><code>&#40;register-handler
-  :keypressed
-  &#40;rf/after grid-changed-mw&#41;
-  &#40;fn &#91;app-state &#91;&#95; e&#93;&#93;
-    &#40;condp = &#40;.-keyCode e&#41;
-      37 &#40;move-on-keypress app-state #&#40;update-in &#40;:cur-active app-state&#41; &#91;:x&#93; - 1&#41;&#41;
-      38 &#40;move-on-keypress app-state #&#40;update-in &#40;:cur-active app-state&#41; &#91;:o&#93; &#40;fn &#91;old&#93; &#40;mod &#40;+ 1 old&#41; 4&#41;&#41;&#41;&#41;
-      39 &#40;move-on-keypress app-state #&#40;update-in &#40;:cur-active app-state&#41; &#91;:x&#93; + 1&#41;&#41;
-      40 &#40;move-on-keypress app-state #&#40;update-in &#40;:cur-active app-state&#41; &#91;:y&#93; + 1&#41;&#41;
-      32 &#40;do &#40;dispatch &#91;:move-one-down&#93;&#41; app-state&#41;
-      80 &#40;do &#40;if &#40;:paused? app-state&#41; &#40;dispatch &#91;:unpause-game&#93;&#41; &#40;dispatch &#91;:pause-game&#93;&#41;&#41; app-state&#41;
-      app-state&#41;&#41;&#41;
-
-&#40;defn keydown &#91;e&#93;
-  &#40;when &#40;h/in? &#91;32 37 38 39 40&#93; &#40;.-keyCode e&#41;&#41; &#40;.preventDefault e&#41;&#41;
-  &#40;dispatch &#91;:keypressed e&#93;&#41;&#41;
-</code></pre><p>We will only prevent the default action if the up, down, left, right, p or space key was pressed,  then we call dispatch again and call the <i>:keypressed</i> handler.<br /> This calls the <i>move-on-keypress</i> function which looks like this:</p><pre><code>&#40;defn move-on-keypress &#91;app-state move-fn&#93;
-  &#40;let &#91;cur-active &#40;:cur-active app-state&#41;
-        cur-grid &#40;:grid-state app-state&#41;
-        remove-cur-grid &#40;minios/draw-tet cur-active minios/tet-recipe 0 cur-grid&#41;&#93;
-    &#40;if &#40;minios/is-move-allowed? &#40;move-fn&#41; cur-active cur-grid minios/tet-recipe&#41;
-      &#40;assoc app-state :cur-active &#40;move-fn&#41; :grid-state &#40;minios/draw-tet &#40;move-fn&#41; minios/tet-recipe 1 remove-cur-grid&#41;&#41;
-      app-state&#41;&#41;&#41;
-</code></pre><p>It checks whether the move is allowed and if so, updates the app state:</p><ul><li>:cur-active update the active tetriminio position</li><li>:grid-state the updated grid state with the moved active tetriminio</li></ul><p>If the move is not allowed, it will return the unchanged app state, making sure we cannot move the tetrimino outside of the grid or over existing borders.</p><h2><a name="space&#95;key"></a>Space Key</h2><p>If we press the space key we want to move the tetriminio down to the lowest allowed position. To do this we dispatch on the <strong>:move-one-down</strong> event with the regarding handler:</p><pre><code>&#40;register-handler
-  :move-one-down
-  &#40;rf/after grid-changed-mw&#41;
-  &#40;fn &#91;app-state &#95;&#93;
-    &#40;when &#40;minios/is-move-allowed? &#40;update-in &#40;:cur-active app-state&#41; &#91;:y&#93; + 2&#41; &#40;:cur-active app-state&#41;
-                                   &#40;:grid-state app-state&#41; minios/tet-recipe&#41;
-      &#40;dispatch &#91;:move-one-down&#93;&#41;&#41;
-    &#40;move-on-keypress app-state #&#40;update-in &#40;:cur-active app-state&#41; &#91;:y&#93; + 1&#41;&#41;&#41;&#41;
-</code></pre><p>As long as the down move is allowed it will dispatch on itself again with the side effect of moving one position down.</p><h2><a name="p&#95;key"></a>P Key</h2><p>The <strong>P</strong> key will pause or unpause the game, dispatching on <strong>:pause-game</strong> or <strong>:unpause-game</strong> respectively:</p><pre><code>&#40;register-handler
-  :pause-game
-  &#40;fn &#91;db &#95;&#93;
-    &#40;. &#40;:timer db&#41; &#40;stop&#41;&#41;
-    &#40;assoc db :paused? true&#41;&#41;&#41;
-
-&#40;register-handler
-  :unpause-game
-  &#40;fn &#91;db &#95;&#93;
-    &#40;. &#40;:timer db&#41; &#40;start&#41;&#41;
-    &#40;assoc db :paused? false&#41;&#41;&#41;
-</code></pre><p>It just stops or starts the timer which controls the game speed and updates the app states <strong>:paused</strong> key.</p>
-</div>
-
-<div id="post-tags">
-    <b>Tags: </b>
-    
-    <a href="/tags/tetris.html">tetris</a>
-    
-    <a href="/tags/clojuresrcipt.html">clojuresrcipt</a>
-    
-</div>
-
+    <ul><li>Getting started with Web Development: </posts/2016-04-14-closp-tutorial-01.html></li></ul>
 
     <div id="prev-next">
         
-        <a href="/posts/2015-05-25-tetris-8.html">&laquo; Tetris in clojurescript and re-frame Part 8 - Subscriptions</a>
         
         
-        <a class="right" href="/posts/2015-05-24-tetris-7.html">Tetris in clojurescript and re-frame Part 7 - Collision Detection &raquo;</a>
+        <a href="/pages/about.html">About &raquo;</a>
         
     </div>
-
-    
-    <div id="disqus_thread"></div>
-    <script type="text/javascript">
-        (function() {
-            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-            dsq.src = '//sveris-tales.disqus.com/embed.js';
-            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        })();
-    </script>
-    
-
-
 </div>
 
             </div>

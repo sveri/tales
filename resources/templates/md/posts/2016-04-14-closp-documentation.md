@@ -6,3 +6,4 @@
 
 I have finally managed to start documenting web develompent with closp.  
 You can find the first chapters here: <http://closp.net>.
+

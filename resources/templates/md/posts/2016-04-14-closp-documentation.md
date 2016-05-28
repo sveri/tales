@@ -1,6 +1,6 @@
 {:title "Closp Documentation"
  :layout :post
- :tags  ["closp" "tutorial" "clojure" "clojurescript"]}
+ :tags  ["closp" "tutorial" "clojure" "clojurescript" "documentation" "closp.net"]}
  
 # Getting Started with Clojure Web Development
 

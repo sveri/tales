@@ -186,3 +186,26 @@ is reuseability. I cannot tell if this comes true or not. For me, I did not
  
 Another big feature is the integration with test.check, so this is on my todo list
 for now and you should have a look into it too.
+
+
+**Update**
+
+I forgot about one thing. Some datatypes are missing, the one that hit me
+was `boolean`. I defined it as `#(instance? Boolean %)`. However, one 
+drawback is that no generator for this exists.  
+Currently there are two solutions:
+
+```
+(defn boolean? [x] (instance? Boolean x))
+(s/def ::boolean (s/with-gen boolean? #(gen/boolean)))
+```   
+As it is shown in: <http://clojure.org/guides/spec#_generators>
+
+Or, the solution that I prefer for now:
+
+```
+(s/def ::boolean #{true false})
+```
+Just define it as a set of true and false values.
+
+Both works for generating example datasets.

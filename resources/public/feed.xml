@@ -15,7 +15,7 @@ http://tales.sveri.de/
 Everything about everything
 </description>
 <lastBuildDate>
-Sat, 28 May 2016 21:40:45 +0200
+Sat, 28 May 2016 22:36:09 +0200
 </lastBuildDate>
 <item>
 <guid>
@@ -143,7 +143,10 @@ In: &amp;#91;0&amp;#93; val: &amp;#91;{:foo &amp;quot;bar&amp;quot;}&amp;#93; fa
 &amp;#40;s/def ::columns &amp;#40;s/cat :column &amp;#40;s/&amp;#42; ::column&amp;#41;&amp;#41;&amp;#41;
 
 &amp;#40;s/def ::entity-description &amp;#40;s/keys :req-un &amp;#91;::name ::columns&amp;#93;&amp;#41;&amp;#41;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;As you can see, the declaration itself for such a small spec contains  more code, this is due to the way maps are defined. The big advantage here is reuseability. I cannot tell if this comes true or not. For me, I did not  see it yet, but, its a small library and time will tell.  &lt;/p&gt;&lt;p&gt;Another big feature is the integration with test.check, so this is on my todo list for now and you should have a look into it too.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;As you can see, the declaration itself for such a small spec contains  more code, this is due to the way maps are defined. The big advantage here is reuseability. I cannot tell if this comes true or not. For me, I did not  see it yet, but, its a small library and time will tell.  &lt;/p&gt;&lt;p&gt;Another big feature is the integration with test.check, so this is on my todo list for now and you should have a look into it too.&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Update&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;I forgot about one thing. Some datatypes are missing, the one that hit me was &lt;code&gt;boolean&lt;/code&gt;. I defined it as &lt;code&gt;#&amp;#40;instance? Boolean %&amp;#41;&lt;/code&gt;. However, one  drawback is that no generator for this exists.&lt;br /&gt; Currently there are two solutions:&lt;/p&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;defn boolean? &amp;#91;x&amp;#93; &amp;#40;instance? Boolean x&amp;#41;&amp;#41;
+&amp;#40;s/def ::boolean &amp;#40;s/with-gen boolean? #&amp;#40;gen/boolean&amp;#41;&amp;#41;&amp;#41;
+&lt;/code&gt;&lt;/pre&gt;As it is shown in: &lt;a href=&quot;http://clojure.org/guides/spec#&lt;i&gt;generators&quot;&gt;http://clojure.org/guides/spec#&lt;/i&gt;generators&lt;/a&gt;&lt;p&gt;Or, the solution that I prefer for now:&lt;/p&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;s/def ::boolean #{true false}&amp;#41;
+&lt;/code&gt;&lt;/pre&gt;Just define it as a set of true and false values.&lt;p&gt;Both works for generating example datasets.&lt;/p&gt;
 </description>
 <pubDate>
 Sat, 28 May 2016 00:00:00 +0200

@@ -190,7 +190,10 @@ In: &#91;0&#93; val: &#91;{:foo &quot;bar&quot;}&#93; fails spec: :de.sveri.clos
 &#40;s/def ::columns &#40;s/cat :column &#40;s/&#42; ::column&#41;&#41;&#41;
 
 &#40;s/def ::entity-description &#40;s/keys :req-un &#91;::name ::columns&#93;&#41;&#41;
-</code></pre><p>As you can see, the declaration itself for such a small spec contains  more code, this is due to the way maps are defined. The big advantage here is reuseability. I cannot tell if this comes true or not. For me, I did not  see it yet, but, its a small library and time will tell.  </p><p>Another big feature is the integration with test.check, so this is on my todo list for now and you should have a look into it too.</p>
+</code></pre><p>As you can see, the declaration itself for such a small spec contains  more code, this is due to the way maps are defined. The big advantage here is reuseability. I cannot tell if this comes true or not. For me, I did not  see it yet, but, its a small library and time will tell.  </p><p>Another big feature is the integration with test.check, so this is on my todo list for now and you should have a look into it too.</p><p><strong>Update</strong></p><p>I forgot about one thing. Some datatypes are missing, the one that hit me was <code>boolean</code>. I defined it as <code>#&#40;instance? Boolean %&#41;</code>. However, one  drawback is that no generator for this exists.<br /> Currently there are two solutions:</p><pre><code>&#40;defn boolean? &#91;x&#93; &#40;instance? Boolean x&#41;&#41;
+&#40;s/def ::boolean &#40;s/with-gen boolean? #&#40;gen/boolean&#41;&#41;&#41;
+</code></pre>As it is shown in: <a href="http://clojure.org/guides/spec#<i>generators">http://clojure.org/guides/spec#</i>generators</a><p>Or, the solution that I prefer for now:</p><pre><code>&#40;s/def ::boolean #{true false}&#41;
+</code></pre>Just define it as a set of true and false values.<p>Both works for generating example datasets.</p>
 </div>
 
 <div id="post-tags">

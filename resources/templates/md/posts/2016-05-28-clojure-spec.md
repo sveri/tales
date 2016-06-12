@@ -204,8 +204,10 @@ As it is shown in: <http://clojure.org/guides/spec#_generators>
 Or, the solution that I prefer for now:
 
 ```
-(s/def ::boolean #{true false})
+(s/def ::boolean (s/or :t true? :f false?))
 ```
-Just define it as a set of true and false values.
+Originally I had this code here: `(s/def ::boolean #{true? false?})`, which
+does not work, but somehow I missed to see the failed tests. Anyway, the
+above code works, this time for real ;)
 
 Both works for generating example datasets.

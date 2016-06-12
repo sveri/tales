@@ -68,156 +68,70 @@
 <div id="post">
     <div id="post-header">
     <div id="post-meta" class="row">
-        <div class="col-lg-6">May 28, 2016</div>
+        <div class="col-lg-6">June 12, 2016</div>
         
     </div>
-    <h2>Clojure Spec in Closp Crud</h2>
+    <h2>Using @Autowired in a GenericFilterBean</h2>
 </div>
 <div>
     
-     <p>This week Rich Hickey announced the release of clojure.spec which is a new namespace in the clojure library. It aims to provide runtime contracts for clojure.</p><p>There is already a lot of great documentation available:</p><ul><li>About: http://clojure.org/about/spec</li><li>Guide: http://clojure.org/guides/spec</li><li>API: http://clojure.github.io/clojure/branch-master/clojure.spec-api.html</li></ul><p>clojure.spec is part of the 1.9 release, of which currently 1.9.0-alpha3  is available. There is no timeframe of a final 1.9 release yet, so it  is all in a very early stage. However, considering this, the documentation is ready for primetime,  at least from my point of view.</p><p>To try things out, I took my crud library and converted it from schema to clojure.spec. The transition went pretty smooth with two problems I encountered.</p><p>The first one was a bug which is already fixed in alpha-3, so I wont go into detail here.</p><p>The second is a bit tougher one, at least for me. Consider this example:</p><pre><code>&#40;s/def ::foo string?&#41;
-
-&#40;s/def ::column &#40;s/keys :req-un &#91;::foo&#93;&#41;&#41;
-
-&#40;s/def ::columns &#40;s/cat :col ::column&#41;&#41;
-
-&#40;s/fdef test-fn :args &#40;s/cat :cols ::columns&#41; :ret ::columns&#41;
-&#40;defn test-fn &#91;cols&#93;
-  &#40;vec &#40;remove #&#40;= true &#40;:autoinc %&#41;&#41; cols&#41;&#41;&#41;
-
-
-&#40;s/instrument-all&#41;
-</code></pre><p>Running this: <code>&#40;test-fn &#91;{:foo &quot;bar&quot;}&#93;&#41;</code> will result in this error:<br /></p><pre><code class="clojure">ExceptionInfo Call to #'de.sveri.clospcrud.s-play/test-fn did not conform to spec:
-In: &#91;0&#93; val: &#91;{:foo &quot;bar&quot;}&#93; fails spec: :de.sveri.clospcrud.s-play/column at: &#91;:args :cols :col&#93; predicate: map?
-:clojure.spec/args  &#40;&#91;{:foo &quot;bar&quot;}&#93;&#41;
-  clojure.core/ex-info &#40;core.clj:4617&#41;
-</code></pre><p>This error comes in different forms and hit me a few times: <pre><code class="clojure">In: &#91;0&#93; val: &#40;&#91;{:name &quot;age&quot;, :type :int, :null false}&#93;&#41; fails at: &#91;:args&#93; predicate: &#40;cat :cols :de.sveri.clospcrud.schema/columns&#41;,  Extra input
-:clojure.spec/args  &#40;&#91;{:name &quot;age&quot;, :type :int, :null false}&#93;&#41;
-  clojure.core/ex-info &#40;core.clj:4617&#41;
- </code></pre></p><p>The reason is that you will have to wrap every <code>seq</code> into <code>&#40;s/spec ...&#41;</code>. At least thats my understanding, the docs talk about regex here and this is  where a personal brain disconnect comes from, which made it harder for me to recognize and fix the problem: <a href="http://clojure.org/guides/spec#<i>sequences">http://clojure.org/guides/spec#</i>sequences</a>. If you scroll down a bit you will find the explanation.</p><p>Long story short, the solution is this:</p><pre><code>&#40;s/def ::foo string?&#41;
-
-&#40;s/def ::column &#40;s/keys :req-un &#91;::foo&#93;&#41;&#41;
-
-&#40;s/def ::columns &#40;s/cat :col ::column&#41;&#41;
-
-&#40;s/fdef test-fn :args &#40;s/cat :cols &#40;s/spec ::columns&#41;&#41; :ret ::columns&#41;
-;                                  &#94; Note the s/spec above
-
-&#40;defn test-fn &#91;cols&#93;
-  &#40;vec &#40;remove #&#40;= true &#40;:autoinc %&#41;&#41; cols&#41;&#41;&#41;
-
-
-&#40;s/instrument-all&#41;
-</code></pre><p>That said all in all I am very pleased so far. I always dreamed of a  official <code>schema</code> library, and would not have thought it to come true so soon.<br /></p><p>Special thanks to the cognitect team and everybody else working on that feature.</p><p>Here is some of my code that I switched from schema to spec:</p><pre><code>; schema
-&#40;def liqui-column &#91;&#40;s/one s/Keyword &quot;name&quot;&#41;
-                   &#40;s/one &#40;s/cond-pre s/Keyword &#91;&#40;s/one s/Keyword &quot;texttype&quot;&#41; 
-                   &#40;s/one s/Num &quot;size&quot;&#41;&#93;&#41; &quot;type&quot;&#41;
-                   &#40;s/optional s/Keyword &quot;attr1-type&quot;&#41;
-                   &#40;s/optional s/Any &quot;attr1-value&quot;&#41;
-                   s/Any&#93;&#41;
-
-&#40;def liqui-columns &#91;liqui-column&#93;&#41;
-
-&#40;def liqui-entity-description {:name Str :columns liqui-columns}&#41;
-
-;;clojure.spec
-
-&#40;s/def ::name string?&#41;
-
-&#40;s/def ::column &#40;s/cat :keyword keyword?
-                       :type &#40;s/alt :keyword keyword?
-                                    :varchar &#40;s/spec &#40;s/cat :keyword keyword? 
-                                    :size number?&#41;&#41;&#41;
-                       :first-attr-type &#40;s/? keyword?&#41;
-                       :first-attr-value &#40;s/? ::s/any&#41;
-                       :rest &#40;s/&#42; ::s/any&#41;&#41;&#41;
-
-&#40;s/def ::columns &#40;s/cat :column &#40;s/+ &#40;s/spec ::column&#41;&#41;&#41;&#41;
-
-&#40;s/def ::entity-description &#40;s/keys :req-un &#91;::name ::columns&#93;&#41;&#41;
-</code></pre><p>And:</p><pre><code>;schema
-&#40;def column-types &#40;s/enum :int :varchar :boolean :text :time :date
-                          :char :binary :smallint :bigint :decimal
-                          :float :double :real :timestamp&#41;&#41;
-
-&#40;def column {:name                        Str :type column-types
-             &#40;s/optional-key :null&#41;       Bool
-             &#40;s/optional-key :max-length&#41; Num
-             &#40;s/optional-key :required&#41;   Bool
-             &#40;s/optional-key :pk&#41;         Bool
-             &#40;s/optional-key :autoinc&#41;    Bool
-             &#40;s/optional-key :unique&#41;     Bool
-             &#40;s/optional-key :default&#41;    Any
-             &#40;s/optional-key :refs&#41;       Str
-             &#40;s/optional-key :fkname&#41;     Str}&#41;
-
-&#40;def columns &#91;column&#93;&#41;
-
-&#40;def entity-description {:name Str :columns columns}&#41;
-
-;;clojure.spec
-&#40;s/def ::name string?&#41;
-
-&#40;s/def ::entityname string?&#41;
-&#40;s/def ::entity-ns string?&#41;
-&#40;s/def ::ns string?&#41;
-&#40;s/def ::colname string?&#41;
-&#40;s/def ::colname-fn string?&#41;
-&#40;s/def ::ds-column &#40;s/keys :req-un &#91;::colname ::colname-fn&#93;&#41;&#41;
-&#40;s/def ::cols &#40;s/cat :cols &#40;s/+ ::ds-column&#41;&#41;&#41;
-&#40;s/def ::template-map &#40;s/keys :req-un &#91;::entityname ::entity-ns ::ns ::cols&#93;&#41;&#41;
-
-&#40;s/def ::column-types #{:int :varchar :boolean :text :time :date
-                        :char :binary :smallint :bigint :decimal
-                        :float :double :real :timestamp}&#41;
-
-
-&#40;s/def ::type ::column-types&#41;
-&#40;s/def ::null #&#40;instance? Boolean %&#41;&#41;
-&#40;s/def ::max-length number?&#41;
-&#40;s/def ::required #&#40;instance? Boolean %&#41;&#41;
-&#40;s/def ::pk #&#40;instance? Boolean %&#41;&#41;
-&#40;s/def ::autoinc #&#40;instance? Boolean %&#41;&#41;
-&#40;s/def ::unique #&#40;instance? Boolean %&#41;&#41;
-&#40;s/def ::default ::s/any&#41;
-&#40;s/def ::refs string?&#41;
-&#40;s/def ::fk-name string?&#41;
-
-&#40;s/def ::column &#40;s/keys :req-un &#91;::name ::type&#93;
-                        :opt-un &#91;::null ::max-length ::required ::pk 
-                        ::autoinc ::unique ::default
-                                 ::refs ::fkname&#93;&#41;&#41;
-&#40;s/def ::columns &#40;s/cat :column &#40;s/&#42; ::column&#41;&#41;&#41;
-
-&#40;s/def ::entity-description &#40;s/keys :req-un &#91;::name ::columns&#93;&#41;&#41;
-</code></pre><p>As you can see, the declaration itself for such a small spec contains  more code, this is due to the way maps are defined. The big advantage here is reuseability. I cannot tell if this comes true or not. For me, I did not  see it yet, but, its a small library and time will tell.  </p><p>Another big feature is the integration with test.check, so this is on my todo list for now and you should have a look into it too.</p><p><strong>Update</strong></p><p>I forgot about one thing. Some datatypes are missing, the one that hit me was <code>boolean</code>. I defined it as <code>#&#40;instance? Boolean %&#41;</code>. However, one  drawback is that no generator for this exists.<br /> Currently there are two solutions:</p><pre><code>&#40;defn boolean? &#91;x&#93; &#40;instance? Boolean x&#41;&#41;
-&#40;s/def ::boolean &#40;s/with-gen boolean? #&#40;gen/boolean&#41;&#41;&#41;
-</code></pre>As it is shown in: <a href="http://clojure.org/guides/spec#<i>generators">http://clojure.org/guides/spec#</i>generators</a><p>Or, the solution that I prefer for now:</p><pre><code>&#40;s/def ::boolean #{true false}&#41;
-</code></pre>Just define it as a set of true and false values.<p>Both works for generating example datasets.</p>
+     <p> Today I wanted to autowire a component into a GenericFilterBean. It did not work,  the autowired object was null all the time. What finally helped was to skim  through github and look how others did it.   This is the solution.  </p> <p> GenericFilterBean:  </p><pre><code> public class JwtFilter extends GenericFilterBean {
+ 	
+ 	@Autowired
+ 	private JwtHelper jwtHelper;
+ 
+     @Override
+     public void doFilter&#40;final ServletRequest req,
+                          final ServletResponse res,
+                          final FilterChain chain&#41; throws IOException, ServletException {         
+     } 
+ }
+</code></pre> <p> First you need to create file: <code>context.xml</code> in your resources. Here  you define the FilterBean you want to enable for autowiring.  </p><pre><code> &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+ &lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+        xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+        xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans
+ 	   					   http://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;
+ 
+     &lt;bean id=&quot;jwtFilter&quot; class=&quot;de.sveri.cleanercomm.filter.JwtFilter&quot;/&gt;
+ 
+     &lt;bean id=&quot;jwtFilterRegistrationBean&quot; class=&quot;org.springframework.boot.context.embedded.FilterRegistrationBean&quot;&gt;
+         &lt;property name=&quot;filter&quot; ref=&quot;jwtFilter&quot;/&gt;
+         &lt;property name=&quot;enabled&quot; value=&quot;true&quot; /&gt;
+     &lt;/bean&gt;
+ 
+ &lt;/beans&gt;
+</code></pre><p>Then you add this to your <code>Application</code> as annotation:</p><pre><code>@SpringBootApplication
+@ImportResource&#40;&quot;classpath:context.xml&quot;&#41;
+public class Application {
+...
+</code></pre><p>Any finally add the <code>@Component</code> to your wired class:</p><pre><code>@Component
+public class JwtHelper {
+...
+</code></pre><p>Thats it. It seems that <code>GenericFilterBean</code>s are somewhat special in this regard, at least it was not easy to find documentation for that.</p>
 </div>
 
 <div id="post-tags">
     <b>Tags: </b>
     
-    <a href="/tags/clojure.html">clojure</a>
+    <a href="/tags/Autowired.html">Autowired</a>
     
-    <a href="/tags/clojure.spec.html">clojure.spec</a>
+    <a href="/tags/GenericFilterBean.html">GenericFilterBean</a>
     
-    <a href="/tags/closp-crud.html">closp-crud</a>
+    <a href="/tags/spring boot.html">spring boot</a>
     
 </div>
 
 
     
     <div id="comments">
-        <a href="/posts/2016-05-28-clojure-spec.html#disqus_thread">View Comments</a>
+        <a href="/posts/2016-06-12-Spring-GenericFilterBean-Autowired.html#disqus_thread">View Comments</a>
     </div>
     
 
     <div id="prev-next">
         
         
-        <a class="right" href="/posts/2016-04-14-closp-documentation.html">Closp Documentation &raquo;</a>
+        <a class="right" href="/posts/2016-05-28-clojure-spec.html">Clojure Spec in Closp Crud &raquo;</a>
         
     </div>
 </div>
@@ -239,11 +153,11 @@ In: &#91;0&#93; val: &#91;{:foo &quot;bar&quot;}&#93; fails spec: :de.sveri.clos
                     <h3>Recent Posts</h3>
                     <ul>
                         
+                        <li><a href="/posts/2016-06-12-Spring-GenericFilterBean-Autowired.html">Using @Autowired in a GenericFilterBean</a></li>
+                        
                         <li><a href="/posts/2016-05-28-clojure-spec.html">Clojure Spec in Closp Crud</a></li>
                         
                         <li><a href="/posts/2016-04-14-closp-documentation.html">Closp Documentation</a></li>
-                        
-                        <li><a href="/posts/2016-04-08-closp-release.html">Closp 0.1.28 and closp-crud 0.2.0 Release</a></li>
                         
                     </ul>
                 </div>
@@ -254,6 +168,8 @@ In: &#91;0&#93; val: &#91;{:foo &quot;bar&quot;}&#93; fails spec: :de.sveri.clos
                     <ul>
                         
                         <li><a href="/tags/closp.net.html">closp.net</a></li>
+                        
+                        <li><a href="/tags/Autowired.html">Autowired</a></li>
                         
                         <li><a href="/tags/new blog.html">new blog</a></li>
                         
@@ -269,9 +185,13 @@ In: &#91;0&#93; val: &#91;{:foo &quot;bar&quot;}&#93; fails spec: :de.sveri.clos
                         
                         <li><a href="/tags/long.html">long</a></li>
                         
+                        <li><a href="/tags/GenericFilterBean.html">GenericFilterBean</a></li>
+                        
                         <li><a href="/tags/clojure.spec.html">clojure.spec</a></li>
                         
                         <li><a href="/tags/tetris.html">tetris</a></li>
+                        
+                        <li><a href="/tags/spring boot.html">spring boot</a></li>
                         
                         <li><a href="/tags/closp.html">closp</a></li>
                         

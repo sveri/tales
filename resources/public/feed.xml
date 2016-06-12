@@ -15,8 +15,57 @@ http://tales.sveri.de/
 Everything about everything
 </description>
 <lastBuildDate>
-Sat, 28 May 2016 22:36:09 +0200
+Sun, 12 Jun 2016 17:47:23 +0200
 </lastBuildDate>
+<item>
+<guid>
+http://tales.sveri.de/posts/2016-06-12-Spring-GenericFilterBean-Autowired.html
+</guid>
+<link>
+http://tales.sveri.de/posts/2016-06-12-Spring-GenericFilterBean-Autowired.html
+</link>
+<title>
+Using @Autowired in a GenericFilterBean
+</title>
+<description>
+ &lt;p&gt; Today I wanted to autowire a component into a GenericFilterBean. It did not work,  the autowired object was null all the time. What finally helped was to skim  through github and look how others did it.   This is the solution.  &lt;/p&gt; &lt;p&gt; GenericFilterBean:  &lt;/p&gt;&lt;pre&gt;&lt;code&gt; public class JwtFilter extends GenericFilterBean {
+ 	
+ 	@Autowired
+ 	private JwtHelper jwtHelper;
+ 
+     @Override
+     public void doFilter&amp;#40;final ServletRequest req,
+                          final ServletResponse res,
+                          final FilterChain chain&amp;#41; throws IOException, ServletException {         
+     } 
+ }
+&lt;/code&gt;&lt;/pre&gt; &lt;p&gt; First you need to create file: &lt;code&gt;context.xml&lt;/code&gt; in your resources. Here  you define the FilterBean you want to enable for autowiring.  &lt;/p&gt;&lt;pre&gt;&lt;code&gt; &amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?&amp;gt;
+ &amp;lt;beans xmlns=&amp;quot;http://www.springframework.org/schema/beans&amp;quot;
+        xmlns:xsi=&amp;quot;http://www.w3.org/2001/XMLSchema-instance&amp;quot;
+        xsi:schemaLocation=&amp;quot;http://www.springframework.org/schema/beans
+ 	   					   http://www.springframework.org/schema/beans/spring-beans.xsd&amp;quot;&amp;gt;
+ 
+     &amp;lt;bean id=&amp;quot;jwtFilter&amp;quot; class=&amp;quot;de.sveri.cleanercomm.filter.JwtFilter&amp;quot;/&amp;gt;
+ 
+     &amp;lt;bean id=&amp;quot;jwtFilterRegistrationBean&amp;quot; class=&amp;quot;org.springframework.boot.context.embedded.FilterRegistrationBean&amp;quot;&amp;gt;
+         &amp;lt;property name=&amp;quot;filter&amp;quot; ref=&amp;quot;jwtFilter&amp;quot;/&amp;gt;
+         &amp;lt;property name=&amp;quot;enabled&amp;quot; value=&amp;quot;true&amp;quot; /&amp;gt;
+     &amp;lt;/bean&amp;gt;
+ 
+ &amp;lt;/beans&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Then you add this to your &lt;code&gt;Application&lt;/code&gt; as annotation:&lt;/p&gt;&lt;pre&gt;&lt;code&gt;@SpringBootApplication
+@ImportResource&amp;#40;&amp;quot;classpath:context.xml&amp;quot;&amp;#41;
+public class Application {
+...
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Any finally add the &lt;code&gt;@Component&lt;/code&gt; to your wired class:&lt;/p&gt;&lt;pre&gt;&lt;code&gt;@Component
+public class JwtHelper {
+...
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Thats it. It seems that &lt;code&gt;GenericFilterBean&lt;/code&gt;s are somewhat special in this regard, at least it was not easy to find documentation for that.&lt;/p&gt;
+</description>
+<pubDate>
+Sun, 12 Jun 2016 00:00:00 +0200
+</pubDate>
+</item>
 <item>
 <guid>
 http://tales.sveri.de/posts/2016-05-28-clojure-spec.html

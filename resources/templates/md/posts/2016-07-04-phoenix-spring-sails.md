@@ -16,7 +16,7 @@ So what I did was to
 3. Build a sails.js api with one rest endpoint targeting the same database
 
 From an application perspective sails.js and phoenix are almost the same
-as I just started out liked described in the docs and only added that one 
+as I just started out like described in the docs and only added that one 
 rest api endpoint.  
 
 Spring boot is a bit different as I also provide login / register and some templates.  
@@ -31,4 +31,89 @@ the internal model layer:
 
 so, whatever comes with the framework.
 
-Also all three applications connect to the same database and query the 
+Also all three applications connect to the same database and query the same
+table, whereas the call is limited to 50.  
+I made it so that I can leave out the database as a parameter.
+
+## Setup
+
+The applications run in docker container. I went at dockerhub and picked up
+the appropriate ones by looking which exist for java, elixir and node js.  
+So most probably they run within different OS (debian / ubuntu).  
+But the containers run on the same hardware which is a i3770 and 16 GB RAM.
+
+I looked for the production setup instructions and applied them as written
+in the documentation, no further fine tuning was done.
+
+## Results
+
+Numbers are in milliseconds if not noted otherwise.
+
+### Phoenix
+
+```
+Thread - Repetitions      Mean       Median      Error  
+
+1 - 1000                  74         68          0
+10 - 100                  120        105         0
+100 - 10                  905        622         0
+1000 - 10                 6883       4397        22.19%
+```
+
+Here are the complete results: <a href="/img/elixir.png" target="_blank">Elixir</a>
+
+### Sails.js
+
+```
+Thread - Repetitions      Mean       Median      Error  
+
+1 - 1000                  136        125         0
+10 - 100                  158        141         0
+100 - 10                  1003       795         0
+1000 - 10                 8321       4685        6.72%
+```
+
+Here are the complete results: <a href="/img/sailsjs.png" target="_blank">Sailsjs</a>
+
+### Spring Boot
+
+```
+Thread - Repetitions      Mean       Median      Error  
+
+1 - 1000                  196        188         0
+10 - 100                  250        246         0
+100 - 10                  2579       2313        0
+1000 - 10                 7631       5712        60.87%
+```
+
+Here are the complete results: <a href="/img/sailsjs.png" target="_blank">Spring Boot</a>
+
+What surprised me the most is that spring boot has the worst performance here.
+
+I expected elixir to be the fastest, having read so much about its speed, but that
+sailsjs comes close, especially with 10 and 100 concurrent connections was another suprise. 
+
+On the other hand I was watching the CPU saturation during the tests and I never
+reached full saturation.
+
+Somehow when using 1000 concurrent connections I get a lot of drops. I am not sure what exactly
+the problem here is, but I wont investigate further for now.  
+I guess if I resolved these problems I would get some better numbers
+fully utilizing the CPU.
+
+### Code
+
+These are the commits to the projects that I ran the tests on
+
+* Spring Boot: <https://github.com/sveri/historify-spring-backend/tree/f890af4d76c85b7b57aad770d599c2a83fec18be>
+* Phoenix: <https://github.com/sveri/phoenix-historify-api/tree/b510b5a744720c74e007723e2ce89576b5619dc9>
+* Sailsjs: <https://github.com/sveri/sailsjs-historify-api/tree/a74001dc50919728e236ff8c2274486d28da9d36>
+
+Whereas the relevant api entrypoints can be found here:
+
+* Spring Boot: <https://github.com/sveri/historify-spring-backend/blob/f890af4d76c85b7b57aad770d599c2a83fec18be/src/main/java/de/sveri/historify/controller/rest/HistoryApi.java>
+* Phoenix: <https://github.com/sveri/phoenix-historify-api/blob/b510b5a744720c74e007723e2ce89576b5619dc9/web/controllers/browser_link_controller.ex>
+* Sailsjs: <https://github.com/sveri/sailsjs-historify-api/blob/a74001dc50919728e236ff8c2274486d28da9d36/api/controllers/BrowserLinkController.js>
+
+If anybody has any tips on improving the performance I am happy to rerun the tests
+and update the results / code.

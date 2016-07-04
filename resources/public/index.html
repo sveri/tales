@@ -68,70 +68,60 @@
 <div id="post">
     <div id="post-header">
     <div id="post-meta" class="row">
-        <div class="col-lg-6">June 12, 2016</div>
+        <div class="col-lg-6">July 4, 2016</div>
         
     </div>
-    <h2>Using @Autowired in a GenericFilterBean</h2>
+    <h2>Phoenix vs Spring Boot vs Sails.js performance comparison</h2>
 </div>
 <div>
     
-     <p> Today I wanted to autowire a component into a GenericFilterBean. It did not work,  the autowired object was null all the time. What finally helped was to skim  through github and look how others did it.   This is the solution.  </p> <p> GenericFilterBean:  </p><pre><code> public class JwtFilter extends GenericFilterBean {
- 	
- 	@Autowired
- 	private JwtHelper jwtHelper;
- 
-     @Override
-     public void doFilter&#40;final ServletRequest req,
-                          final ServletResponse res,
-                          final FilterChain chain&#41; throws IOException, ServletException {         
-     } 
- }
-</code></pre> <p> First you need to create file: <code>context.xml</code> in your resources. Here  you define the FilterBean you want to enable for autowiring.  </p><pre><code> &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
- &lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
-        xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
-        xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans
- 	   					   http://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;
- 
-     &lt;bean id=&quot;jwtFilter&quot; class=&quot;de.sveri.cleanercomm.filter.JwtFilter&quot;/&gt;
- 
-     &lt;bean id=&quot;jwtFilterRegistrationBean&quot; class=&quot;org.springframework.boot.context.embedded.FilterRegistrationBean&quot;&gt;
-         &lt;property name=&quot;filter&quot; ref=&quot;jwtFilter&quot;/&gt;
-         &lt;property name=&quot;enabled&quot; value=&quot;true&quot; /&gt;
-     &lt;/bean&gt;
- 
- &lt;/beans&gt;
-</code></pre><p>Then you add this to your <code>Application</code> as annotation:</p><pre><code>@SpringBootApplication
-@ImportResource&#40;&quot;classpath:context.xml&quot;&#41;
-public class Application {
-...
-</code></pre><p>Any finally add the <code>@Component</code> to your wired class:</p><pre><code>@Component
-public class JwtHelper {
-...
-</code></pre><p>Thats it. It seems that <code>GenericFilterBean</code>s are somewhat special in this regard, at least it was not easy to find documentation for that.</p>
+     <p> Working on a project where I consume an API which I plan to use from   browsers for instance I was trying out spring boot. I liked the development   speed, the documentation and everything in general.<br />  However, I was wondering how fast it is, given that I want fast user feedback. Searching for speed and frameworks you will naturally find a link to phoenix any time soon.<br /></p><p>So what I did was to </p><ol><li>Build my application based on spring boot</li><li>Build an elixir api with one rest endpoint targeting the same database</li><li>Build a sails.js api with one rest endpoint targeting the same database</li></ol><p>From an application perspective sails.js and phoenix are almost the same as I just started out like described in the docs and only added that one  rest api endpoint.<br /></p><p>Spring boot is a bit different as I also provide login / register and some templates.<br /> For the comparison purpose I also added that one rest endpoint without having to login.</p><p>All three applications offer this endpoint: <code>/api/browserlink</code> which uses the internal model layer:</p><ol><li>Spring boot - Hibernate</li><li>Elixir - Ecto</li><li>Sails.js - Waterlin</li></ol><p>so, whatever comes with the framework.</p><p>Also all three applications connect to the same database and query the same table, whereas the call is limited to 50.<br /> I made it so that I can leave out the database as a parameter.</p><h2><a name="setup"></a>Setup</h2><p>The applications run in docker container. I went at dockerhub and picked up the appropriate ones by looking which exist for java, elixir and node js.<br /> So most probably they run within different OS (debian / ubuntu).<br /> But the containers run on the same hardware which is a i3770 and 16 GB RAM.</p><p>I looked for the production setup instructions and applied them as written in the documentation, no further fine tuning was done.</p><h2><a name="results"></a>Results</h2><p>Numbers are in milliseconds if not noted otherwise.</p><h3><a name="phoenix"></a>Phoenix</h3><pre><code>Thread - Repetitions      Mean       Median      Error  
+
+1 - 1000                  74         68          0
+10 - 100                  120        105         0
+100 - 10                  905        622         0
+1000 - 10                 6883       4397        22.19%
+</code></pre><p>Here are the complete results: <a href="/img/elixir.png" target="_blank">Elixir</a></p><h3><a name="sails.js"></a>Sails.js</h3><pre><code>Thread - Repetitions      Mean       Median      Error  
+
+1 - 1000                  136        125         0
+10 - 100                  158        141         0
+100 - 10                  1003       795         0
+1000 - 10                 8321       4685        6.72%
+</code></pre><p>Here are the complete results: <a href="/img/sailsjs.png" target="_blank">Sailsjs</a></p><h3><a name="spring&#95;boot"></a>Spring Boot</h3><pre><code>Thread - Repetitions      Mean       Median      Error  
+
+1 - 1000                  196        188         0
+10 - 100                  250        246         0
+100 - 10                  2579       2313        0
+1000 - 10                 7631       5712        60.87%
+</code></pre><p>Here are the complete results: <a href="/img/sailsjs.png" target="_blank">Spring Boot</a></p><p>What surprised me the most is that spring boot has the worst performance here.</p><p>I expected elixir to be the fastest, having read so much about its speed, but that sailsjs comes close, especially with 10 and 100 concurrent connections was another suprise. </p><p>On the other hand I was watching the CPU saturation during the tests and I never reached full saturation.</p><p>Somehow when using 1000 concurrent connections I get a lot of drops. I am not sure what exactly the problem here is, but I wont investigate further for now.<br /> I guess if I resolved these problems I would get some better numbers fully utilizing the CPU.</p><h3><a name="code"></a>Code</h3><p>These are the commits to the projects that I ran the tests on</p><ul><li>Spring Boot: <a href="https://github.com/sveri/historify-spring-backend/tree/f890af4d76c85b7b57aad770d599c2a83fec18be">https://github.com/sveri/historify-spring-backend/tree/f890af4d76c85b7b57aad770d599c2a83fec18be</a></li><li>Phoenix: <a href="https://github.com/sveri/phoenix-historify-api/tree/b510b5a744720c74e007723e2ce89576b5619dc9">https://github.com/sveri/phoenix-historify-api/tree/b510b5a744720c74e007723e2ce89576b5619dc9</a></li><li>Sailsjs: <a href="https://github.com/sveri/sailsjs-historify-api/tree/a74001dc50919728e236ff8c2274486d28da9d36">https://github.com/sveri/sailsjs-historify-api/tree/a74001dc50919728e236ff8c2274486d28da9d36</a></li></ul><p>Whereas the relevant api entrypoints can be found here:</p><ul><li>Spring Boot: <a href="https://github.com/sveri/historify-spring-backend/blob/f890af4d76c85b7b57aad770d599c2a83fec18be/src/main/java/de/sveri/historify/controller/rest/HistoryApi.java">https://github.com/sveri/historify-spring-backend/blob/f890af4d76c85b7b57aad770d599c2a83fec18be/src/main/java/de/sveri/historify/controller/rest/HistoryApi.java</a></li><li>Phoenix: <a href="https://github.com/sveri/phoenix-historify-api/blob/b510b5a744720c74e007723e2ce89576b5619dc9/web/controllers/browser<i>link</i>controller.ex">https://github.com/sveri/phoenix-historify-api/blob/b510b5a744720c74e007723e2ce89576b5619dc9/web/controllers/browser<i>link</i>controller.ex</a></li><li>Sailsjs: <a href="https://github.com/sveri/sailsjs-historify-api/blob/a74001dc50919728e236ff8c2274486d28da9d36/api/controllers/BrowserLinkController.js">https://github.com/sveri/sailsjs-historify-api/blob/a74001dc50919728e236ff8c2274486d28da9d36/api/controllers/BrowserLinkController.js</a></li></ul><p>If anybody has any tips on improving the performance I am happy to rerun the tests and update the results / code.</p>
 </div>
 
 <div id="post-tags">
     <b>Tags: </b>
     
-    <a href="/tags/Autowired.html">Autowired</a>
+    <a href="/tags/comparison.html">comparison</a>
     
-    <a href="/tags/GenericFilterBean.html">GenericFilterBean</a>
+    <a href="/tags/sails.js.html">sails.js</a>
+    
+    <a href="/tags/phoenix.html">phoenix</a>
     
     <a href="/tags/spring boot.html">spring boot</a>
+    
+    <a href="/tags/performance.html">performance</a>
     
 </div>
 
 
     
     <div id="comments">
-        <a href="/posts/2016-06-12-Spring-GenericFilterBean-Autowired.html#disqus_thread">View Comments</a>
+        <a href="/posts/2016-07-04-phoenix-spring-sails.html#disqus_thread">View Comments</a>
     </div>
     
 
     <div id="prev-next">
         
         
-        <a class="right" href="/posts/2016-05-28-clojure-spec.html">Clojure Spec in Closp Crud &raquo;</a>
+        <a class="right" href="/posts/2016-06-12-Spring-GenericFilterBean-Autowired.html">Using @Autowired in a GenericFilterBean &raquo;</a>
         
     </div>
 </div>
@@ -153,11 +143,11 @@ public class JwtHelper {
                     <h3>Recent Posts</h3>
                     <ul>
                         
+                        <li><a href="/posts/2016-07-04-phoenix-spring-sails.html">Phoenix vs Spring Boot vs Sails.js performance comparison</a></li>
+                        
                         <li><a href="/posts/2016-06-12-Spring-GenericFilterBean-Autowired.html">Using @Autowired in a GenericFilterBean</a></li>
                         
                         <li><a href="/posts/2016-05-28-clojure-spec.html">Clojure Spec in Closp Crud</a></li>
-                        
-                        <li><a href="/posts/2016-04-14-closp-documentation.html">Closp Documentation</a></li>
                         
                     </ul>
                 </div>
@@ -183,11 +173,17 @@ public class JwtHelper {
                         
                         <li><a href="/tags/tutorial.html">tutorial</a></li>
                         
+                        <li><a href="/tags/comparison.html">comparison</a></li>
+                        
                         <li><a href="/tags/long.html">long</a></li>
                         
                         <li><a href="/tags/GenericFilterBean.html">GenericFilterBean</a></li>
                         
+                        <li><a href="/tags/sails.js.html">sails.js</a></li>
+                        
                         <li><a href="/tags/clojure.spec.html">clojure.spec</a></li>
+                        
+                        <li><a href="/tags/phoenix.html">phoenix</a></li>
                         
                         <li><a href="/tags/tetris.html">tetris</a></li>
                         
@@ -198,6 +194,8 @@ public class JwtHelper {
                         <li><a href="/tags/closp-crud.html">closp-crud</a></li>
                         
                         <li><a href="/tags/clojuresrcipt.html">clojuresrcipt</a></li>
+                        
+                        <li><a href="/tags/performance.html">performance</a></li>
                         
                         <li><a href="/tags/strategy pattern.html">strategy pattern</a></li>
                         

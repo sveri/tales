@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
     <meta charset="utf-8"/>
-    <title>Sveris Tales: Closp Release 0.1.15</title>
+    <title>Sveris Tales: Phoenix vs Spring Boot vs Sails.js performance comparison</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href='http://fonts.googleapis.com/css?family=Alegreya:400italic,700italic,400,700' rel='stylesheet'
           type='text/css'>
@@ -68,34 +68,54 @@
 <div id="post">
     <div id="post-header">
     <div id="post-meta" class="row">
-        <div class="col-lg-6">June 7, 2015</div>
+        <div class="col-lg-6">July 4, 2016</div>
         
     </div>
-    <h2>Closp Release 0.1.15</h2>
+    <h2>Phoenix vs Spring Boot vs Sails.js performance comparison</h2>
 </div>
 <div>
     
-    <p>I did two releases of <a href="https://github.com/sveri/closp">https://github.com/sveri/closp</a> in the last week, the second one being more of a bug fix release.  The goal of the last changes was to eliminate some libraries like piggieback and get a cleaner figwheel experience.<br /> While I was doing that I also updated to clojure 1.70-RC1 and added a very small reader conditionals example  while removing the cljx support.<br /></p><p>Figwheel needs to be started in a separate REPL now. However, if one needs, I guess, one could still start it in the REPL process inside the IDE where the main process is running.</p><p>I am still thinking about moving closp to luminus, but just do not have the time for a major change like this  right now, so, we will see :-)</p>
+     <p> Working on a project where I consume an API which I plan to use from   browsers for instance I was trying out spring boot. I liked the development   speed, the documentation and everything in general.<br />  However, I was wondering how fast it is, given that I want fast user feedback. Searching for speed and frameworks you will naturally find a link to phoenix any time soon.<br /></p><p>So what I did was to </p><ol><li>Build my application based on spring boot</li><li>Build an elixir api with one rest endpoint targeting the same database</li><li>Build a sails.js api with one rest endpoint targeting the same database</li></ol><p>From an application perspective sails.js and phoenix are almost the same as I just started out like described in the docs and only added that one  rest api endpoint.<br /></p><p>Spring boot is a bit different as I also provide login / register and some templates.<br /> For the comparison purpose I also added that one rest endpoint without having to login.</p><p>All three applications offer this endpoint: <code>/api/browserlink</code> which uses the internal model layer:</p><ol><li>Spring boot - Hibernate</li><li>Elixir - Ecto</li><li>Sails.js - Waterlin</li></ol><p>so, whatever comes with the framework.</p><p>Also all three applications connect to the same database and query the same table, whereas the call is limited to 50.<br /> I made it so that I can leave out the database as a parameter.</p><h2><a name="setup"></a>Setup</h2><p>The applications run in docker container. I went at dockerhub and picked up the appropriate ones by looking which exist for java, elixir and node js.<br /> So most probably they run within different OS (debian / ubuntu).<br /> But the containers run on the same hardware which is a i3770 and 16 GB RAM.</p><p>I looked for the production setup instructions and applied them as written in the documentation, no further fine tuning was done.</p><h2><a name="results"></a>Results</h2><p>Numbers are in milliseconds if not noted otherwise.</p><h3><a name="phoenix"></a>Phoenix</h3><pre><code>Thread - Repetitions      Mean       Median      Error  
+
+1 - 1000                  74         68          0
+10 - 100                  120        105         0
+100 - 10                  905        622         0
+1000 - 10                 6883       4397        22.19%
+</code></pre><p>Here are the complete results: <a href="/img/elixir.png" target="_blank">Elixir</a></p><h3><a name="sails.js"></a>Sails.js</h3><pre><code>Thread - Repetitions      Mean       Median      Error  
+
+1 - 1000                  136        125         0
+10 - 100                  158        141         0
+100 - 10                  1003       795         0
+1000 - 10                 8321       4685        6.72%
+</code></pre><p>Here are the complete results: <a href="/img/sailsjs.png" target="_blank">Sailsjs</a></p><h3><a name="spring&#95;boot"></a>Spring Boot</h3><pre><code>Thread - Repetitions      Mean       Median      Error  
+
+1 - 1000                  196        188         0
+10 - 100                  250        246         0
+100 - 10                  2579       2313        0
+1000 - 10                 7631       5712        60.87%
+</code></pre><p>Here are the complete results: <a href="/img/sailsjs.png" target="_blank">Spring Boot</a></p><p>What surprised me the most is that spring boot has the worst performance here.</p><p>I expected elixir to be the fastest, having read so much about its speed, but that sailsjs comes close, especially with 10 and 100 concurrent connections was another suprise. </p><p>On the other hand I was watching the CPU saturation during the tests and I never reached full saturation.</p><p>Somehow when using 1000 concurrent connections I get a lot of drops. I am not sure what exactly the problem here is, but I wont investigate further for now.<br /> I guess if I resolved these problems I would get some better numbers fully utilizing the CPU.</p><h3><a name="code"></a>Code</h3><p>These are the commits to the projects that I ran the tests on</p><ul><li>Spring Boot: <a href="https://github.com/sveri/historify-spring-backend/tree/f890af4d76c85b7b57aad770d599c2a83fec18be">https://github.com/sveri/historify-spring-backend/tree/f890af4d76c85b7b57aad770d599c2a83fec18be</a></li><li>Phoenix: <a href="https://github.com/sveri/phoenix-historify-api/tree/b510b5a744720c74e007723e2ce89576b5619dc9">https://github.com/sveri/phoenix-historify-api/tree/b510b5a744720c74e007723e2ce89576b5619dc9</a></li><li>Sailsjs: <a href="https://github.com/sveri/sailsjs-historify-api/tree/a74001dc50919728e236ff8c2274486d28da9d36">https://github.com/sveri/sailsjs-historify-api/tree/a74001dc50919728e236ff8c2274486d28da9d36</a></li></ul><p>Whereas the relevant api entrypoints can be found here:</p><ul><li>Spring Boot: <a href="https://github.com/sveri/historify-spring-backend/blob/f890af4d76c85b7b57aad770d599c2a83fec18be/src/main/java/de/sveri/historify/controller/rest/HistoryApi.java">https://github.com/sveri/historify-spring-backend/blob/f890af4d76c85b7b57aad770d599c2a83fec18be/src/main/java/de/sveri/historify/controller/rest/HistoryApi.java</a></li><li>Phoenix: <a href="https://github.com/sveri/phoenix-historify-api/blob/b510b5a744720c74e007723e2ce89576b5619dc9/web/controllers/browser<i>link</i>controller.ex">https://github.com/sveri/phoenix-historify-api/blob/b510b5a744720c74e007723e2ce89576b5619dc9/web/controllers/browser<i>link</i>controller.ex</a></li><li>Sailsjs: <a href="https://github.com/sveri/sailsjs-historify-api/blob/a74001dc50919728e236ff8c2274486d28da9d36/api/controllers/BrowserLinkController.js">https://github.com/sveri/sailsjs-historify-api/blob/a74001dc50919728e236ff8c2274486d28da9d36/api/controllers/BrowserLinkController.js</a></li></ul><p>If anybody has any tips on improving the performance I am happy to rerun the tests and update the results / code.</p>
 </div>
 
 <div id="post-tags">
     <b>Tags: </b>
     
-    <a href="/tags/clojure.html">clojure</a>
+    <a href="/tags/comparison.html">comparison</a>
     
-    <a href="/tags/closp.html">closp</a>
+    <a href="/tags/sails.js.html">sails.js</a>
     
-    <a href="/tags/clojurescript.html">clojurescript</a>
+    <a href="/tags/phoenix.html">phoenix</a>
+    
+    <a href="/tags/spring boot.html">spring boot</a>
+    
+    <a href="/tags/performance.html">performance</a>
     
 </div>
 
 
     <div id="prev-next">
         
-        <a href="/posts/2015-07-31-closp-release.html">&laquo; Closp Release 0.1.20</a>
         
-        
-        <a class="right" href="/posts/2015-06-01-tetris-10.html">Tetris in clojurescript and re-frame Part 10 - Missing Bits &raquo;</a>
+        <a class="right" href="/posts/2016-06-12-Spring-GenericFilterBean-Autowired.html">Using @Autowired in a GenericFilterBean &raquo;</a>
         
     </div>
 

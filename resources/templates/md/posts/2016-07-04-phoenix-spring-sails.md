@@ -20,7 +20,9 @@ as I just started out like described in the docs and only added that one
 rest api endpoint.  
 
 Spring boot is a bit different as I also provide login / register and some templates.  
-For the comparison purpose I also added that one rest endpoint without having to login.
+For the comparison purpose I also added that one rest endpoint without having to login.  
+**Update** Please note that while the spring boot controller contains an endpoint
+to persist data I did not use that during the test.
 
 All three applications offer this endpoint: `/api/browserlink` which uses
 the internal model layer:
@@ -37,7 +39,7 @@ I made it so that I can leave out the database as a parameter.
 
 ## Setup
 
-The applications run in docker container. I went at dockerhub and picked up
+The applications run in docker container. I looked at dockerhub and picked up
 the appropriate ones by looking which exist for java, elixir and node js.  
 So most probably they run within different OS (debian / ubuntu).  
 But the containers run on the same hardware which is a i3770 and 16 GB RAM.

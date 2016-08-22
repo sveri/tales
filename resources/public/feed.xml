@@ -15,7 +15,7 @@ http://tales.sveri.de/
 Everything about everything
 </description>
 <lastBuildDate>
-Mon, 04 Jul 2016 22:40:32 +0200
+Mon, 22 Aug 2016 16:24:19 +0200
 </lastBuildDate>
 <item>
 <guid>
@@ -28,7 +28,7 @@ http://tales.sveri.de/posts/2016-07-04-phoenix-spring-sails.html
 Phoenix vs Spring Boot vs Sails.js performance comparison
 </title>
 <description>
- &lt;p&gt; Working on a project where I consume an API which I plan to use from   browsers for instance I was trying out spring boot. I liked the development   speed, the documentation and everything in general.&lt;br /&gt;  However, I was wondering how fast it is, given that I want fast user feedback. Searching for speed and frameworks you will naturally find a link to phoenix any time soon.&lt;br /&gt;&lt;/p&gt;&lt;p&gt;So what I did was to &lt;/p&gt;&lt;ol&gt;&lt;li&gt;Build my application based on spring boot&lt;/li&gt;&lt;li&gt;Build an elixir api with one rest endpoint targeting the same database&lt;/li&gt;&lt;li&gt;Build a sails.js api with one rest endpoint targeting the same database&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;From an application perspective sails.js and phoenix are almost the same as I just started out like described in the docs and only added that one  rest api endpoint.&lt;br /&gt;&lt;/p&gt;&lt;p&gt;Spring boot is a bit different as I also provide login / register and some templates.&lt;br /&gt; For the comparison purpose I also added that one rest endpoint without having to login.&lt;br /&gt; &lt;strong&gt;Update&lt;/strong&gt; Please note that while the spring boot controller contains an endpoint to persist data I did not use that during the test.&lt;/p&gt;&lt;p&gt;All three applications offer this endpoint: &lt;code&gt;/api/browserlink&lt;/code&gt; which uses the internal model layer:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Spring boot - Hibernate&lt;/li&gt;&lt;li&gt;Elixir - Ecto&lt;/li&gt;&lt;li&gt;Sails.js - Waterlin&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;so, whatever comes with the framework.&lt;/p&gt;&lt;p&gt;Also all three applications connect to the same database and query the same table, whereas the call is limited to 50.&lt;br /&gt; I made it so that I can leave out the database as a parameter.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;setup&quot;&gt;&lt;/a&gt;Setup&lt;/h2&gt;&lt;p&gt;The applications run in docker container. I looked at dockerhub and picked up the appropriate ones by looking which exist for java, elixir and node js.&lt;br /&gt; So most probably they run within different OS (debian / ubuntu).&lt;br /&gt; But the containers run on the same hardware which is a i3770 and 16 GB RAM.&lt;/p&gt;&lt;p&gt;I looked for the production setup instructions and applied them as written in the documentation, no further fine tuning was done.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;results&quot;&gt;&lt;/a&gt;Results&lt;/h2&gt;&lt;p&gt;Numbers are in milliseconds if not noted otherwise.&lt;/p&gt;&lt;h3&gt;&lt;a name=&quot;phoenix&quot;&gt;&lt;/a&gt;Phoenix&lt;/h3&gt;&lt;pre&gt;&lt;code&gt;Thread - Repetitions      Mean       Median      Error  
+ &lt;p&gt; &lt;strong&gt;Update&lt;/strong&gt;  &lt;/p&gt;&lt;p&gt; Please consider these numbers to be flawed in different ways.  &lt;/p&gt;&lt;ol&gt;&lt;li&gt;I was doing the tests using a WiFi connection which has no stable speed in it self. I thought it was ok to do so, but it turns out that it is not.   Using a WiFi you will get different numbers from run to run just because of that.&lt;/li&gt;&lt;li&gt;The Spring Boot application was running behind a HAProxy while the Elixir and Sails.js application were not. That alone was causing like 150ms difference.   Lesson learned, HAProxy alone will will add a lot of latency to your application at least in the very basic configuration that I used. Maybe it is possible to tune it, but thats a different topic.  I made some more tests on a stable connection without the HAProxy and compared Spring Boot with Ecto and it turns out that there were not that much differences, usually between 1 and 2 ms in my case. Anyone wanting to know better, have a look here: &lt;a href=&quot;https://www.techempower.com/benchmarks/&quot;&gt;https://www.techempower.com/benchmarks/&lt;/a&gt;.  &lt;/li&gt;&lt;/ol&gt; &lt;p&gt; I will leave the old text as a reminder that, no matter how experienced you are, always  question yourself and never forget, everyone makes mistakes.  &lt;/p&gt; &lt;p&gt;&lt;strong&gt;Old Entry&lt;/strong&gt;  &lt;/p&gt;&lt;p&gt; Working on a project where I consume an API which I plan to use from   browsers for instance I was trying out spring boot. I liked the development   speed, the documentation and everything in general.&lt;br /&gt;  However, I was wondering how fast it is, given that I want fast user feedback. Searching for speed and frameworks you will naturally find a link to phoenix any time soon.&lt;br /&gt;&lt;/p&gt;&lt;p&gt;So what I did was to &lt;/p&gt;&lt;ol&gt;&lt;li&gt;Build my application based on spring boot&lt;/li&gt;&lt;li&gt;Build an elixir api with one rest endpoint targeting the same database&lt;/li&gt;&lt;li&gt;Build a sails.js api with one rest endpoint targeting the same database&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;From an application perspective sails.js and phoenix are almost the same as I just started out like described in the docs and only added that one  rest api endpoint.&lt;br /&gt;&lt;/p&gt;&lt;p&gt;Spring boot is a bit different as I also provide login / register and some templates.&lt;br /&gt; For the comparison purpose I also added that one rest endpoint without having to login.&lt;br /&gt; &lt;strong&gt;Update&lt;/strong&gt; Please note that while the spring boot controller contains an endpoint to persist data I did not use that during the test.&lt;/p&gt;&lt;p&gt;All three applications offer this endpoint: &lt;code&gt;/api/browserlink&lt;/code&gt; which uses the internal model layer:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Spring boot - Hibernate&lt;/li&gt;&lt;li&gt;Elixir - Ecto&lt;/li&gt;&lt;li&gt;Sails.js - Waterlin&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;so, whatever comes with the framework.&lt;/p&gt;&lt;p&gt;Also all three applications connect to the same database and query the same table, whereas the call is limited to 50.&lt;br /&gt; I made it so that I can leave out the database as a parameter.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;setup&quot;&gt;&lt;/a&gt;Setup&lt;/h2&gt;&lt;p&gt;The applications run in docker container. I looked at dockerhub and picked up the appropriate ones by looking which exist for java, elixir and node js.&lt;br /&gt; So most probably they run within different OS (debian / ubuntu).&lt;br /&gt; But the containers run on the same hardware which is a i3770 and 16 GB RAM.&lt;/p&gt;&lt;p&gt;I looked for the production setup instructions and applied them as written in the documentation, no further fine tuning was done.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;results&quot;&gt;&lt;/a&gt;Results&lt;/h2&gt;&lt;p&gt;Numbers are in milliseconds if not noted otherwise.&lt;/p&gt;&lt;h3&gt;&lt;a name=&quot;phoenix&quot;&gt;&lt;/a&gt;Phoenix&lt;/h3&gt;&lt;pre&gt;&lt;code&gt;Thread - Repetitions      Mean       Median      Error  
 
 1 - 1000                  74         68          0
 10 - 100                  120        105         0
@@ -1036,41 +1036,6 @@ Mon, 25 May 2015 00:00:00 +0200
 </item>
 <item>
 <guid>
-http://tales.sveri.de/posts/2015-05-24-tetris-7.html
-</guid>
-<link>
-http://tales.sveri.de/posts/2015-05-24-tetris-7.html
-</link>
-<title>
-Tetris in clojurescript and re-frame Part 7 - Collision Detection
-</title>
-<description>
- &lt;h2&gt;&lt;a name=&quot;is&amp;#95;move&amp;#95;allowed?&quot;&gt;&lt;/a&gt;Is Move Allowed?&lt;/h2&gt; &lt;p&gt; In the last chapter we already used the &lt;i&gt;is-move-allowed?&lt;/i&gt; function. There are four functions at all taking care  of it.&lt;br /&gt;  &lt;/p&gt;&lt;p&gt; The first one just checks the boundaries and if none tetriminio is defined at that position:  &lt;/p&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;defn is-moving-part-allowed? &amp;#91;x y grid&amp;#93;
-  &amp;#40;and &amp;#40;&amp;lt;= 0 x&amp;#41; &amp;#40;&amp;lt; x 10&amp;#41; &amp;#40;&amp;lt;= 0 y&amp;#41; &amp;#40;&amp;lt; y 20&amp;#41; &amp;#40;= 0 &amp;#40;get-in grid &amp;#91;x y&amp;#93;&amp;#41;&amp;#41;&amp;#41;&amp;#41;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The second one makes use of the function definitions. If a x or y key exists in the map if will apply the function to the old x or y value. If not, it just returns the old one. This is how we update the four blocks:&lt;br /&gt;&lt;/p&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;defn move-x-y &amp;#91;x y rec&amp;#93;
-  &amp;#40;let &amp;#91;x' &amp;#40;if &amp;#40;get rec :x&amp;#41; &amp;#40;&amp;#40;get rec :x&amp;#41; x&amp;#41; x&amp;#41;
-        y' &amp;#40;if &amp;#40;get rec :y&amp;#41; &amp;#40;&amp;#40;get rec :y&amp;#41; y&amp;#41; y&amp;#41;&amp;#93;
-    {:x x' :y y'}&amp;#41;&amp;#41;
-    
-&amp;#40;defn realize-move &amp;#91;x y t grid&amp;#93; &amp;#40;assoc-in grid &amp;#91;x y&amp;#93; t&amp;#41;&amp;#41;
-
-
-&lt;/code&gt;&lt;/pre&gt;This draws one tetriminio in the grid according to the tetriminio definition:&lt;br /&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;defn draw-tet &amp;#91;{:keys &amp;#91;x y t o&amp;#93; :as cur-tet} tet-recipe d grid&amp;#93;
-  &amp;#40;let &amp;#91;new-position &amp;#40;map #&amp;#40;move-x-y x y %&amp;#41; &amp;#40;get-in tet-recipe &amp;#91;t o&amp;#93;&amp;#41;&amp;#41;&amp;#93;
-      &amp;#40;reduce &amp;#40;fn &amp;#91;a b&amp;#93; &amp;#40;realize-move &amp;#40;:x b&amp;#41; &amp;#40;:y b&amp;#41; &amp;#40;&amp;#42; t d&amp;#41; a&amp;#41;&amp;#41; grid new-position&amp;#41;&amp;#41;&amp;#41;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;i&gt;is-move-allowed?&lt;/i&gt; basically only calls the functions defined above for every single block and returns true orfalse:&lt;br /&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;defn is-move-allowed? &amp;#91;{:keys &amp;#91;x y t o&amp;#93;} cur-active grid tet-recipe&amp;#93;
-  &amp;#40;let &amp;#91;new-position &amp;#40;map #&amp;#40;move-x-y x y %&amp;#41; &amp;#40;get-in tet-recipe &amp;#91;t o&amp;#93;&amp;#41;&amp;#41;
-        removed-grid &amp;#40;draw-tet cur-active tet-recipe 0 grid&amp;#41;&amp;#93;
-    &amp;#40;h/not-in? &amp;#40;map #&amp;#40;is-moving-part-allowed? &amp;#40;:x %&amp;#41; &amp;#40;:y %&amp;#41; removed-grid&amp;#41; new-position&amp;#41; false&amp;#41;&amp;#41;&amp;#41;
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-<pubDate>
-Sun, 24 May 2015 00:00:00 +0200
-</pubDate>
-</item>
-<item>
-<guid>
 http://tales.sveri.de/posts/2015-05-24-tetris-6.html
 </guid>
 <link>
@@ -1131,50 +1096,37 @@ Sun, 24 May 2015 00:00:00 +0200
 </item>
 <item>
 <guid>
-http://tales.sveri.de/posts/2015-05-23-tetris-5.html
+http://tales.sveri.de/posts/2015-05-24-tetris-7.html
 </guid>
 <link>
-http://tales.sveri.de/posts/2015-05-23-tetris-5.html
+http://tales.sveri.de/posts/2015-05-24-tetris-7.html
 </link>
 <title>
-Tetris in clojurescript and re-frame Part 5 - Tetriminios
+Tetris in clojurescript and re-frame Part 7 - Collision Detection
 </title>
 <description>
- &lt;h2&gt;&lt;a name=&quot;types&quot;&gt;&lt;/a&gt;Types&lt;/h2&gt;&lt;p&gt;There are seven tetriminio types each one defined by a number from 1 to 7. &lt;ul&gt;&lt;li&gt;1 I&lt;/li&gt;&lt;li&gt;2 L&lt;/li&gt;&lt;li&gt;3 J&lt;/li&gt;&lt;li&gt;4 O&lt;/li&gt;&lt;li&gt;5 S&lt;/li&gt;&lt;li&gt;6 T&lt;/li&gt;&lt;li&gt;7 S&lt;/li&gt;&lt;/ul&gt;So when the grid contains the number 1 it will draw the &lt;strong&gt;I&lt;/strong&gt; type at that place.&lt;br /&gt;&lt;/p&gt;&lt;p&gt;Each Tetrimino has an orientation defined by numbers 0 to 4.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;tetriminio&amp;#95;drawing&amp;#95;definitions&quot;&gt;&lt;/a&gt;Tetriminio Drawing Definitions&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;def tet-recipe
-      {1 {0 &amp;#91;{:x #&amp;#40;- % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;+ % 2&amp;#41;}&amp;#93;
-          1 &amp;#91;{:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 2&amp;#41;}&amp;#93;
-          2 &amp;#91;{:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 2&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;
-          3 &amp;#91;{:y #&amp;#40;+ % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;} {:y #&amp;#40;- % 2&amp;#41;}&amp;#93;}
-       2 {0 &amp;#91;{:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;- % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;}&amp;#93;
-          1 &amp;#91;{:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;} {:y #&amp;#40;+ % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;}&amp;#93;
-          2 &amp;#91;{:x #&amp;#40;- % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;
-          3 &amp;#91;{:y #&amp;#40;+ % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;}
-       3 {0 &amp;#91;{:x #&amp;#40;- % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;}&amp;#93;
-          1 &amp;#91;{:y #&amp;#40;+ % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;
-          2 &amp;#91;{:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;- % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;}&amp;#93;
-          3 &amp;#91;{:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;} {:y #&amp;#40;+ % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;}&amp;#93;}
-       4 {0 &amp;#91;{} {:x #&amp;#40;+ % 1&amp;#41;} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;
-          1 &amp;#91;{} {:x #&amp;#40;+ % 1&amp;#41;} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;
-          2 &amp;#91;{} {:x #&amp;#40;+ % 1&amp;#41;} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;
-          3 &amp;#91;{} {:x #&amp;#40;+ % 1&amp;#41;} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;}
-       5 {0 &amp;#91;{:x #&amp;#40;- % 1&amp;#41;} {} {:y #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;}&amp;#93;
-          1 &amp;#91;{:y #&amp;#40;+ % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;
-          2 &amp;#91;{:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;} {:y #&amp;#40;- % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;}&amp;#93;
-          3 &amp;#91;{:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;- % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;}&amp;#93;}
-       6 {0 &amp;#91;{:x #&amp;#40;- % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;} {:y #&amp;#40;+ % 1&amp;#41;}&amp;#93;
-          1 &amp;#91;{:y #&amp;#40;+ % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41;}&amp;#93;
-          2 &amp;#91;{:x #&amp;#40;- % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;}&amp;#93;
-          3 &amp;#91;{:y #&amp;#40;+ % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;- % 1&amp;#41;}&amp;#93;}
-       7 {0 &amp;#91;{:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;} {:y #&amp;#40;+ % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;}&amp;#93;
-          1 &amp;#91;{:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;}&amp;#93;
-          2 &amp;#91;{:x #&amp;#40;- % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;
-          3 &amp;#91;{:y #&amp;#40;+ % 1&amp;#41;} {} {:x #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;}}&amp;#41;
-          
-&lt;/code&gt;&lt;/pre&gt;This is a map of a map of vecs containing anonymous functions for the type and orientation that will then be appliedin the function call drawing a specific tetriminio. The first key of the nested map is the tetriminio type and the second key the orientation.&lt;br /&gt;So whenever we want to draw type &lt;i&gt;S&lt;/i&gt; with orientation &lt;i&gt;0&lt;/i&gt; we will take this for functions:&lt;br /&gt;&lt;pre&gt;&lt;code&gt;{:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;} {:y #&amp;#40;+ % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;}
-&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;&lt;li&gt;{:x #(- % 1) :y #(+ % 1)} means that for the first block we will subtract x by 1 and add 1 to y.&lt;/li&gt;&lt;li&gt;{:y #(+ % 1)} Here we will add 1 to y and leave x like it is&lt;/li&gt;&lt;li&gt;{} Leave x and y like they are&lt;/li&gt;&lt;li&gt;{:x #(+ % 1)} Add 1 to x and leave y like it is.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;This all is in respect to the grid state. So we just move the tetriminio on the grid by applying these functions.&lt;/p&gt;&lt;p&gt;The beauty of this definition is that we could easily add more tetriminios in the map which will just work out of the box.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;active&amp;#95;tetriminio&quot;&gt;&lt;/a&gt;Active Tetriminio&lt;/h2&gt;&lt;p&gt;The current active tetriminio (the one that can be moved) will be stored in the application state as a map like this: &lt;strong&gt;{:x 1 :y 1 :o 0 :t 1}&lt;/strong&gt;. So whenever we pass it around it will be passed as a map.&lt;/p&gt;
+ &lt;h2&gt;&lt;a name=&quot;is&amp;#95;move&amp;#95;allowed?&quot;&gt;&lt;/a&gt;Is Move Allowed?&lt;/h2&gt; &lt;p&gt; In the last chapter we already used the &lt;i&gt;is-move-allowed?&lt;/i&gt; function. There are four functions at all taking care  of it.&lt;br /&gt;  &lt;/p&gt;&lt;p&gt; The first one just checks the boundaries and if none tetriminio is defined at that position:  &lt;/p&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;defn is-moving-part-allowed? &amp;#91;x y grid&amp;#93;
+  &amp;#40;and &amp;#40;&amp;lt;= 0 x&amp;#41; &amp;#40;&amp;lt; x 10&amp;#41; &amp;#40;&amp;lt;= 0 y&amp;#41; &amp;#40;&amp;lt; y 20&amp;#41; &amp;#40;= 0 &amp;#40;get-in grid &amp;#91;x y&amp;#93;&amp;#41;&amp;#41;&amp;#41;&amp;#41;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The second one makes use of the function definitions. If a x or y key exists in the map if will apply the function to the old x or y value. If not, it just returns the old one. This is how we update the four blocks:&lt;br /&gt;&lt;/p&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;defn move-x-y &amp;#91;x y rec&amp;#93;
+  &amp;#40;let &amp;#91;x' &amp;#40;if &amp;#40;get rec :x&amp;#41; &amp;#40;&amp;#40;get rec :x&amp;#41; x&amp;#41; x&amp;#41;
+        y' &amp;#40;if &amp;#40;get rec :y&amp;#41; &amp;#40;&amp;#40;get rec :y&amp;#41; y&amp;#41; y&amp;#41;&amp;#93;
+    {:x x' :y y'}&amp;#41;&amp;#41;
+    
+&amp;#40;defn realize-move &amp;#91;x y t grid&amp;#93; &amp;#40;assoc-in grid &amp;#91;x y&amp;#93; t&amp;#41;&amp;#41;
+
+
+&lt;/code&gt;&lt;/pre&gt;This draws one tetriminio in the grid according to the tetriminio definition:&lt;br /&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;defn draw-tet &amp;#91;{:keys &amp;#91;x y t o&amp;#93; :as cur-tet} tet-recipe d grid&amp;#93;
+  &amp;#40;let &amp;#91;new-position &amp;#40;map #&amp;#40;move-x-y x y %&amp;#41; &amp;#40;get-in tet-recipe &amp;#91;t o&amp;#93;&amp;#41;&amp;#41;&amp;#93;
+      &amp;#40;reduce &amp;#40;fn &amp;#91;a b&amp;#93; &amp;#40;realize-move &amp;#40;:x b&amp;#41; &amp;#40;:y b&amp;#41; &amp;#40;&amp;#42; t d&amp;#41; a&amp;#41;&amp;#41; grid new-position&amp;#41;&amp;#41;&amp;#41;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;i&gt;is-move-allowed?&lt;/i&gt; basically only calls the functions defined above for every single block and returns true orfalse:&lt;br /&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;defn is-move-allowed? &amp;#91;{:keys &amp;#91;x y t o&amp;#93;} cur-active grid tet-recipe&amp;#93;
+  &amp;#40;let &amp;#91;new-position &amp;#40;map #&amp;#40;move-x-y x y %&amp;#41; &amp;#40;get-in tet-recipe &amp;#91;t o&amp;#93;&amp;#41;&amp;#41;
+        removed-grid &amp;#40;draw-tet cur-active tet-recipe 0 grid&amp;#41;&amp;#93;
+    &amp;#40;h/not-in? &amp;#40;map #&amp;#40;is-moving-part-allowed? &amp;#40;:x %&amp;#41; &amp;#40;:y %&amp;#41; removed-grid&amp;#41; new-position&amp;#41; false&amp;#41;&amp;#41;&amp;#41;
+&lt;/code&gt;&lt;/pre&gt;
 </description>
 <pubDate>
-Sat, 23 May 2015 00:00:00 +0200
+Sun, 24 May 2015 00:00:00 +0200
 </pubDate>
 </item>
 <item>
@@ -1241,6 +1193,54 @@ Tetris in clojurescript and re-frame Part 4 - Drawing
       &amp;#40;when-not &amp;#40;= 0 t&amp;#41;
         &amp;#40;draw-block x y &amp;#40;get color-map t&amp;#41; ctx&amp;#41;&amp;#41;&amp;#41;&amp;#41;&amp;#41;  
 &lt;/code&gt;&lt;/pre&gt;
+</description>
+<pubDate>
+Sat, 23 May 2015 00:00:00 +0200
+</pubDate>
+</item>
+<item>
+<guid>
+http://tales.sveri.de/posts/2015-05-23-tetris-5.html
+</guid>
+<link>
+http://tales.sveri.de/posts/2015-05-23-tetris-5.html
+</link>
+<title>
+Tetris in clojurescript and re-frame Part 5 - Tetriminios
+</title>
+<description>
+ &lt;h2&gt;&lt;a name=&quot;types&quot;&gt;&lt;/a&gt;Types&lt;/h2&gt;&lt;p&gt;There are seven tetriminio types each one defined by a number from 1 to 7. &lt;ul&gt;&lt;li&gt;1 I&lt;/li&gt;&lt;li&gt;2 L&lt;/li&gt;&lt;li&gt;3 J&lt;/li&gt;&lt;li&gt;4 O&lt;/li&gt;&lt;li&gt;5 S&lt;/li&gt;&lt;li&gt;6 T&lt;/li&gt;&lt;li&gt;7 S&lt;/li&gt;&lt;/ul&gt;So when the grid contains the number 1 it will draw the &lt;strong&gt;I&lt;/strong&gt; type at that place.&lt;br /&gt;&lt;/p&gt;&lt;p&gt;Each Tetrimino has an orientation defined by numbers 0 to 4.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;tetriminio&amp;#95;drawing&amp;#95;definitions&quot;&gt;&lt;/a&gt;Tetriminio Drawing Definitions&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;def tet-recipe
+      {1 {0 &amp;#91;{:x #&amp;#40;- % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;+ % 2&amp;#41;}&amp;#93;
+          1 &amp;#91;{:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 2&amp;#41;}&amp;#93;
+          2 &amp;#91;{:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 2&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;
+          3 &amp;#91;{:y #&amp;#40;+ % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;} {:y #&amp;#40;- % 2&amp;#41;}&amp;#93;}
+       2 {0 &amp;#91;{:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;- % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;}&amp;#93;
+          1 &amp;#91;{:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;} {:y #&amp;#40;+ % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;}&amp;#93;
+          2 &amp;#91;{:x #&amp;#40;- % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;
+          3 &amp;#91;{:y #&amp;#40;+ % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;}
+       3 {0 &amp;#91;{:x #&amp;#40;- % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;}&amp;#93;
+          1 &amp;#91;{:y #&amp;#40;+ % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;
+          2 &amp;#91;{:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;- % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;}&amp;#93;
+          3 &amp;#91;{:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;} {:y #&amp;#40;+ % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;}&amp;#93;}
+       4 {0 &amp;#91;{} {:x #&amp;#40;+ % 1&amp;#41;} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;
+          1 &amp;#91;{} {:x #&amp;#40;+ % 1&amp;#41;} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;
+          2 &amp;#91;{} {:x #&amp;#40;+ % 1&amp;#41;} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;
+          3 &amp;#91;{} {:x #&amp;#40;+ % 1&amp;#41;} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;}
+       5 {0 &amp;#91;{:x #&amp;#40;- % 1&amp;#41;} {} {:y #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;}&amp;#93;
+          1 &amp;#91;{:y #&amp;#40;+ % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;
+          2 &amp;#91;{:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;} {:y #&amp;#40;- % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;}&amp;#93;
+          3 &amp;#91;{:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;- % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;}&amp;#93;}
+       6 {0 &amp;#91;{:x #&amp;#40;- % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;} {:y #&amp;#40;+ % 1&amp;#41;}&amp;#93;
+          1 &amp;#91;{:y #&amp;#40;+ % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41;}&amp;#93;
+          2 &amp;#91;{:x #&amp;#40;- % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;}&amp;#93;
+          3 &amp;#91;{:y #&amp;#40;+ % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;- % 1&amp;#41;}&amp;#93;}
+       7 {0 &amp;#91;{:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;} {:y #&amp;#40;+ % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;}&amp;#93;
+          1 &amp;#91;{:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;}&amp;#93;
+          2 &amp;#91;{:x #&amp;#40;- % 1&amp;#41;} {} {:y #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;+ % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;
+          3 &amp;#91;{:y #&amp;#40;+ % 1&amp;#41;} {} {:x #&amp;#40;- % 1&amp;#41;} {:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;- % 1&amp;#41;}&amp;#93;}}&amp;#41;
+          
+&lt;/code&gt;&lt;/pre&gt;This is a map of a map of vecs containing anonymous functions for the type and orientation that will then be appliedin the function call drawing a specific tetriminio. The first key of the nested map is the tetriminio type and the second key the orientation.&lt;br /&gt;So whenever we want to draw type &lt;i&gt;S&lt;/i&gt; with orientation &lt;i&gt;0&lt;/i&gt; we will take this for functions:&lt;br /&gt;&lt;pre&gt;&lt;code&gt;{:x #&amp;#40;- % 1&amp;#41; :y #&amp;#40;+ % 1&amp;#41;} {:y #&amp;#40;+ % 1&amp;#41;} {} {:x #&amp;#40;+ % 1&amp;#41;}
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;&lt;li&gt;{:x #(- % 1) :y #(+ % 1)} means that for the first block we will subtract x by 1 and add 1 to y.&lt;/li&gt;&lt;li&gt;{:y #(+ % 1)} Here we will add 1 to y and leave x like it is&lt;/li&gt;&lt;li&gt;{} Leave x and y like they are&lt;/li&gt;&lt;li&gt;{:x #(+ % 1)} Add 1 to x and leave y like it is.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;This all is in respect to the grid state. So we just move the tetriminio on the grid by applying these functions.&lt;/p&gt;&lt;p&gt;The beauty of this definition is that we could easily add more tetriminios in the map which will just work out of the box.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;active&amp;#95;tetriminio&quot;&gt;&lt;/a&gt;Active Tetriminio&lt;/h2&gt;&lt;p&gt;The current active tetriminio (the one that can be moved) will be stored in the application state as a map like this: &lt;strong&gt;{:x 1 :y 1 :o 0 :t 1}&lt;/strong&gt;. So whenever we pass it around it will be passed as a map.&lt;/p&gt;
 </description>
 <pubDate>
 Sat, 23 May 2015 00:00:00 +0200

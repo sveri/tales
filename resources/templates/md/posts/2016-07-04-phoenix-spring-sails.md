@@ -2,6 +2,31 @@
  :layout :post
  :tags  ["spring boot" "phoenix" "sails.js" "performance" "comparison"]}
  
+ **Update**
+ 
+ Please consider these numbers to be flawed in different ways.
+ 
+ 1. I was doing the tests using a WiFi connection which has no stable speed in it self.
+ I thought it was ok to do so, but it turns out that it is not.  
+ Using a WiFi you will get different numbers from run to run just because of that.
+ 2. The Spring Boot application was running behind a HAProxy while the Elixir and Sails.js application
+ were not. That alone was causing like 150ms difference.  
+ Lesson learned, HAProxy alone will will add a lot of latency to your application at least
+ in the very basic configuration that I used. Maybe it is possible to tune it, but thats
+ a different topic.
+ 
+ I made some more tests on a stable connection without the HAProxy and compared Spring
+ Boot with Ecto and it turns out that there were not that much differences, usually between
+ 1 and 2 ms in my case. Anyone wanting to know better, have a look here: <https://www.techempower.com/benchmarks/>. 
+ 
+ 
+ I will leave the old text as a reminder that, no matter how experienced you are, always
+ question yourself and never forget, everyone makes mistakes.
+ 
+ 
+
+**Old Entry**
+ 
  Working on a project where I consume an API which I plan to use from 
  browsers for instance I was trying out spring boot. I liked the development 
  speed, the documentation and everything in general.  

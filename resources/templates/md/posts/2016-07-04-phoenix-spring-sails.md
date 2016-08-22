@@ -15,13 +15,16 @@
  in the very basic configuration that I used. Maybe it is possible to tune it, but thats
  a different topic.
  
+ 
  I made some more tests on a stable connection without the HAProxy and compared Spring
  Boot with Ecto and it turns out that there were not that much differences, usually between
- 1 and 2 ms in my case. Anyone wanting to know better, have a look here: <https://www.techempower.com/benchmarks/>. 
+ 1 and 2 ms in my case. Anyone wanting to know better, have a look here: <https://www.techempower.com/benchmarks/>.   
+ Also, never forget, always performance test your specific use case, whatever that is.
  
  
  I will leave the old text as a reminder that, no matter how experienced you are, always
  question yourself and never forget, everyone makes mistakes.
+ 
  
  
 

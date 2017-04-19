@@ -1,4 +1,4 @@
-{:title "Gundermanns product wrecker"
+{:title "Gerhard Gundermanns product wrecker"
  :layout :post
  :tags  ["Gerhard Gundermann" "product" "wrecker"]}
  
@@ -46,3 +46,6 @@ would be if we dont get anything anymore. A training for the day after. Well, le
 Lo and behold, it was marvellous, for everyone enlisted. The beer was able to reach the canalisation where
 it wants to go to and where it belongs, without much detour. The bartender was happy, because long
 after midnight I was still standing upright and paid my bill without much mutter and me, I had 20 beer this evening and did not feel sick at all.
+
+
+German version: [https://www.youtube.com/watch?v=WTSM_kcgw18](https://www.youtube.com/watch?v=WTSM_kcgw18) 
